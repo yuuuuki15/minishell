@@ -1,5 +1,8 @@
 {
     "editor.tabCompletion": "on",
     "editor.comments.insertSpace": true,
-    "editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"files.associations": {
+		"minishell.h": "c"
+	}
 }
