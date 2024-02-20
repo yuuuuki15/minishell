@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/20 14:28:56 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:30:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 # define MINISHELL_H
 
 #include "../libft/libft.h"
+#include "message.h"
+#include <unistd.h>
 
 #endif
