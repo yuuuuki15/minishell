@@ -15,5 +15,6 @@
 int	main(int ac, char **av)
 {
 	printf("Hello, Yuki\n");
+	printf("small change\n");
 	return (0);
 }
