@@ -14,5 +14,6 @@
 
 int	main(int ac, char **av)
 {
+	printf("Hello, Yuki\n");
 	return (0);
 }
