@@ -6,25 +6,34 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/20 18:20:29 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:58:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
-	char	*str;
+	t_shell	shell;
 
-	(void)ac;
-	(void)av;
+	ft_init_env_path(&shell);
+	// if (pipe(shell.fd) == -1)
+	// {
+	// 	ft_putstr_fd(ERR_PIPE, STDERR_FILENO);
+	// 	exit(1);
+	// }
+	// if (shell.pid = fork() == -1)
+	// {
+	// 	ft_putstr_fd(ERR_FORK, STDERR_FILENO);
+	// 	exit(1);
+	// }
 	while (1)
 	{
 		ft_printf("minishell %% ");
-		str = ft_get_next_line(STDIN_FILENO);
-		if (ft_strcmp(str, "exit\n") == 0)
+		shell.user_input = ft_get_next_line(STDIN_FILENO);
+		if (ft_strcmp(shell.user_input, "exit\n") == 0)
 			exit (0);
-		ft_printf("given command: %s\n", str);
+		ft_exec(shell);
 	}
 	return (0);
 }
