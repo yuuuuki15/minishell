@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 13:23:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:09:11 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ void	ft_exec(t_shell shell)
 
 	cmd_array = ft_split(shell.user_input, ' ');
 	pathname = ft_get_path(shell);
-
-	// int len = ft_strlen(pathname);
-	// if (pathname[len - 1] == '\n')
-	// 	pathname[len - 1] = '\0';
-
-	ft_printf("pathname: %s\n", pathname);
 	res = execve(pathname, cmd_array, NULL);
 	if (res < 0)
 	{

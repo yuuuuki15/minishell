@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 13:51:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:08:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ int	main(void)
 	t_shell	shell;
 
 	ft_init_env_path(&shell);
-	// if (pipe(shell.fd) == -1)
-	// {
-	// 	ft_putstr_fd(ERR_PIPE, STDERR_FILENO);
-	// 	exit(1);
-	// }
 	while (1)
 	{
 		if ((shell.pid = fork()) == -1)
