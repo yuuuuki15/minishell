@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 13:35:31 by ykawakit         ###   ########.fr       */
+/*   Created: 2024/02/20 19:25:12 by ykawakit          #+#    #+#             */
+/*   Updated: 2024/02/23 14:30:35 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/minishell.h"
 
-# include "../libft/libft.h"
-# include "message.h"
-# include <unistd.h>
-# include <errno.h>
-# include <signal.h>
-
-typedef struct s_shell
+/**
+ * @param char** array
+ *
+ * This function takes an array of string that has been allocated by
+ * alloc function, and frees all the strings and an array.
+*/
+void	ft_free_tab(char **array)
 {
-	char	**env_path;
-	char	*user_input;
-	int		fd[2];
-	int		pid;
-}			t_shell;
+	int	i;
 
-void	ft_init_env_path(t_shell *shell);
-void	ft_exec(t_shell shell);
-void	ft_free_tab(char **array);
-
-#endif
+	i = -1;
+	if (array == NULL)
+		return ;
+	while (array[++i] != NULL)
+		free(array[i]);
+	free(array);
+}

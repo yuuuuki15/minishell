@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   message.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 13:35:31 by ykawakit         ###   ########.fr       */
+/*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
+/*   Updated: 2024/02/23 14:10:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MESSAGE_H
+# define MESSAGE_H
 
-# include "../libft/libft.h"
-# include "message.h"
-# include <unistd.h>
-# include <errno.h>
-# include <signal.h>
+# define ERR_PIPE "\
+Error\nPipe error.\n"
+# define ERR_FORK "\
+Error\nFork error."
+# define ERR_MALLOC "\
+Error\nMalloc fails."
 
-typedef struct s_shell
-{
-	char	**env_path;
-	char	*user_input;
-	int		fd[2];
-	int		pid;
-}			t_shell;
-
-void	ft_init_env_path(t_shell *shell);
-void	ft_exec(t_shell shell);
-void	ft_free_tab(char **array);
+# define ERR_COMMAND_NOT_FOUND "\
+minishell: Command not found: "
 
 #endif
