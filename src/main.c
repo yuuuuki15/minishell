@@ -6,12 +6,15 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 14:08:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:28:52 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/**
+ * ENTRY POINT
+*/
 int	main(void)
 {
 	t_shell	shell;
