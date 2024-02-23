@@ -6,18 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/21 17:54:00 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:23:12 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void	ft_init_env_path(t_shell *shell)
-{
-	shell->env_path = ft_split(getenv("PATH"), ':');
-	if (shell->env_path == NULL)
-		exit(1);
-}
+		{
+			shell->env_path = ft_split(getenv("PATH"), ':');
+			if (shell->env_path == NULL)
+				exit(1);
+			}
 
 char	*ft_get_path(t_shell shell)
 {
@@ -31,7 +31,7 @@ char	*ft_get_path(t_shell shell)
 		temp = ft_strjoin(shell.env_path[i], "/");
 		full_path = ft_strjoin(temp, shell.user_input);
 		free(temp);
-		if (access(full_path, 0) == 0)
+		if (access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);
 	}

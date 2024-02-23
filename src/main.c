@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/20 19:58:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:22:49 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(void)
 	{
 		ft_printf("minishell %% ");
 		shell.user_input = ft_get_next_line(STDIN_FILENO);
+		shell.user_input = ft_strtrim(shell.user_input, "\n");
 		if (ft_strcmp(shell.user_input, "exit\n") == 0)
 			exit (0);
 		ft_exec(shell);
