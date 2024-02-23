@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/20 18:22:56 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:24:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@ Error\nPipe error.\n"
 Error\nFork error."
 # define ERR_MALLOC "\
 Error\nMalloc fails."
+# define ERR_COMMAND_NOT_FOUND "\
+Error\nCommand not found: "
 
 #endif

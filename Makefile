@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror
 OBJS_DIR = obj
 SRCS_DIR = src
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-SRCS = main.c
+SRCS = main.c exec.c utils.c
 LIBFT = libft/libft.a
 RM = rm -rf
 
