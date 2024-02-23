@@ -3,6 +3,7 @@
     "editor.comments.insertSpace": true,
 	"editor.insertSpaces": false,
 	"files.associations": {
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"sstream": "c"
 	}
 }

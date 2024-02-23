@@ -6,17 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/20 19:48:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:35:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
-#include "message.h"
-#include <unistd.h>
-#include <errno.h>
+# include "../libft/libft.h"
+# include "message.h"
+# include <unistd.h>
+# include <errno.h>
+# include <signal.h>
 
 typedef struct s_shell
 {
