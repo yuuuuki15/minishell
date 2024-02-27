@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/26 08:55:56 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/27 13:18:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		ft_issym(char c);
 int		ft_isspace(char c);
 
 int		get_data(t_shell *shell);
-int		get_token(t_tok *tok, char *st, char *et);
+void		get_token(t_tok *tok, char *st, char *et);
 t_cmd	*lexer(char *str);
 
 t_cmd	*make_execcmd(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/02/27 11:22:53 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/27 13:19:12 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	t_cmd		*ret;
 	t_execcmd	*cmd;
 	t_backcmd	*bcmd;
-    t_pipecmd   *pcmd;
-    char        *s_left;
-    char        *s_right;
+    //t_pipecmd   *pcmd;
+    //char        *s_left;
+    //char        *s_right;
 
 	if (tok->tok == -1)
 	{
@@ -63,15 +63,16 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		ret = make_backcmd();
 		bcmd = (t_backcmd *)ret;
 		str = ft_strtrim(str, "&");
-		bcmd->cmd = parsecmd(str, -1);
+		tok->tok = -1;
+		bcmd->cmd = parsecmd(str, tok);
 	}
-    if (tok->tok == PIP)
-    {
-        s_left = ft_substr(str, 0, tok->i);
-        s_right = ft_substr(str, tok->i + 1, (int)ft_strlen(str) - tok->i);
-        ret = make_pipecmd(s_left, s_right);
-        pcmd = (t_pipecmd *)ret;
-    }
+    // if (tok->tok == PIP)
+    // {
+        // s_left = ft_substr(str, 0, tok->i);
+        // s_right = ft_substr(str, tok->i + 1, (int)ft_strlen(str) - tok->i);
+        // ret = make_pipecmd(s_left, s_right);
+        // pcmd = (t_pipecmd *)ret;
+    // }
 	return (ret);
 }
 
@@ -129,7 +130,6 @@ t_cmd	*lexer(char *str)
 	t_cmd		*cmd;
 	char		*st;
 	char		*et;
-	int			tok;
 	t_backcmd	*bcmd;
     t_tok       tok;
 
@@ -138,9 +138,9 @@ t_cmd	*lexer(char *str)
 	st = str;
 	et = str + ft_strlen(str) - 1;
 	get_token(&tok, st, et);
-	printf("tok: %d at %d\n", tok.tok, tok.i);
+	// printf("tok: %d at %d\n", tok.tok, tok.i);
 	printf("before parser: %s\n", str);
-	cmd = parsecmd(str, tok);
+	cmd = parsecmd(str, &tok);
 	if (cmd->type == EXEC)
 		printcmd(cmd);
 	if (cmd->type == BACK)
