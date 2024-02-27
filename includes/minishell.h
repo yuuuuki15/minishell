@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 17:33:08 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:55:38 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ typedef struct s_shell
 	t_env	*env;
 }			t_shell;
 
+extern	t_shell shell;
 
 void	ft_init_env_path(t_shell *shell);
+int		ft_add_env(char *key, char *value);
 void	ft_exec(t_execcmd *cmd, t_shell *shell);
 void	ft_free_tab(char **array);
 

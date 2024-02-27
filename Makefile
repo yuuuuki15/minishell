@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/02/27 15:36:47 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/02/27 18:35:43 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC_PATH	=	src/
 PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c)
 SRC			=	exec.c main.c \
-				utils.c \
+				utils.c env.c\
 				$(PARSER) \
 				$(BUILTIN)
 

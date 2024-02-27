@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 18:26:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:55:40 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_env	*ft_get_env(char *name)
 /**
  * @param char* key
  * @param char* value
- * @return int
  *
  * This function will take key and value and update the environment
  * with the sam key name env.
