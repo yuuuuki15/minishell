@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 13:18:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/26 08:55:56 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define PIP 3
 # define LT 2
 # define AND 4
-# define SC 5
+# define DOL 5
 # define OP 6
 # define CP 7
 # define SQ 8
@@ -46,8 +46,10 @@
 
 typedef struct s_tok
 {
-	int	tok;
-	int	i;
+	int		tok;
+	int		s_loc;
+	int		len;
+	char	*inquote;
 }	t_tok;
 
 typedef struct s_cmd

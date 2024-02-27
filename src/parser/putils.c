@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   putils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/02/26 11:45:45 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/27 15:49:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	ft_issym(char c)
 		return (DQ);
 	if (c == '&')
 		return (AND);
-	if (c == ';')
-		return (SC);
+	if (c == '$')
+		return (DOL);
 	if (c == '(')
 		return (OP);
 	if (c == ')')

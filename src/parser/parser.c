@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/02/27 13:19:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:22:53 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	t_cmd		*ret;
 	t_execcmd	*cmd;
 	t_backcmd	*bcmd;
-    //t_pipecmd   *pcmd;
-    //char        *s_left;
-    //char        *s_right;
+    t_pipecmd   *pcmd;
+    char        *s_left;
+    char        *s_right;
 
 	if (tok->tok == -1)
 	{
@@ -66,13 +66,15 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		tok->tok = -1;
 		bcmd->cmd = parsecmd(str, tok);
 	}
-    // if (tok->tok == PIP)
-    // {
-        // s_left = ft_substr(str, 0, tok->i);
-        // s_right = ft_substr(str, tok->i + 1, (int)ft_strlen(str) - tok->i);
-        // ret = make_pipecmd(s_left, s_right);
-        // pcmd = (t_pipecmd *)ret;
-    // }
+    if (tok->tok == PIP)
+    {
+        s_left = ft_substr(str, 0, tok->s_loc);
+        s_right = ft_substr(str, tok->s_loc + 1, (int)ft_strlen(str) - tok->s_loc);
+		ft_printf("in pipe left: %s, right: %s\n", s_left, s_right);
+		tok->tok = -1;
+        ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, tok));
+        pcmd = (t_pipecmd *)ret;
+    }
 	return (ret);
 }
 
@@ -82,7 +84,6 @@ void	printcmd(t_cmd *cmd)
 	t_execcmd	*out;
 
 	out = (t_execcmd *)cmd;
-	ft_printf("after parser: ");
 	i = 0;
 	while (out->argv[i] != NULL)
 	{
@@ -120,9 +121,26 @@ void	get_token(t_tok *tok, char *st, char *et)
 		else if (ft_issym(*s) == LT && ft_issym(*++s) == LT)
 			ret = DLT;
 	}
-	st = s;
 	tok->tok = ret;
-    tok->i = i;
+    tok->s_loc = i;
+	if (ret == SQ || ret == DQ)
+	{
+		i++;
+		while (s < et && ft_issym(*s) != ret)
+		{
+			s++;
+			i++;
+		}
+		if (s < et)
+		{
+			ft_printf("i %d s_loc %d \n", i, tok->s_loc);
+			tok->len = i - tok->s_loc - 1;
+			tok->inquote = ft_substr(st, tok->s_loc + 1, tok->len);
+		}
+		else
+			ft_printf("Error: unbalanced quotes.\n");
+	}
+	st = s;
 }
 
 t_cmd	*lexer(char *str)
@@ -131,6 +149,7 @@ t_cmd	*lexer(char *str)
 	char		*st;
 	char		*et;
 	t_backcmd	*bcmd;
+	t_pipecmd	*pcmd;
     t_tok       tok;
 
 	if (str == NULL)
@@ -138,15 +157,31 @@ t_cmd	*lexer(char *str)
 	st = str;
 	et = str + ft_strlen(str) - 1;
 	get_token(&tok, st, et);
-	// printf("tok: %d at %d\n", tok.tok, tok.i);
-	printf("before parser: %s\n", str);
+	if (tok.tok != DQ && tok.tok != SQ)
+		ft_printf("tok: %d at %d\n", tok.tok, tok.s_loc);
+	else
+		ft_printf("found quotes from %d (len %d), forming string: %s\n", tok.s_loc, tok.len, tok.inquote);
+	ft_printf("before parser: %s\n", str);
 	cmd = parsecmd(str, &tok);
 	if (cmd->type == EXEC)
+	{
+		ft_printf("after parser: ");
 		printcmd(cmd);
+	}
 	if (cmd->type == BACK)
 	{
+		ft_printf("after parser: ");
 		bcmd = (t_backcmd *)cmd;
 		printcmd(bcmd->cmd);
+	}
+	if (cmd->type == PIPE)
+	{
+		pcmd = (t_pipecmd *)cmd;
+		ft_printf("after parser:\n");
+		ft_printf("left command: ");
+		printcmd(pcmd->left);
+		ft_printf("right command: ");
+		printcmd(pcmd->right);
 	}
 	return (cmd);
 }
