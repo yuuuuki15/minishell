@@ -6,11 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 14:32:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:44:59 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	shell;
 
 void	run_exec(t_cmd *cmd, t_shell *shell)
 {
@@ -40,7 +42,6 @@ void	run_exec(t_cmd *cmd, t_shell *shell)
 
 int	main(void)
 {
-	t_shell	shell;
 	int		do_exe;
 	t_cmd	*cmd;
 

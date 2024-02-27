@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 14:48:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:37:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@
 */
 void	ft_init_env_path(t_shell *shell)
 {
-	shell->env_path = ft_split(getenv("PATH"), ':');
-	if (shell->env_path == NULL)
-		exit(1);
+	ft_add_env("PATH", getenv("PATH"), ':');
 	shell->user_input = NULL;
 }
 

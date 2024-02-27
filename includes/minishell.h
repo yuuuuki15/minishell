@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 16:55:27 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:33:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,20 @@ typedef struct s_pipecmd
 	t_cmd	*right;
 }	t_pipecmd;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct s_shell
 {
 	char	**env_path;
 	char	*user_input;
 	int		fd[2];
 	int		pid;
+	t_env	*env;
 }			t_shell;
 
 
