@@ -1,26 +1,71 @@
-NAME = minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
+#    Updated: 2024/02/26 09:26:17 by mevonuk          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-OBJS_DIR = obj
-SRCS_DIR = src
-OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-SRCS = main.c exec.c utils.c
-LIBFT = libft/libft.a
-RM = rm -rf
+NAME =		minishell
 
-all : $(NAME)
-$(NAME): $(OBJS)
-	make libft.a -C libft
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+# Compiler
+CC		= cc
+CFLAGS	= -Werror -Wextra -Wall
+LDFLAGS	+= -lreadline
+
+# Libft
+LIBFT_PATH	= libft/
+LIBFT_NAME	= libft.a
+LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
+
+# Includes
+INC			=	-I ./includes/\
+				-I ./libft/
+
+# Sources
+SRC_PATH	=	src/
+PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c)
+SRC			=	exec.c main.c \
+				utils.c \
+				$(PARSER) \
+
+SRCS		= $(addprefix $(SRC_PATH), $(SRC))
+
+# Objects
+OBJ_PATH	= obj/
+OBJ			= $(SRC:.c=.o)
+OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
+
+all: $(LIBFT) $(NAME)
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-re: fclean all
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+
+$(LIBFT):
+	@echo "Making libft..."
+	@make -sC $(LIBFT_PATH)
+
+$(NAME): $(OBJS)
+	@echo "Compiling minishell..."
+	@$(CC) $(CFLAGS) $(LDFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(INC)
+	@echo "Minishell ready."
+
 clean:
-	make clean -C libft
-	$(RM) $(OBJS_DIR)
+	clear
+	@echo "Removing .o object files..."
+	@rm -rf $(OBJ_PATH)
+	@make clean -C $(LIBFT_PATH)
+
 fclean: clean
-	make fclean -C libft
-	$(RM) $(NAME)
-.PHONY: all $(NAME) re clean fclean
+	@echo "Removing minishell..."
+	@rm -f $(NAME)
+	@rm -f $(LIBFT_PATH)$(LIBFT_NAME)
+
+re: clean all
+
+.PHONY: all re clean fclean

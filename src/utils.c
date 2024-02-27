@@ -6,11 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:25:12 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 14:30:35 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/26 08:54:47 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @param char** array

@@ -6,11 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/23 14:28:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/26 08:54:03 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @param t_shell* shell
@@ -23,6 +23,7 @@ void	ft_init_env_path(t_shell *shell)
 	shell->env_path = ft_split(getenv("PATH"), ':');
 	if (shell->env_path == NULL)
 		exit(1);
+	shell->user_input = NULL;
 }
 
 /**
@@ -34,16 +35,16 @@ void	ft_init_env_path(t_shell *shell)
  * This function takes user input and try to execute with every
  * environment path. Return fullpath on success.
 */
-char	*ft_get_path(t_shell shell, char *cmd)
+char	*ft_get_path(t_shell *shell, char *cmd)
 {
 	char	*full_path;
 	char	*temp;
 	int		i;
 
 	i = -1;
-	while (shell.env_path[++i])
+	while (shell->env_path[++i])
 	{
-		temp = ft_strjoin(shell.env_path[i], "/");
+		temp = ft_strjoin(shell->env_path[i], "/");
 		full_path = ft_strjoin(temp, cmd);
 		free(temp);
 		if (access(full_path, X_OK) == 0)
@@ -54,27 +55,29 @@ char	*ft_get_path(t_shell shell, char *cmd)
 }
 
 /**
- * @param t_shell shell
+ * @param t_shell *shell
+ * @param t_execcmd *cmd
  *
- * This function takes user input and convert into executive command then
- * execute them. Print error message when error occurs.
+ * This function takes executive command provided by parser,
+ * checks path using env info from shell then
+ * executes command. Print error message when error occurs.
+ * Command array is freed after exicution.
 */
-void	ft_exec(t_shell shell)
+void	ft_exec(t_execcmd *cmd, t_shell *shell)
 {
-	char	**cmd_array;
 	char	*pathname;
 	int		res;
 
-	cmd_array = ft_split(shell.user_input, ' ');
-	pathname = ft_get_path(shell, cmd_array[0]);
-	res = execve(pathname, cmd_array, NULL);
+	pathname = ft_get_path(shell, cmd->argv[0]);
+	res = execve(pathname, cmd->argv, NULL);
 	if (res < 0)
 	{
 		if (pathname != NULL)
 			free(pathname);
 		ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
-		ft_putendl_fd(cmd_array[0], STDERR_FILENO);
-		ft_free_tab(cmd_array);
+		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+		ft_free_tab(cmd->argv);
+		free (cmd);
 		exit(errno);
 	}
 }
