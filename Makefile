@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/02/26 09:26:17 by mevonuk          ###   ########.fr        #
+#    Updated: 2024/02/27 15:36:47 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,11 @@ INC			=	-I ./includes/\
 # Sources
 SRC_PATH	=	src/
 PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c)
+BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c)
 SRC			=	exec.c main.c \
 				utils.c \
 				$(PARSER) \
+				$(BUILTIN)
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 

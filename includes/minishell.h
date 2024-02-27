@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 13:18:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:55:27 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	ft_exec(t_execcmd *cmd, t_shell *shell);
 void	ft_free_tab(char **array);
 
 // parsing
-
 void	ft_print_line(char *line);
 int		handle_space(void);
 int		ft_strisspace(char *line);
@@ -102,5 +101,14 @@ t_cmd	*lexer(char *str);
 t_cmd	*make_execcmd(void);
 t_cmd	*make_backcmd(void);
 t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right);
+
+// builltin
+int		ft_is_builtin(t_execcmd *cmd);
+void	ft_builtin_manager(t_execcmd *cmd, t_shell *shell);
+void	echo(t_execcmd *cmd);
+void	cd(t_execcmd *cmd, t_shell *shell);
+void	env(t_execcmd *cmd, t_shell *shell);
+void	export(t_execcmd *cmd, t_shell *shell);
+void	unset(t_execcmd *cmd, t_shell *shell);
 
 #endif

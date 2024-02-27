@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/26 08:54:22 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/27 14:32:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ int	main(void)
 			run_exec(cmd, &shell);
 		}
 	}
-	rl_clear_history();
 	return (0);
 }
