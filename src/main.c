@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/28 17:47:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:55:45 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	main(void)
 	t_cmd	*cmd;
 
 	ft_init_env_path(&shell);
-	ft_add_env("TEST", "HOGE");
-	ft_clean_env();
-	ft_printf("test: %s\n", ft_get_env("TEST"));
 	while (1)
 	{
 		do_exe = get_data(&shell);

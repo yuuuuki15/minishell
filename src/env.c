@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/28 17:51:43 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:55:53 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	ft_clean_env(void)
 	curr = shell.env;
 	while (curr != NULL)
 	{
-		ft_printf("hoge\n");
 		to_delete = curr;
 		curr = curr->next;
 		free(to_delete);

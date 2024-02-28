@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/28 17:25:11 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:16:09 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,29 @@ char	*ft_get_path(t_shell *shell, char *cmd)
 {
 	char	*full_path;
 	char	*temp;
+	char	**env_path;
 	int		i;
 
+	(void)shell;
 	i = -1;
-	while (shell->env_path[++i])
+	env_path = NULL;
+	if (ft_get_env("PATH"))
+		env_path = ft_split(ft_get_env("PATH")->value, ':');
+	if (env_path == NULL)
+		exit(1);
+	while (env_path[++i])
 	{
-		temp = ft_strjoin(shell->env_path[i], "/");
+		temp = ft_strjoin(env_path[i], "/");
 		full_path = ft_strjoin(temp, cmd);
 		free(temp);
 		if (access(full_path, X_OK) == 0)
+		{
+			ft_free_tab(env_path);
 			return (full_path);
+		}
 		free(full_path);
 	}
+	ft_free_tab(env_path);
 	return (NULL);
 }
 
