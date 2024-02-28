@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 18:55:38 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:47:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 
 # define PROMPT "minishell> "
 
-# define GT 1
-# define PIP 3
-# define LT 2
-# define AND 4
-# define SC 5
-# define OP 6
+# define GT 1 //greater than
+# define PIP 3 //pipe
+# define LT 2 // less than
+# define AND 4 // and
+# define SC 5 // single...
+# define OP 6 //
 # define CP 7
 # define SQ 8
 # define DQ 9
@@ -94,6 +94,8 @@ extern	t_shell shell;
 
 void	ft_init_env_path(t_shell *shell);
 int		ft_add_env(char *key, char *value);
+t_env	*ft_get_env(char *name);
+void	ft_clean_env(void);
 void	ft_exec(t_execcmd *cmd, t_shell *shell);
 void	ft_free_tab(char **array);
 

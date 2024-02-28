@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 18:55:40 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:51:43 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 */
 t_env	*ft_get_env(char *name)
 {
-	int	i;
 	t_env	*curr;
 
 	curr = shell.env;
-	while (curr)
+	while (curr != NULL)
 	{
 		if (ft_strcmp(curr->key, name) == 0)
 			return (curr);
@@ -69,20 +68,44 @@ int	ft_add_env(char *key, char *value)
 	t_env	*new;
 	t_env	*curr;
 
-	if (ft_get_env(key) == NULL)
+	if (ft_get_env(key) != NULL)
 	{
 		ft_update_env(key, value);
 		return (0);
 	}
-	new = malloc(sieof(t_env));
+	new = malloc(sizeof(t_env));
 	if (new == NULL)
 		return (1);
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	new->next = NULL;
 	curr = shell.env;
+	if (curr == NULL)
+	{
+		shell.env = new;
+		return (0);
+	}
 	while (curr->next != NULL)
 		curr = curr->next;
 	curr->next = new;
 	return (0);
+}
+
+/**
+ * clean all environment variable with free method.
+*/
+void	ft_clean_env(void)
+{
+	t_env	*curr;
+	t_env	*to_delete;
+
+	curr = shell.env;
+	while (curr != NULL)
+	{
+		ft_printf("hoge\n");
+		to_delete = curr;
+		curr = curr->next;
+		free(to_delete);
+	}
+	shell.env = NULL;
 }

@@ -1,5 +1,7 @@
 {
 	"files.associations": {
 		"minishell.h": "c"
-	}
+    },
+    "terminal.explorerKind": "integrated",
+    "editor.insertSpaces": false
 }
