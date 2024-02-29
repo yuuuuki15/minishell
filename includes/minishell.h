@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/26 08:55:56 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:10:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,40 @@ typedef struct s_redircmd
 	int		fd;
 }	t_redircmd;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct s_shell
 {
 	char	**env_path;
 	char	*user_input;
 	int		fd[2];
 	int		pid;
+	t_env	*env;
 }			t_shell;
 
+extern	t_shell *shell;
 
 void	ft_init_env_path(t_shell *shell);
-void	run_exec(t_cmd *cmd, t_shell *shell);
-void	ft_exec(t_execcmd *cmd, t_shell *shell);
+void	run_exec(t_cmd *cmd);
+void	ft_init_env(char **env);
+int		ft_add_env(char *key, char *value);
+t_env	*ft_get_env(char *name);
+void	ft_clean_env(void);
+void	ft_show_env(void);
+void	ft_unset_env(char *key);
+void	ft_exec(t_execcmd *cmd);
+
+// utils
 void	ft_free_tab(char **array);
+char	*ft_get_key(char *str);
+char	*ft_get_value(char *str);
 
 // parsing
-
 void	ft_print_line(char *line);
 int		handle_space(void);
 int		ft_strisspace(char *line);
@@ -119,5 +137,14 @@ t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd);
 
 char	*ft_delstr(char const *s, unsigned int start, size_t len);
+
+// builltin
+int		ft_is_builtin(t_execcmd *cmd);
+void	ft_builtin_manager(t_execcmd *cmd, t_shell *shell);
+void	echo(t_execcmd *cmd);
+void	cd(t_execcmd *cmd, t_shell *shell);
+void	env(t_execcmd *cmd, t_shell *shell);
+void	export(t_execcmd *cmd, t_shell *shell);
+void	unset(t_execcmd *cmd, t_shell *shell);
 
 #endif

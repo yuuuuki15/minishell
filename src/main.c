@@ -6,11 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/26 08:54:22 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/02/29 19:12:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_shell	*shell;
 
 int	fork_child(void)
 {
@@ -25,7 +27,7 @@ int	fork_child(void)
 	return (pid);
 }
 
-void	manage_pipe(t_cmd *cmd, t_shell *shell)
+void	manage_pipe(t_cmd *cmd)
 {
 	t_pipecmd	*pcmd;
 	int			p[2];
@@ -42,7 +44,7 @@ void	manage_pipe(t_cmd *cmd, t_shell *shell)
 		dup2(p[1], 1);
 		close(p[1]);
 		close(p[0]);
-		run_exec(pcmd->left, shell);
+		run_exec(pcmd->left);
 	}
 	if (fork_child() == 0)
 	{
@@ -51,7 +53,7 @@ void	manage_pipe(t_cmd *cmd, t_shell *shell)
 		dup2(p[0], 0);
 		close(p[0]);
 		//close(p[1]);
-		run_exec(pcmd->right, shell);
+		run_exec(pcmd->right);
 	}
 	close(p[1]);
 	close(p[0]);
@@ -60,7 +62,7 @@ void	manage_pipe(t_cmd *cmd, t_shell *shell)
 	exit(0);
 }
 
-void	manage_redir(t_cmd *cmd, t_shell *shell)
+void	manage_redir(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
 
@@ -79,20 +81,25 @@ void	manage_redir(t_cmd *cmd, t_shell *shell)
 		dup2(rcmd->fd, 0);
 	free(rcmd->file);
 	ft_printf("This executes but results in a seg fault\n");
-	run_exec(rcmd->cmd, shell);
+	run_exec(rcmd->cmd);
 }
 
-void	run_exec(t_cmd *cmd, t_shell *shell)
+void	run_exec(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
 	t_execcmd	*ecmd;
-	
+
+	if (ft_is_builtin((t_execcmd *)cmd))
+	{
+		ft_builtin_manager((t_execcmd *)cmd, shell);
+		return ;
+	}
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
 		shell->pid = fork_child();
 		if (shell->pid == 0)
-			ft_exec(ecmd, shell);
+			ft_exec(ecmd);
 		else
 			wait(NULL);
 	}
@@ -100,34 +107,40 @@ void	run_exec(t_cmd *cmd, t_shell *shell)
 	{
 		bcmd = (t_backcmd *)cmd;
 		ft_printf("Background jobs not supported. Running command in foreground.\n");
-		run_exec(bcmd->cmd, shell);
+		run_exec(bcmd->cmd);
 	}
 	if (cmd->type == PIPE)
 	{
 		ft_printf("Piping is not currently working.\n");
-		manage_pipe(cmd, shell);
+		manage_pipe(cmd);
 	}
 	if (cmd->type == REDIR)
 	{
 		ft_printf("Sending cmd to redirect manager\n");
-		manage_redir(cmd, shell);
+		manage_redir(cmd);
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
-	t_shell	shell;
 	int		do_exe;
 	t_cmd	*cmd;
 
-	ft_init_env_path(&shell);
+	(void)ac;
+	(void)av;
+	// ft_init_env_path(&shell);
+	// init every environment variable.
+	shell = malloc(sizeof(t_shell));
+	if (shell == NULL)
+		return (1);
+	ft_init_env(env);
 	while (1)
 	{
-		do_exe = get_data(&shell);
+		do_exe = get_data(shell);
 		if (do_exe)
 		{
-			cmd = lexer(shell.user_input);
-			run_exec(cmd, &shell);
+			cmd = lexer(shell->user_input);
+			run_exec(cmd);
 		}
 	}
 	clear_history();
