@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 15:00:17 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:39:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ void	cd(t_execcmd *cmd, t_shell *shell)
 {
 	(void)cmd;
 	(void)shell;
-	ft_printf("cd has been pressed\n");
+	ft_add_env(ft_strdup("PWD"), ft_strdup(cmd->argv[1]));
 }

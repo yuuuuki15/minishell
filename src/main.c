@@ -6,19 +6,24 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 14:47:43 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:39:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	shell;
+t_shell	*shell;
 
-void	run_exec(t_cmd *cmd, t_shell *shell)
+void	run_exec(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
 	t_execcmd	*ecmd;
 
+	if (ft_is_builtin((t_execcmd *)cmd))
+	{
+		ft_builtin_manager((t_execcmd *)cmd, shell);
+		return ;
+	}
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
@@ -29,14 +34,14 @@ void	run_exec(t_cmd *cmd, t_shell *shell)
 			exit(1);
 		}
 		if (shell->pid == 0)
-			ft_exec(ecmd, shell);
+			ft_exec(ecmd);
 		else
 			wait(NULL);
 	}
 	if (cmd->type == BACK)
 	{
 		bcmd = (t_backcmd *)cmd;
-		run_exec(bcmd->cmd, shell);
+		run_exec(bcmd->cmd);
 	}
 }
 
@@ -49,14 +54,17 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	// ft_init_env_path(&shell);
 	// init every environment variable.
+	shell = malloc(sizeof(t_shell));
+	if (shell == NULL)
+		return (1);
 	ft_init_env(env);
 	while (1)
 	{
-		do_exe = get_data(&shell);
+		do_exe = get_data(shell);
 		if (do_exe)
 		{
-			cmd = lexer(shell.user_input);
-			run_exec(cmd, &shell);
+			cmd = lexer(shell->user_input);
+			run_exec(cmd);
 		}
 	}
 	return (0);
