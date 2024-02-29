@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 15:26:49 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:51:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		ft_add_env(char *key, char *value);
 t_env	*ft_get_env(char *name);
 void	ft_clean_env(void);
 void	ft_show_env(void);
+void	ft_unset_env(char *key);
 void	ft_exec(t_execcmd *cmd);
 
 // utils

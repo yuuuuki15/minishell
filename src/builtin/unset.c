@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:57:36 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 14:59:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:54:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void	unset(t_execcmd *cmd, t_shell *shell)
 {
+	int	i;
+
 	(void)cmd;
 	(void)shell;
-	// check the flag -n for not printing newline at the end
-	// print everything with separator ' '(space) when there's multiple arg
-	ft_printf("unset has been pressed\n");
+	i = 0;
+	while (cmd->argv[++i])
+	{
+		ft_unset_env(cmd->argv[i]);
+	}
 }
