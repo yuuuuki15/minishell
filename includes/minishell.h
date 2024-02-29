@@ -23,20 +23,20 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 # define PROMPT "minishell> "
 
-# define GT 1
-# define PIP 3
-# define LT 2
-# define AND 4
-# define DOL 5
-# define OP 6
-# define CP 7
-# define SQ 8
-# define DQ 9
-# define DGT 10
-# define DLT 11
+# define RINPUT		1 // > redirect input
+# define PIP	3 // | pipe
+# define LT 	2 // < redirect output, overwrite
+# define AND 	4 // & background
+# define DOL 	5 // $ env
+# define BS 	6 // \ backslash
+# define SQ 	8 // ' single quotes
+# define DQ 	9 // " double quotes, expend env var
+# define DGT 	10 // >> redirect ouput append
+# define DLT 	11 // << redirect input to heredoc
 
 // types of cmds
 # define EXEC	1
@@ -44,12 +44,14 @@
 # define PIPE	3
 # define BACK	4
 
+extern char	**environ;
+
 typedef struct s_tok
 {
 	int		tok;
 	int		s_loc;
 	int		len;
-	char	*inquote;
+	char	*str;
 }	t_tok;
 
 typedef struct s_cmd
@@ -76,6 +78,15 @@ typedef struct s_pipecmd
 	t_cmd	*right;
 }	t_pipecmd;
 
+typedef struct s_redircmd
+{
+	int		type;
+	t_cmd	*cmd;
+	char	*file;
+	int		mode;
+	int		fd;
+}	t_redircmd;
+
 typedef struct s_shell
 {
 	char	**env_path;
@@ -86,6 +97,7 @@ typedef struct s_shell
 
 
 void	ft_init_env_path(t_shell *shell);
+void	run_exec(t_cmd *cmd, t_shell *shell);
 void	ft_exec(t_execcmd *cmd, t_shell *shell);
 void	ft_free_tab(char **array);
 
@@ -98,11 +110,14 @@ int		ft_issym(char c);
 int		ft_isspace(char c);
 
 int		get_data(t_shell *shell);
-void		get_token(t_tok *tok, char *st, char *et);
+void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
 
 t_cmd	*make_execcmd(void);
-t_cmd	*make_backcmd(void);
+t_cmd	*make_backcmd(t_cmd *subcmd);
 t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right);
+t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd);
+
+char	*ft_delstr(char const *s, unsigned int start, size_t len);
 
 #endif

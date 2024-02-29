@@ -69,7 +69,7 @@ void	ft_exec(t_execcmd *cmd, t_shell *shell)
 	int		res;
 
 	pathname = ft_get_path(shell, cmd->argv[0]);
-	res = execve(pathname, cmd->argv, NULL);
+	res = execve(pathname, cmd->argv, environ);
 	if (res < 0)
 	{
 		if (pathname != NULL)

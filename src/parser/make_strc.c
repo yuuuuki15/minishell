@@ -22,13 +22,14 @@ t_cmd	*make_execcmd(void)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd	*make_backcmd(void)
+t_cmd	*make_backcmd(t_cmd *subcmd)
 {
 	t_backcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = BACK;
+	cmd->cmd = subcmd;
 	return ((t_cmd *)cmd);
 }
 
@@ -42,4 +43,18 @@ t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right)
     cmd->left = left;
     cmd->right = right;
     return ((t_cmd *)cmd);
+}
+
+t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd)
+{
+	t_redircmd	*rcmd;
+
+	rcmd = malloc(sizeof(*rcmd));
+	ft_memset(rcmd, 0, sizeof(*rcmd));
+	rcmd->type = REDIR;
+	rcmd->cmd = subcmd;
+	rcmd->file = file;
+	rcmd->mode = mode;
+	rcmd->fd = fd;
+	return ((t_cmd *)rcmd);
 }
