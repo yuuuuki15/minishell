@@ -130,6 +130,6 @@ int	main(void)
 			run_exec(cmd, &shell);
 		}
 	}
-	rl_clear_history();
+	clear_history();
 	return (0);
 }

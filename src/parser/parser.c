@@ -28,7 +28,7 @@ int	get_data(t_shell *shell)
 	if (ft_strcmp(shell->user_input, "exit") == 0)
 	{
 		free (shell->user_input);
-		rl_clear_history();
+		clear_history();
 		ft_printf("%s", "Exiting shell\n");
 		exit(0);
 	}
