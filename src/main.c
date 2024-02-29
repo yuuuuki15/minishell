@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/28 17:55:45 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:47:43 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ void	run_exec(t_cmd *cmd, t_shell *shell)
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	int		do_exe;
 	t_cmd	*cmd;
 
-	ft_init_env_path(&shell);
+	(void)ac;
+	(void)av;
+	// ft_init_env_path(&shell);
+	// init every environment variable.
+	ft_init_env(env);
 	while (1)
 	{
 		do_exe = get_data(&shell);

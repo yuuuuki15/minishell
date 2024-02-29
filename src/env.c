@@ -6,11 +6,31 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/28 17:55:53 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:34:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_init_env(char **env)
+{
+	int	i;
+	char	*key;
+	char	*value;
+
+	if (env == NULL)
+		return ;
+	i = -1;
+	while (env[++i])
+	{
+		key = ft_get_key(env[i]);
+		value = ft_get_value(env[i]);
+		ft_add_env(key, value);
+		free(key);
+		free(value);
+	}
+	shell.user_input = NULL;
+}
 
 /**
  * @param char* name
