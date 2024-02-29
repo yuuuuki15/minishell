@@ -6,29 +6,27 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 14:34:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:06:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @param char **env
+ *
+ * This function takes an array of environment variables and initializes them
+ * to the variable t_env inside global variable shell.
+*/
 void	ft_init_env(char **env)
 {
 	int	i;
-	char	*key;
-	char	*value;
 
 	if (env == NULL)
 		return ;
 	i = -1;
 	while (env[++i])
-	{
-		key = ft_get_key(env[i]);
-		value = ft_get_value(env[i]);
-		ft_add_env(key, value);
-		free(key);
-		free(value);
-	}
+		ft_add_env(ft_get_key(env[i]), ft_get_value(env[i]));
 	shell.user_input = NULL;
 }
 
@@ -72,7 +70,7 @@ void	ft_update_env(char *key, char *value)
 		curr = curr->next;
 	}
 	free(curr->value);
-	curr->value = ft_strdup(value);
+	curr->value = value;
 }
 
 /**
@@ -82,12 +80,15 @@ void	ft_update_env(char *key, char *value)
  *
  * take key and value, then register to environment.
  * return 0 on success. return 1 on error.
+ * Attention: parameters, key and value should be dynamically allocated string.
 */
 int	ft_add_env(char *key, char *value)
 {
 	t_env	*new;
 	t_env	*curr;
 
+	if (key == NULL)
+		return (1);
 	if (ft_get_env(key) != NULL)
 	{
 		ft_update_env(key, value);
@@ -96,8 +97,8 @@ int	ft_add_env(char *key, char *value)
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
 		return (1);
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
+	new->key = key;
+	new->value = value;
 	new->next = NULL;
 	curr = shell.env;
 	if (curr == NULL)
