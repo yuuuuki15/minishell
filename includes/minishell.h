@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 19:10:01 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:36:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # define PROMPT "minishell> "
 
@@ -106,6 +107,7 @@ typedef struct s_shell
 extern	t_shell *shell;
 
 void	ft_init_env_path(t_shell *shell);
+void	ft_signal_manager(void);
 void	run_exec(t_cmd *cmd);
 void	ft_init_env(char **env);
 int		ft_add_env(char *key, char *value);
