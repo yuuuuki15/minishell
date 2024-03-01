@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 # define PROMPT "minishell> "
 

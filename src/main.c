@@ -45,10 +45,29 @@ void	run_exec(t_cmd *cmd)
 	}
 }
 
+void	sig_test(int signum)
+{
+	if (signum == SIGINT) // ctrl-c
+	{
+		ft_printf("SIGINT signum is %d\n", signum);
+		//get_data(shell);
+	}
+	if (signum == SIGQUIT) // ctrl-backslash
+	{
+		ft_printf("SIGQUIT signum is %d\n", signum);
+		//get_data(shell);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	int		do_exe;
 	t_cmd	*cmd;
+
+	if (signal(SIGINT, sig_test) == SIG_ERR)
+		ft_printf("cant catch SIGINT\n");
+	if (signal(SIGQUIT, sig_test) == SIG_ERR)
+		ft_printf("cant catch SIGQUIT\n");
 
 	(void)ac;
 	(void)av;

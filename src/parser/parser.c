@@ -23,22 +23,32 @@ int	get_data(t_shell *shell)
 		shell->user_input = NULL;
 	}
 	shell->user_input = readline(PROMPT);
-	if (ft_strlen(shell->user_input) > 0)
-		add_history(shell->user_input);
-	if (ft_strcmp(shell->user_input, "exit") == 0)
+	if (shell->user_input == NULL) //ctrl-D
 	{
 		free (shell->user_input);
-		rl_clear_history();
-		ft_printf("%s", "Exiting shell\n");
-		exit(0);
+			clear_history();
+			ft_printf("%s", "\nExiting shell\n");
+			exit(0);
 	}
-	if (ft_strcmp(shell->user_input, "") == 0
-		|| ft_strisspace(shell->user_input))
-		handle_space();
 	else
 	{
-		ft_print_line(shell->user_input);
-		return (1);
+		if (ft_strlen(shell->user_input) > 0)
+			add_history(shell->user_input);
+		if (ft_strcmp(shell->user_input, "exit") == 0)
+		{
+			free (shell->user_input);
+			clear_history();
+			ft_printf("%s", "Exiting shell\n");
+			exit(0);
+		}
+		if (ft_strcmp(shell->user_input, "") == 0
+			|| ft_strisspace(shell->user_input))
+			handle_space();
+		else
+		{
+			ft_print_line(shell->user_input);
+			return (1);
+		}
 	}
 	return (0);
 }
