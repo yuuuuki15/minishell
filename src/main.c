@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 17:57:42 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:03:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,11 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	// ft_init_env_path(&shell);
-	// init every environment variable.
 	shell = malloc(sizeof(t_shell));
 	if (shell == NULL)
 		return (1);
 	ft_init_env(env);
+	// ft_signal_manager();
 	while (1)
 	{
 		do_exe = get_data(shell);
