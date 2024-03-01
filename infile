@@ -1,0 +1,8 @@
+total 88
+-rw-r--r--@  1 mevonuk  staff   2060 Mar  1 16:41 Makefile
+drwx------   4 mevonuk  staff    128 Mar  1 16:41 includes
+-rw-r--r--   1 mevonuk  staff      0 Mar  1 17:15 infile
+drwx------  56 mevonuk  staff   1792 Mar  1 16:41 libft
+-rwxr-xr-x   1 mevonuk  staff  37048 Mar  1 17:15 minishell
+drwxr-xr-x   9 mevonuk  staff    288 Mar  1 17:15 obj
+drwx------   9 mevonuk  staff    288 Mar  1 16:41 src

@@ -37,7 +37,7 @@ int	ft_issym(char c)
 	if (c == '<')
 		return (LT);
 	if (c == '>')
-		return (GT);
+		return (RINPUT);
 	if (c == '|')
 		return (PIP);
 	if (c == '\'')
@@ -46,12 +46,10 @@ int	ft_issym(char c)
 		return (DQ);
 	if (c == '&')
 		return (AND);
-	if (c == ';')
-		return (SC);
-	if (c == '(')
-		return (OP);
-	if (c == ')')
-		return (CP);
+	if (c == '$')
+		return (DOL);
+	if (c == '\\')
+		return (BS);
 	return (-1);
 }
 
@@ -66,4 +64,34 @@ int	ft_strisspace(char *line)
 		return (0);
 	else
 		return (1);
+}
+
+// deletes a sub string from a string specifying start and len
+char	*ft_delstr(char const *s, unsigned int start, size_t len)
+{
+	char			*sub;
+	unsigned int	i;
+
+	if (s == NULL)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (NULL);
+	if (len > ft_strlen(s) - start)
+		return (NULL);
+	sub = (char *) malloc ((ft_strlen(s) - len + 1) * sizeof(char));
+	if (sub == 0)
+		return (NULL);
+	i = 0;
+	while (i < start)
+	{
+		sub[i] = s[i];
+		i++;
+	}
+	while (s[i + start + len] != '\0')
+	{
+		sub[i] = s[i + start + len];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
 }
