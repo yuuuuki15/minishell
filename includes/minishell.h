@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 19:10:01 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:53:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include <fcntl.h>
 
 # define PROMPT "minishell> "
@@ -106,14 +107,13 @@ typedef struct s_shell
 extern	t_shell *shell;
 
 void	ft_init_env_path(t_shell *shell);
-void	run_exec(t_cmd *cmd);
 void	ft_init_env(char **env);
 int		ft_add_env(char *key, char *value);
 t_env	*ft_get_env(char *name);
 void	ft_clean_env(void);
 void	ft_show_env(void);
 void	ft_unset_env(char *key);
-void	ft_exec(t_execcmd *cmd);
+void	ft_exec(t_execcmd *cmd, char **env);
 
 // utils
 void	ft_free_tab(char **array);
@@ -146,5 +146,9 @@ void	cd(t_execcmd *cmd, t_shell *shell);
 void	env(t_execcmd *cmd, t_shell *shell);
 void	export(t_execcmd *cmd, t_shell *shell);
 void	unset(t_execcmd *cmd, t_shell *shell);
+
+char	*ft_delstr(char const *s, unsigned int start, size_t len);
+void	run_exec(t_cmd *cmd, char **env);
+
 
 #endif

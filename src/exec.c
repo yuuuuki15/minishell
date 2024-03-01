@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 15:39:34 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:54:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_get_path(t_shell *shell, char *cmd)
  * executes command. Print error message when error occurs.
  * Command array is freed after execution.
 */
-void	ft_exec(t_execcmd *cmd)
+void	ft_exec(t_execcmd *cmd, char **env)
 {
 	char	*pathname;
 	int		res;
@@ -83,7 +83,7 @@ void	ft_exec(t_execcmd *cmd)
 	// 	exit(0);
 	// }
 	pathname = ft_get_path(shell, cmd->argv[0]);
-	res = execve(pathname, cmd->argv, environ);
+	res = execve(pathname, cmd->argv, env);
 	if (res < 0)
 	{
 		if (pathname != NULL)
