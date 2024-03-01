@@ -49,13 +49,11 @@ void	sig_test(int signum)
 {
 	if (signum == SIGINT) // ctrl-c
 	{
-		ft_printf("SIGINT signum is %d\n", signum);
-		//get_data(shell);
+		ft_printf("\nminishell> ");
 	}
 	if (signum == SIGQUIT) // ctrl-backslash
 	{
-		ft_printf("SIGQUIT signum is %d\n", signum);
-		//get_data(shell);
+		ft_printf("");
 	}
 }
 
@@ -63,11 +61,11 @@ int	main(int ac, char **av, char **env)
 {
 	int		do_exe;
 	t_cmd	*cmd;
+	struct sigaction sa;
 
-	if (signal(SIGINT, sig_test) == SIG_ERR)
-		ft_printf("cant catch SIGINT\n");
-	if (signal(SIGQUIT, sig_test) == SIG_ERR)
-		ft_printf("cant catch SIGQUIT\n");
+	sa.sa_handler = &sig_test;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 
 	(void)ac;
 	(void)av;
