@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 16:02:22 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:03:06 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	ft_ignore_signal(int sig)
  */
 static void	ft_exit_program(int sig)
 {
+	// it doesn't work for now. I think signal is not SIGKILL...
 	if (sig == SIGKILL)
 	{
 		ft_putstr_fd("exit minishell\n", STDOUT_FILENO);

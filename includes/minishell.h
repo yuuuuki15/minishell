@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 15:36:47 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:10:49 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,11 @@ char	*ft_delstr(char const *s, unsigned int start, size_t len);
 
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
-void	ft_builtin_manager(t_execcmd *cmd, t_shell *shell);
+void	ft_builtin_manager(t_execcmd *cmd);
 void	echo(t_execcmd *cmd);
-void	cd(t_execcmd *cmd, t_shell *shell);
-void	env(t_execcmd *cmd, t_shell *shell);
-void	export(t_execcmd *cmd, t_shell *shell);
-void	unset(t_execcmd *cmd, t_shell *shell);
+void	cd(t_execcmd *cmd);
+void	env(t_execcmd *cmd);
+void	export(t_execcmd *cmd);
+void	unset(t_execcmd *cmd);
 
 #endif

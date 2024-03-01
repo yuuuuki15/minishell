@@ -6,13 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:57:45 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 14:47:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:10:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(t_execcmd *cmd, t_shell *shell)
+void	env(t_execcmd *cmd)
 {
 	(void)cmd;
 	(void)shell;

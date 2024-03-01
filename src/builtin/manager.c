@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 16:55:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:10:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	ft_builtin_manager(t_execcmd *cmd, t_shell *shell)
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		echo(cmd);
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
-		cd(cmd, shell);
+		cd(cmd);
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		export(cmd, shell);
+		export(cmd);
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-		unset(cmd, shell);
+		unset(cmd);
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-		env(cmd, shell);
+		env(cmd);
 }
