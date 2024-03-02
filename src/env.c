@@ -6,11 +6,32 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 15:24:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:29:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @param char* str
+ * @return int result
+ *
+ * This function checks if the given string is a valid identifier.
+ * The first character must not be a digit, and it must consist only
+ * of alphabets or underscores.
+*/
+int	ft_is_valid_identifier(char *str)
+{
+    if (str == NULL || *str == '\0' || ft_isdigit(*str))
+        return (0);
+    while (*str)
+    {
+        if (!ft_isalnum(*str) && *str != '_')
+            return (0);
+        str++;
+    }
+    return (1);
+}
 
 /**
  * @param char **env
@@ -87,7 +108,7 @@ int	ft_add_env(char *key, char *value)
 	t_env	*new;
 	t_env	*curr;
 
-	if (key == NULL)
+	if (ft_is_valid_identifier(key) == 0)
 		return (1);
 	if (ft_get_env(key) != NULL)
 	{
@@ -110,22 +131,4 @@ int	ft_add_env(char *key, char *value)
 		curr = curr->next;
 	curr->next = new;
 	return (0);
-}
-
-/**
- * clean all environment variable with free method.
-*/
-void	ft_clean_env(void)
-{
-	t_env	*curr;
-	t_env	*to_delete;
-
-	curr = shell->env;
-	while (curr != NULL)
-	{
-		to_delete = curr;
-		curr = curr->next;
-		free(to_delete);
-	}
-	shell->env = NULL;
 }

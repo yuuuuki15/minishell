@@ -6,13 +6,19 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 16:55:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:03:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(t_execcmd *cmd)
+/**
+ * @param cmd The command structure containing arguments passed to echo.
+ * @return Always returns 0 to indicate success.
+ *
+ * Executes the echo command with or without the newline.
+ */
+int	echo(t_execcmd *cmd)
 {
 	int	n_flg;
 	int	i;
@@ -32,4 +38,5 @@ void	echo(t_execcmd *cmd)
 	}
 	if (!n_flg)
 		ft_printf("\n");
+	return (0);
 }

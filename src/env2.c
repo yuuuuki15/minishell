@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 16:01:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:15:28 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,22 @@ void	ft_unset_env(char *key)
 		}
 		curr = curr->next;
 	}
+}
+
+/**
+ * clean all environment variable with free method.
+*/
+void	ft_clean_env(void)
+{
+	t_env	*curr;
+	t_env	*to_delete;
+
+	curr = shell->env;
+	while (curr != NULL)
+	{
+		to_delete = curr;
+		curr = curr->next;
+		free(to_delete);
+	}
+	shell->env = NULL;
 }

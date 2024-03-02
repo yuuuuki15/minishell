@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 18:03:13 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:29:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 # define REDIR	2
 # define PIPE	3
 # define BACK	4
+
+// configuration
+# define PATH_MAX 1000
 
 extern char	**environ;
 
@@ -102,6 +105,7 @@ typedef struct s_shell
 	char	*user_input;
 	int		fd[2];
 	int		pid;
+	int		exit_status;
 	t_env	*env;
 }			t_shell;
 
@@ -115,6 +119,7 @@ t_env	*ft_get_env(char *name);
 void	ft_clean_env(void);
 void	ft_show_env(void);
 void	ft_unset_env(char *key);
+int		ft_is_valid_identifier(char *str);
 void	ft_exec(t_execcmd *cmd, char **env);
 
 // utils
@@ -142,12 +147,12 @@ char	*ft_delstr(char const *s, unsigned int start, size_t len);
 
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
-void	ft_builtin_manager(t_execcmd *cmd);
-void	echo(t_execcmd *cmd);
-void	cd(t_execcmd *cmd);
-void	env(t_execcmd *cmd);
-void	export(t_execcmd *cmd);
-void	unset(t_execcmd *cmd);
+int		ft_builtin_manager(t_execcmd *cmd);
+int		echo(t_execcmd *cmd);
+int		cd(t_execcmd *cmd);
+int		env(t_execcmd *cmd);
+int		export(t_execcmd *cmd);
+int		unset(t_execcmd *cmd);
 
 char	*ft_delstr(char const *s, unsigned int start, size_t len);
 void	run_exec(t_cmd *cmd, char **env);
