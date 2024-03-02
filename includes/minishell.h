@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 18:03:13 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:55:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 # define REDIR	2
 # define PIPE	3
 # define BACK	4
+
+// configuration
+# define PATH_MAX 1000
 
 extern char	**environ;
 
