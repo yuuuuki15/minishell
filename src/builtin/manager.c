@@ -6,12 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 16:23:20 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:53:56 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @param cmd The command structure to be executed.
+ * @return 1 if the command is a built-in command, 0 otherwise.
+ *
+ * Checks if the command is a built-in command.
+ */
 int	ft_is_builtin(t_execcmd *cmd)
 {
 	if (ft_strcmp(cmd->argv[0], "echo") == 0
@@ -24,12 +30,17 @@ int	ft_is_builtin(t_execcmd *cmd)
 		return (0);
 }
 
+/**
+ * @param cmd The command structure to be executed.
+ * @return The result of the built-in command execution.
+ *
+ * Manages the execution of built-in commands.
+ */
 int	ft_builtin_manager(t_execcmd *cmd)
 {
 	int	result;
 
 	result = 0;
-	ft_printf("comand name: %s\n", cmd->argv[0]);
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		result = echo(cmd);
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
