@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/26 08:55:26 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/02 15:00:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,14 @@ Error\nMalloc fails."
 
 # define ERR_COMMAND_NOT_FOUND "\
 minishell: Command not found: "
+
+# define ERR_HOME_NOT_FOUND "\
+minishell: cd: HOME not set."
+# define ERR_OLD_PATH_NOT_FOUND "\
+minishell: cd: OLDPWD not set"
+# define ERR_STRING_NOT_IN_PWD "\
+minishell: cd: string not in pwd: "
+# define ERR_NO_SUCH_FILE_OR_DIRECTORY "\
+minishell: cd: no such file or directory: "
 
 #endif
