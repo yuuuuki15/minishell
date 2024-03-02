@@ -6,13 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/27 16:55:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:19:14 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(t_execcmd *cmd)
+int	echo(t_execcmd *cmd)
 {
 	int	n_flg;
 	int	i;
@@ -32,4 +32,5 @@ void	echo(t_execcmd *cmd)
 	}
 	if (!n_flg)
 		ft_printf("\n");
+	return (0);
 }

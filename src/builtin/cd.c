@@ -6,37 +6,40 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 16:09:02 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:27:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void ft_update_environment(char *oldpwd, char *newpwd)
+static int ft_update_environment(char *old_pwd, char *pwd)
 {
-	ft_add_env("OLDPWD", ft_strdup(oldpwd));
-	ft_add_env("PWD", ft_strdup(newpwd));
+	ft_add_env("OLDPWD", ft_strdup(old_pwd));
+	ft_add_env("PWD", ft_strdup(pwd));
+	return (0);
 }
 
-static void ft_change_directory(char *path)
+static int ft_change_directory(char *path)
 {
 	char	cwd[PATH_MAX];
 	char	old_cwd[PATH_MAX];
 
 	if (getcwd(old_cwd, PATH_MAX) == NULL)
-		return ;
+		return (1);
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd(ERR_NO_SUCH_FILE_OR_DIRECTORY, STDERR_FILENO);
 		ft_putendl_fd(path, STDERR_FILENO);
-		return;
+		return (1);
 	}
 	if (getcwd(cwd, PATH_MAX) == NULL)
-		return ;
-	ft_update_environment(old_cwd, cwd);
+		return (1);
+	if (ft_update_environment(old_cwd, cwd) != 0)
+		return (1);
+	return (0);
 }
 
-static void ft_handle_home_directory(void)
+static int ft_handle_home_directory(void)
 {
 	t_env	*path;
 
@@ -44,12 +47,12 @@ static void ft_handle_home_directory(void)
 	if (!path)
 	{
 		ft_putendl_fd(ERR_HOME_NOT_FOUND, STDERR_FILENO);
-		return;
+		return (1);
 	}
-	ft_change_directory(path->value);
+	return ft_change_directory(path->value);
 }
 
-static void ft_handle_oldpwd(void)
+static int ft_handle_oldpwd(void)
 {
 	t_env	*path;
 
@@ -57,28 +60,28 @@ static void ft_handle_oldpwd(void)
 	if (!path)
 	{
 		ft_putendl_fd(ERR_OLD_PATH_NOT_FOUND, STDERR_FILENO);
-		return;
+		return (1);
 	}
-	ft_change_directory(path->value);
+	return ft_change_directory(path->value);
 }
 
-static void ft_handle_custom_path(t_execcmd *cmd)
+static int ft_handle_custom_path(t_execcmd *cmd)
 {
 	if (cmd->argv[2] != NULL)
 	{
 		ft_putstr_fd(ERR_STRING_NOT_IN_PWD, STDERR_FILENO);
 		ft_putendl_fd(cmd->argv[1], STDERR_FILENO);
-		return;
+		return (1);
 	}
-	ft_change_directory(cmd->argv[1]);
+	return ft_change_directory(cmd->argv[1]);
 }
 
-void cd(t_execcmd *cmd)
+int cd(t_execcmd *cmd)
 {
 	if (cmd->argv[1] == NULL)
-		ft_handle_home_directory();
+		return ft_handle_home_directory();
 	else if (ft_strcmp(cmd->argv[1], "-") == 0)
-		ft_handle_oldpwd();
+		return ft_handle_oldpwd();
 	else
-		ft_handle_custom_path(cmd);
+		return ft_handle_custom_path(cmd);
 }
