@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 16:24:05 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:31:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	run_exec(t_cmd *cmd, char **env)
 	if (ft_is_builtin((t_execcmd *)cmd))
 	{
 		shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
-		ft_printf("exit_status: %d\n", shell->exit_status);
+		// ft_printf("exit_status: %d\n", shell->exit_status);
 		return ;
 	}
 	if (cmd->type == EXEC)

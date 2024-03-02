@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 17:15:22 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:29:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
  * The first character must not be a digit, and it must consist only
  * of alphabets or underscores.
 */
-static int is_valid_identifier(char *str)
+int	ft_is_valid_identifier(char *str)
 {
-    if (!str || !*str || ft_isdigit(*str))
+    if (str == NULL || *str == '\0' || ft_isdigit(*str))
         return (0);
     while (*str)
     {
@@ -108,7 +108,7 @@ int	ft_add_env(char *key, char *value)
 	t_env	*new;
 	t_env	*curr;
 
-	if (key == NULL || ft_is_valid_identifier(key))
+	if (ft_is_valid_identifier(key) == 0)
 		return (1);
 	if (ft_get_env(key) != NULL)
 	{
