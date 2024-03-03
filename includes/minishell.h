@@ -106,6 +106,7 @@ typedef struct s_shell
 	int		fd[2];
 	int		pid;
 	int		exit_status;
+	int		sig;
 	t_env	*env;
 }			t_shell;
 
@@ -129,12 +130,11 @@ char	*ft_get_value(char *str);
 
 // parsing
 void	ft_print_line(char *line);
-int		handle_space(void);
 int		ft_strisspace(char *line);
 int		ft_issym(char c);
 int		ft_isspace(char c);
 
-int		get_data(t_shell *shell);
+int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
 
@@ -155,7 +155,16 @@ int		export(t_execcmd *cmd);
 int		unset(t_execcmd *cmd);
 
 char	*ft_delstr(char const *s, unsigned int start, size_t len);
+
+void	run_exec(t_cmd *cmd, char **env);
+void	manage_redir(t_cmd *cmd, char **env);
+void	manage_pipe(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 
+void	set_signals(void);
+
+void	printcmd(t_cmd *cmd);
+
+int		fork_child(void);
 
 #endif

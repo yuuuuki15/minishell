@@ -95,3 +95,41 @@ void	ft_exec(t_execcmd *cmd, char **env)
 		exit(errno);
 	}
 }
+
+void	run_exec(t_cmd *cmd, char **env)
+{
+	t_backcmd	*bcmd;
+	t_execcmd	*ecmd;
+
+	if (ft_is_builtin((t_execcmd *)cmd))
+	{
+		shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+		// ft_printf("exit_status: %d\n", shell->exit_status);
+		return ;
+	}
+	if (cmd->type == EXEC)
+	{
+		ecmd = (t_execcmd *)cmd;
+		shell->pid = fork_child();
+		if (shell->pid == 0)
+			ft_exec(ecmd, env);
+		else
+			wait(NULL);
+	}
+	if (cmd->type == BACK)
+	{
+		bcmd = (t_backcmd *)cmd;
+		ft_printf("Background jobs not supported. Running command in foreground.\n");
+		run_exec(bcmd->cmd, env);
+	}
+	if (cmd->type == PIPE)
+	{
+		ft_printf("Piping is not currently working.\n");
+		manage_pipe(cmd, env);
+	}
+	if (cmd->type == REDIR)
+	{
+		ft_printf("Sending cmd to redirect manager\n");
+		manage_redir(cmd, env);
+	}
+}

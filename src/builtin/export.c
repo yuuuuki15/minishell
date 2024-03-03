@@ -39,7 +39,7 @@ static int	ft_add_or_update_env(char *arg)
 		{
 			if (ft_get_env(arg) != NULL)
 				return (0);
-			ft_add_env(ft_strdup(arg), strdup(""));
+			ft_add_env(ft_strdup(arg), ft_strdup(""));
 			return (0);
 		}
 		ft_putstr_fd("export: '", STDERR_FILENO);

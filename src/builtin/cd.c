@@ -47,7 +47,7 @@ static int ft_change_directory(char *path)
 	}
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	if (update_environment(old_cwd, cwd) != 0)
+	if (ft_update_environment(old_cwd, cwd) != 0)
 		return (1);
 	return (0);
 }
@@ -67,7 +67,7 @@ static int ft_handle_home_directory(void)
 		ft_putendl_fd(ERR_HOME_NOT_FOUND, STDERR_FILENO);
 		return (1);
 	}
-	return change_directory(path->value);
+	return ft_change_directory(path->value);
 }
 
 /**

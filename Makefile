@@ -29,10 +29,14 @@ INC			=	-I ./includes/\
 # Sources
 SRC_PATH	=	src/
 PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c)
+SIGNAL		=	$(addprefix signal/, signal.c)
+EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c)
-SRC			=	exec.c main.c signal.c\
+SRC			=	main.c signal.c\
 				utils.c env.c env2.c\
 				$(PARSER) \
+				$(SIGNAL) \
+				$(EXEC) \
 				$(BUILTIN)
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
