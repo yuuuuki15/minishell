@@ -25,19 +25,16 @@ int	main(int ac, char **av, char **env)
 	if (g_shell == NULL)
 		return (1);
 	set_signals();
-	g_shell->sig = 1;
 	ft_init_env(env);
-	// ft_signal_manager();
 	while (1)
 	{
 		do_exe = get_data();
-		if (do_exe && g_shell->sig == 1)
+		if (do_exe)
 		{
 			cmd = lexer(g_shell->user_input);
-			run_exec(cmd, env); //passing env to exeutor so that commands like clear work
+			run_exec(cmd, env);
 		}
-		g_shell->sig = 1;
 	}
-	clear_history();
+	rl_clear_history();
 	return (0);
 }

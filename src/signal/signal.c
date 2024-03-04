@@ -12,37 +12,26 @@
 
 #include "minishell.h"
 
+// resets the prompt for readline
+// clears line, puts you on a nel line and redisplays prompt
 void	reset_prompt(void)
 {
-	//rl_on_new_line();
-	free (g_shell->user_input);
-	g_shell->user_input = ft_strdup(" ");
-	//rl_redisplay();
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
+// controls behavior of ctrl-c (SIGINT) and ctrl-backslash (SIGQUIT)
 void	sig_test(int signum)
 {
-	if (signum == SIGINT) // ctrl-c
+	if (signum == SIGINT)
 	{
-		//free (shell->user_input);
-		//shell->user_input = NULL;
-		//rl_on_new_line();
-		// this is essentially canceling everything so need to kill processes
-		// and wipe everything clean
-		ft_printf("\nminishell> ");
-		g_shell->sig = 0;
+		(void)signum;
 		reset_prompt();
 	}
-	if (signum == SIGQUIT) // ctrl-backslash
-	{
-		ft_printf("");
-		g_shell->sig = 1;
-		//reset_prompt();
-		//rl_on_new_line();
-		// I am not certain what behavior is expected here
-		// currently does nothing but returns extra newline after enter
-	//	return ;
-	}
+	if (signum == SIGQUIT)
+		(void)signum;
 }
 
 void	set_signals(void)

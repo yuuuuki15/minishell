@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	manage_redir(t_cmd *cmd, char **env)
+void	manage_redir2(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
 
@@ -28,6 +28,33 @@ void	manage_redir(t_cmd *cmd, char **env)
 	if (rcmd->mode == O_RDONLY)
 		dup2(rcmd->fd, 0);
 	free(rcmd->file);
-	ft_printf("This executes but results in a seg fault\n");
-	run_exec(rcmd->cmd, env);
+}
+
+// currently manages a redirect to an input file
+// need to add redirect to outfile, heredoc, outfile append
+void	manage_redir(t_cmd *cmd, char **env)
+{
+	t_redircmd	*rcmd;
+	t_execcmd	*ecmd;
+
+	rcmd = (t_redircmd *)cmd;
+	g_shell->pid = fork_child();
+	if (g_shell->pid == 0)
+	{
+		close(rcmd->fd);
+		rcmd->fd = open(rcmd->file, rcmd->mode);
+		ft_printf("fd: %d\n", rcmd->fd);
+		if (rcmd->fd < 0)
+		{
+			ft_printf("open file error, clean this up!\n");
+			exit(1);
+		}
+		if (rcmd->mode == O_RDONLY)
+			dup2(rcmd->fd, 0);
+		free(rcmd->file);
+		ecmd = (t_execcmd *)rcmd->cmd;
+		ft_exec(ecmd, env);
+	}	
+	else
+		wait(NULL);
 }

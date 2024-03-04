@@ -12,26 +12,6 @@
 
 #include "minishell.h"
 
-void	printcmd(t_cmd *cmd)
-{
-	int			i;
-	t_execcmd	*out;
-
-	out = (t_execcmd *)cmd;
-	i = 0;
-	while (out->argv[i] != NULL)
-	{
-		ft_printf("%s ", out->argv[i]);
-		i++;
-	}
-	ft_printf("\n");
-}
-
-void	ft_print_line(char *line)
-{
-	ft_printf("%s\n", line);
-}
-
 int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n')

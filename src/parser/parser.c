@@ -6,31 +6,40 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/04 09:23:40 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/04 11:59:52 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// exiting shell, free global variable
+// should also free tree! Add this.
+void	exit_shell(void)
+{
+	free (g_shell->user_input);
+	rl_clear_history();
+	ft_printf("%s", "Exiting shell\n");
+	exit(0);
+}
 
 // use readline to display prompt and read in user input
 // treat "exit" and ctrl-D but only when alone on line
 // add non-blank lines to history
 int	get_data(void)
 {
-	if (g_shell->user_input || g_shell->sig == 0)
+	if (g_shell->user_input)
 	{
 		free (g_shell->user_input);
 		g_shell->user_input = NULL;
-		g_shell->sig = 1;
 	}
 	g_shell->user_input = readline(PROMPT);
 	if (!g_shell->user_input || ft_strcmp(g_shell->user_input, "exit") == 0)
 	{
-		free (g_shell->user_input);
-		// need to free all open structures, need a tree cleaning alg
-		clear_history();
-		ft_printf("%s", "Exiting shell\n");
-		exit(0);
+		if (!g_shell->user_input)
+			ft_printf("Exiting due to NULL input\n");
+		if (ft_strcmp(g_shell->user_input, "exit") == 0)
+			ft_printf("exiting due to exit command\n");
+		exit_shell();
 	}
 	if (ft_strlen(g_shell->user_input) > 0)
 		add_history(g_shell->user_input);
@@ -39,13 +48,8 @@ int	get_data(void)
 		return (0);
 	else
 	{
-		if (g_shell->sig == 1)
-		{
-			ft_print_line(g_shell->user_input);
-			return (1);
-		}
-		else
-			return (0);
+		ft_print_line(g_shell->user_input);
+		return (1);
 	}
 	return (0);
 }
@@ -75,7 +79,6 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		s_left = ft_substr(str, 0, tok->s_loc);
 		s_right = ft_substr(str, tok->s_loc + 1,
 				(int)ft_strlen(str) - tok->s_loc);
-		//ft_printf("in pipe left: %s, right: %s\n", s_left, s_right);
 		tok->tok = -1;
 		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, tok));
 	}
@@ -97,7 +100,7 @@ void	get_token(t_tok *tok, char *str)
 	ret = 0;
 	i = 0;
 	while (str[i] != '\0' && (ft_isspace(str[i]) || ft_issym(str[i]) == -1))
-        i++;
+		i++;
 	tok->s_loc = i;
 	if (ft_issym(str[i]) != RINPUT && ft_issym(str[i]) != LT)
 		ret = ft_issym(str[i]);
@@ -130,7 +133,6 @@ void	get_token(t_tok *tok, char *str)
 	if (ret == SQ || ret == DQ)
 	{
 		tok->s_loc++;
-		//ft_printf("about to look for second quote: %d %c\n", i, str[i]); 
 		i++;
 		tok->len = 0;
 		while (str[i] != '\0' && ft_issym(str[i]) != ret)
@@ -143,49 +145,48 @@ void	get_token(t_tok *tok, char *str)
 	tok->tok = ret;
 }
 
+void	count_tokens(char *str)
+{
+	int	n_tok;
+	int	sq_tok;
+	int	dq_tok;
+	int	i;
+
+	i = 0;
+	n_tok = 0;
+	sq_tok = 0;
+	dq_tok = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_issym(str[i]) != -1)
+		{
+			ft_printf("found %c at %d\n", str[i], i);
+			n_tok++;
+			if (ft_issym(str[i]) == SQ)
+				sq_tok++;
+			if (ft_issym(str[i]) == DQ)
+				dq_tok++;
+		}
+		i++;
+	}
+	ft_printf("Total number of tokens: %d\n", n_tok);
+	ft_printf("Total number of single quotes: %d\n", sq_tok);
+	ft_printf("Total number of double quotes: %d\n", dq_tok);
+}
+
+// currently checks if input is NULL
+// reads in first token and then parses command into simple "tree"
+// prints tree and then returns tree
 t_cmd	*lexer(char *str)
 {
 	t_cmd		*cmd;
-	t_backcmd	*bcmd;
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
 	t_tok		tok;
 
-	if (str == NULL || g_shell->sig == 0)
+	if (str == NULL)
 		return (NULL);
+	count_tokens(str);
 	get_token(&tok, str);
-	//if (tok.tok != DQ && tok.tok != SQ)
-		//ft_printf("tok: %d at %d\n", tok.tok, tok.s_loc);
-	//else
-	//	ft_printf("found quotes from %d (len %d), forming string: %s\n", tok.s_loc, tok.len, tok.str);
-	ft_printf("before parser: %s\n", str);
 	cmd = parsecmd(str, &tok);
-	if (cmd->type == EXEC)
-	{
-		//ft_printf("after parser: ");
-		printcmd(cmd);
-	}
-	if (cmd->type == BACK)
-	{
-		//ft_printf("after parser: ");
-		bcmd = (t_backcmd *)cmd;
-		printcmd(bcmd->cmd);
-	}
-	if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		//ft_printf("after parser:\n");
-		//ft_printf("left command: ");
-		printcmd(pcmd->left);
-		//ft_printf("right command: ");
-		printcmd(pcmd->right);
-	}
-	if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		//ft_printf("after parser:\n");
-		printcmd(rcmd->cmd);
-		printf("file: %s, mode: %d\n", rcmd->file, rcmd->mode);
-	}
+	print_tree(cmd);
 	return (cmd);
 }

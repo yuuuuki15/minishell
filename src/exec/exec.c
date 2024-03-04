@@ -66,18 +66,12 @@ char	*ft_get_path(char *cmd)
  * This function takes executive command provided by parser,
  * checks path using env info from shell then
  * executes command. Print error message when error occurs.
- * Command array is freed after execution.
 */
 void	ft_exec(t_execcmd *cmd, char **env)
 {
 	char	*pathname;
 	int		res;
 
-	// if (ft_is_builtin(cmd))
-	// {
-	// 	ft_builtin_manager(cmd, shell);
-	// 	exit(0);
-	// }
 	pathname = ft_get_path(cmd->argv[0]);
 	res = execve(pathname, cmd->argv, env);
 	if (res < 0)
@@ -92,41 +86,41 @@ void	ft_exec(t_execcmd *cmd, char **env)
 	}
 }
 
+// directs the execution of the cammand tree
+// BACK is managed and resubmited to run_exec prior to fork
+// REDIR is managed after fork
+// PIPE is in progress
 void	run_exec(t_cmd *cmd, char **env)
 {
-	t_backcmd	*bcmd;
 	t_execcmd	*ecmd;
 
-	if (ft_is_builtin((t_execcmd *)cmd))
+	ft_printf("Executing type: %d\n", cmd->type);
+	if (cmd->type == EXEC || cmd->type == REDIR)
 	{
-		g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
-		// ft_printf("exit_status: %d\n", shell->exit_status);
-		return ;
-	}
-	if (cmd->type == EXEC)
-	{
-		ecmd = (t_execcmd *)cmd;
+		if (cmd->type == EXEC)
+		{
+			ecmd = (t_execcmd *)cmd;
+			if (ft_is_builtin(ecmd))
+			{
+				g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+				return ;
+			}
+		}
 		g_shell->pid = fork_child();
 		if (g_shell->pid == 0)
+		{
+			if (cmd->type == REDIR)
+				manage_redir2(cmd);
 			ft_exec(ecmd, env);
+		}
 		else
 			wait(NULL);
 	}
 	if (cmd->type == BACK)
-	{
-		bcmd = (t_backcmd *)cmd;
-		ft_printf("Background jobs not supported.");
-		ft_printf(" Running command in foreground.\n");
-		run_exec(bcmd->cmd, env);
-	}
+		manage_back(cmd, env);
 	if (cmd->type == PIPE)
 	{
 		ft_printf("Piping is not currently working.\n");
 		manage_pipe(cmd, env);
-	}
-	if (cmd->type == REDIR)
-	{
-		ft_printf("Sending cmd to redirect manager\n");
-		manage_redir(cmd, env);
 	}
 }

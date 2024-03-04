@@ -106,7 +106,6 @@ typedef struct s_shell
 	int		fd[2];
 	int		pid;
 	int		exit_status;
-	int		sig;
 	t_env	*env;
 }			t_shell;
 
@@ -121,29 +120,28 @@ void	ft_clean_env(void);
 void	ft_show_env(void);
 void	ft_unset_env(char *key);
 int		ft_is_valid_identifier(char *str);
-void	ft_exec(t_execcmd *cmd, char **env);
 
 // utils
 void	ft_free_tab(char **array);
 char	*ft_get_key(char *str);
 char	*ft_get_value(char *str);
 
-// parsing
-void	ft_print_line(char *line);
+// parsing utiles
 int		ft_strisspace(char *line);
 int		ft_issym(char c);
 int		ft_isspace(char c);
+char	*ft_delstr(char const *s, unsigned int start, size_t len);
 
+// parsing
 int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
 
+// cmd tree
 t_cmd	*make_execcmd(void);
 t_cmd	*make_backcmd(t_cmd *subcmd);
 t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd);
-
-char	*ft_delstr(char const *s, unsigned int start, size_t len);
 
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
@@ -154,17 +152,22 @@ int		env(t_execcmd *cmd);
 int		export(t_execcmd *cmd);
 int		unset(t_execcmd *cmd);
 
-char	*ft_delstr(char const *s, unsigned int start, size_t len);
-
+// exec
+void	ft_exec(t_execcmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 void	manage_redir(t_cmd *cmd, char **env);
+void	manage_redir2(t_cmd *cmd);
 void	manage_pipe(t_cmd *cmd, char **env);
+void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
+int		fork_child(void);
 
+// signals
 void	set_signals(void);
 
+// debug
+void	print_tree(t_cmd *cmd);
+void	ft_print_line(char *line);
 void	printcmd(t_cmd *cmd);
-
-int		fork_child(void);
 
 #endif
