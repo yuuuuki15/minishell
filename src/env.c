@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 17:29:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:34:06 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@
 */
 int	ft_is_valid_identifier(char *str)
 {
-    if (str == NULL || *str == '\0' || ft_isdigit(*str))
-        return (0);
-    while (*str)
-    {
-        if (!ft_isalnum(*str) && *str != '_')
-            return (0);
-        str++;
-    }
-    return (1);
+	if (str == NULL || *str == '\0' || ft_isdigit(*str))
+		return (0);
+	while (*str)
+	{
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 /**
@@ -48,7 +48,7 @@ void	ft_init_env(char **env)
 	i = -1;
 	while (env[++i])
 		ft_add_env(ft_get_key(env[i]), ft_get_value(env[i]));
-	shell->user_input = NULL;
+	g_shell->user_input = NULL;
 }
 
 /**
@@ -62,7 +62,7 @@ t_env	*ft_get_env(char *name)
 {
 	t_env	*curr;
 
-	curr = shell->env;
+	curr = g_shell->env;
 	while (curr != NULL)
 	{
 		if (ft_strcmp(curr->key, name) == 0)
@@ -83,7 +83,7 @@ void	ft_update_env(char *key, char *value)
 {
 	t_env	*curr;
 
-	curr = shell->env;
+	curr = g_shell->env;
 	while (curr)
 	{
 		if (ft_strcmp(curr->key, key) == 0)
@@ -121,10 +121,10 @@ int	ft_add_env(char *key, char *value)
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
-	curr = shell->env;
+	curr = g_shell->env;
 	if (curr == NULL)
 	{
-		shell->env = new;
+		g_shell->env = new;
 		return (0);
 	}
 	while (curr->next != NULL)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_shell	*shell;
+t_shell	*g_shell;
 
 int	main(int ac, char **av, char **env)
 {
@@ -21,22 +21,22 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	shell = malloc(sizeof(t_shell));
-	if (shell == NULL)
+	g_shell = malloc(sizeof(t_shell));
+	if (g_shell == NULL)
 		return (1);
 	set_signals();
-	shell->sig = 1;
+	g_shell->sig = 1;
 	ft_init_env(env);
 	// ft_signal_manager();
 	while (1)
 	{
 		do_exe = get_data();
-		if (do_exe && shell->sig == 1)
+		if (do_exe && g_shell->sig == 1)
 		{
-			cmd = lexer(shell->user_input);
+			cmd = lexer(g_shell->user_input);
 			run_exec(cmd, env); //passing env to exeutor so that commands like clear work
 		}
-		shell->sig = 1;
+		g_shell->sig = 1;
 	}
 	clear_history();
 	return (0);

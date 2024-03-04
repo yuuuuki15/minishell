@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
+/*   Updated: 2024/03/04 09:17:27 by mevonuk          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	manage_redir(t_cmd *cmd, char **env)
@@ -13,7 +25,6 @@ void	manage_redir(t_cmd *cmd, char **env)
 		ft_printf("open file error, clean this up!\n");
 		exit(1);
 	}
-	// for redirect input
 	if (rcmd->mode == O_RDONLY)
 		dup2(rcmd->fd, 0);
 	free(rcmd->file);

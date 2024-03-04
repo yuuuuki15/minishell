@@ -19,9 +19,9 @@ void	ft_show_env(void)
 {
 	t_env	*curr;
 
-	if (shell->env == NULL)
+	if (g_shell->env == NULL)
 		return ;
-	curr = shell->env;
+	curr = g_shell->env;
 	while (curr != NULL)
 	{
 		ft_printf("%s=", curr->key);
@@ -41,7 +41,7 @@ void	ft_unset_env(char *key)
 	t_env	*curr;
 	t_env	*to_delete;
 
-	curr = shell->env;
+	curr = g_shell->env;
 	if (curr == NULL)
 		return ;
 	while (curr->next != NULL)
@@ -65,12 +65,12 @@ void	ft_clean_env(void)
 	t_env	*curr;
 	t_env	*to_delete;
 
-	curr = shell->env;
+	curr = g_shell->env;
 	while (curr != NULL)
 	{
 		to_delete = curr;
 		curr = curr->next;
 		free(to_delete);
 	}
-	shell->env = NULL;
+	g_shell->env = NULL;
 }

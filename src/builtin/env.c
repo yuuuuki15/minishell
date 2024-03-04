@@ -6,12 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:57:45 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 17:52:22 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:25:15 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /**
  * @param cmd The command structure containing the env command.

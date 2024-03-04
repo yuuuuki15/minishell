@@ -6,7 +6,7 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 11:23:56 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/02/27 11:24:12 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/04 09:19:38 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ t_cmd	*make_backcmd(t_cmd *subcmd)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right)
+t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right)
 {
-    t_pipecmd   *cmd;
+	t_pipecmd	*cmd;
 
-    cmd = malloc(sizeof(*cmd));
-    ft_memset(cmd, 0, sizeof(*cmd));
-    cmd->type = PIPE;
-    cmd->left = left;
-    cmd->right = right;
-    return ((t_cmd *)cmd);
+	cmd = malloc(sizeof(*cmd));
+	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd->type = PIPE;
+	cmd->left = left;
+	cmd->right = right;
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd)

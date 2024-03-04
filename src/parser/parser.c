@@ -6,7 +6,7 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/02/27 11:22:53 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/04 09:23:40 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,31 @@
 // add non-blank lines to history
 int	get_data(void)
 {
-	if (shell->user_input || shell->sig == 0)
+	if (g_shell->user_input || g_shell->sig == 0)
 	{
-		free (shell->user_input);
-		shell->user_input = NULL;
-		shell->sig = 1;
+		free (g_shell->user_input);
+		g_shell->user_input = NULL;
+		g_shell->sig = 1;
 	}
-	shell->user_input = readline(PROMPT);
-	if (!shell->user_input || ft_strcmp(shell->user_input, "exit") == 0)
+	g_shell->user_input = readline(PROMPT);
+	if (!g_shell->user_input || ft_strcmp(g_shell->user_input, "exit") == 0)
 	{
-		free (shell->user_input);
+		free (g_shell->user_input);
 		// need to free all open structures, need a tree cleaning alg
 		clear_history();
 		ft_printf("%s", "Exiting shell\n");
 		exit(0);
 	}
-	if (ft_strlen(shell->user_input) > 0)
-		add_history(shell->user_input);
-	if (ft_strcmp(shell->user_input, "") == 0
-		|| ft_strisspace(shell->user_input))
+	if (ft_strlen(g_shell->user_input) > 0)
+		add_history(g_shell->user_input);
+	if (ft_strcmp(g_shell->user_input, "") == 0
+		|| ft_strisspace(g_shell->user_input))
 		return (0);
 	else
 	{
-		if (shell->sig == 1)
+		if (g_shell->sig == 1)
 		{
-			ft_print_line(shell->user_input);
+			ft_print_line(g_shell->user_input);
 			return (1);
 		}
 		else
@@ -54,8 +54,8 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
 	t_execcmd	*cmd;
-    char        *s_left;
-    char        *s_right;
+	char		*s_left;
+	char		*s_right;
 	char		*substr;
 
 	if (tok->tok == -1)
@@ -64,20 +64,21 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		cmd = (t_execcmd *)ret;
 		cmd->argv = ft_split(str, ' ');
 	}
-	if (tok->tok== AND)
+	if (tok->tok == AND)
 	{
 		str = ft_strtrim(str, "&");
 		tok->tok = -1;
 		ret = make_backcmd(parsecmd(str, tok));
 	}
-    if (tok->tok == PIP)
-    {
-        s_left = ft_substr(str, 0, tok->s_loc);
-        s_right = ft_substr(str, tok->s_loc + 1, (int)ft_strlen(str) - tok->s_loc);
+	if (tok->tok == PIP)
+	{
+		s_left = ft_substr(str, 0, tok->s_loc);
+		s_right = ft_substr(str, tok->s_loc + 1,
+				(int)ft_strlen(str) - tok->s_loc);
 		//ft_printf("in pipe left: %s, right: %s\n", s_left, s_right);
 		tok->tok = -1;
-        ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, tok));
-    }
+		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, tok));
+	}
 	if (tok->tok == REDIR)
 	{
 		tok->tok = -1;
@@ -91,10 +92,10 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 void	get_token(t_tok *tok, char *str)
 {
 	int		ret;
-    int     i;
+	int		i;
 
 	ret = 0;
-    i = 0;
+	i = 0;
 	while (str[i] != '\0' && (ft_isspace(str[i]) || ft_issym(str[i]) == -1))
         i++;
 	tok->s_loc = i;
@@ -148,9 +149,9 @@ t_cmd	*lexer(char *str)
 	t_backcmd	*bcmd;
 	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
-    t_tok       tok;
+	t_tok		tok;
 
-	if (str == NULL || shell->sig == 0)
+	if (str == NULL || g_shell->sig == 0)
 		return (NULL);
 	get_token(&tok, str);
 	//if (tok.tok != DQ && tok.tok != SQ)

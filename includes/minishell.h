@@ -110,9 +110,9 @@ typedef struct s_shell
 	t_env	*env;
 }			t_shell;
 
-extern	t_shell *shell;
+extern t_shell	*g_shell;
 
-void	ft_init_env_path(t_shell *shell);
+void	ft_init_env_path(void);
 void	ft_signal_manager(void);
 void	ft_init_env(char **env);
 int		ft_add_env(char *key, char *value);
@@ -140,7 +140,7 @@ t_cmd	*lexer(char *str);
 
 t_cmd	*make_execcmd(void);
 t_cmd	*make_backcmd(t_cmd *subcmd);
-t_cmd   *make_pipecmd(t_cmd *left, t_cmd *right);
+t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd);
 
 char	*ft_delstr(char const *s, unsigned int start, size_t len);

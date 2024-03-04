@@ -24,7 +24,7 @@ int	unset(t_execcmd *cmd)
 	int	i;
 
 	(void)cmd;
-	(void)shell;
+	(void)g_shell;
 	i = 0;
 	while (cmd->argv[++i])
 	{

@@ -6,26 +6,23 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 17:54:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:16:10 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param t_shell* shell
- *
  * This function will initialize environment path of the system.
- * And put them in shell->env_path.
+ * And put them in g_shell->env_path.
 */
-void	ft_init_env_path(t_shell *shell)
+void	ft_init_env_path(void)
 {
 	ft_add_env("PATH", getenv("PATH"));
-	shell->user_input = NULL;
+	g_shell->user_input = NULL;
 }
 
 /**
- * @param t_shell shell
  * @param char* cmd
  *
  * @return char* fullpath
@@ -33,14 +30,14 @@ void	ft_init_env_path(t_shell *shell)
  * This function takes user input and try to execute with every
  * environment path. Return fullpath on success.
 */
-char	*ft_get_path(t_shell *shell, char *cmd)
+char	*ft_get_path(char *cmd)
 {
 	char	*full_path;
 	char	*temp;
 	char	**env_path;
 	int		i;
 
-	(void)shell;
+	(void)g_shell;
 	i = -1;
 	env_path = NULL;
 	if (ft_get_env("PATH"))
@@ -64,7 +61,6 @@ char	*ft_get_path(t_shell *shell, char *cmd)
 }
 
 /**
- * @param t_shell *shell
  * @param t_execcmd *cmd
  *
  * This function takes executive command provided by parser,
@@ -82,7 +78,7 @@ void	ft_exec(t_execcmd *cmd, char **env)
 	// 	ft_builtin_manager(cmd, shell);
 	// 	exit(0);
 	// }
-	pathname = ft_get_path(shell, cmd->argv[0]);
+	pathname = ft_get_path(cmd->argv[0]);
 	res = execve(pathname, cmd->argv, env);
 	if (res < 0)
 	{
@@ -103,15 +99,15 @@ void	run_exec(t_cmd *cmd, char **env)
 
 	if (ft_is_builtin((t_execcmd *)cmd))
 	{
-		shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+		g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
 		// ft_printf("exit_status: %d\n", shell->exit_status);
 		return ;
 	}
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
-		shell->pid = fork_child();
-		if (shell->pid == 0)
+		g_shell->pid = fork_child();
+		if (g_shell->pid == 0)
 			ft_exec(ecmd, env);
 		else
 			wait(NULL);
@@ -119,7 +115,8 @@ void	run_exec(t_cmd *cmd, char **env)
 	if (cmd->type == BACK)
 	{
 		bcmd = (t_backcmd *)cmd;
-		ft_printf("Background jobs not supported. Running command in foreground.\n");
+		ft_printf("Background jobs not supported.");
+		ft_printf(" Running command in foreground.\n");
 		run_exec(bcmd->cmd, env);
 	}
 	if (cmd->type == PIPE)
