@@ -29,16 +29,16 @@
 
 # define PROMPT "minishell> "
 
-# define RINPUT		1 // > redirect input
+# define RIN		1 // > redirect input
 # define PIP	3 // | pipe
-# define LT 	2 // < redirect output, overwrite
+# define ROUT 	2 // < redirect output, overwrite
 # define AND 	4 // & background
 # define DOL 	5 // $ env
 # define BS 	6 // \ backslash
 # define SQ 	8 // ' single quotes
 # define DQ 	9 // " double quotes, expend env var
-# define DGT 	10 // >> redirect ouput append
-# define DLT 	11 // << redirect input to heredoc
+# define ROUTA 	10 // >> redirect ouput append
+# define RHERE 	11 // << redirect input to heredoc
 
 // types of cmds
 # define EXEC	1
@@ -129,8 +129,11 @@ char	*ft_get_value(char *str);
 // parsing utiles
 int		ft_strisspace(char *line);
 int		ft_issym(char c);
+int		ft_istok(char c);
 int		ft_isspace(char c);
+int		ft_isredir(char c);
 char	*ft_delstr(char const *s, unsigned int start, size_t len);
+int		balance_quotes(char *str);
 
 // parsing
 int		get_data(void);

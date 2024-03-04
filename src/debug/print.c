@@ -55,22 +55,22 @@ void	print_tree(t_cmd *cmd)
 	{
 		bcmd = (t_backcmd *)cmd;
 		ft_printf("type: BACK\n");
-		printcmd(bcmd->cmd);
+		print_tree(bcmd->cmd);
 	}
 	if (cmd->type == PIPE)
 	{
 		ft_printf("type: PIPE\n");
 		pcmd = (t_pipecmd *)cmd;
 		ft_printf("left\n");
-		printcmd(pcmd->left);
+		print_tree(pcmd->left);
 		ft_printf("right\n");
-		printcmd(pcmd->right);
+		print_tree(pcmd->right);
 	}
 	if (cmd->type == REDIR)
 	{
 		ft_printf("type: REDIR\n");
 		rcmd = (t_redircmd *)cmd;
-		printcmd(rcmd->cmd);
 		printf("file: %s, mode: %d\n", rcmd->file, rcmd->mode);
+		print_tree(rcmd->cmd);
 	}
 }
