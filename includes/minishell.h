@@ -144,6 +144,7 @@ int		balance_quotes(char *str);
 int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
+int		*parse_quotes(char *str);
 
 // cmd tree
 t_cmd	*make_execcmd(void);

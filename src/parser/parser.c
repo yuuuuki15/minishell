@@ -88,12 +88,15 @@ void	get_token(t_tok *tok, char *str)
 	int		ret;
 	int		i;
 	int		size;
+	int		*q_check;
 
 	ret = 0;
 	i = 0;
-	while (str[i] != '\0' && (ft_isspace(str[i]) || ft_issym(str[i]) == -1))
+	q_check = parse_quotes(str);
+	while (str[i] != '\0' && (ft_isspace(str[i]) || !(ft_issym(str[i]) != -1 && q_check[i] == 0)))
 		i++;
 	tok->s_loc = i;
+	ft_printf("found a tok at %d\n", i);
 	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
 		ret = ft_issym(str[i]);
 	else
@@ -140,6 +143,7 @@ void	get_token(t_tok *tok, char *str)
 		tok->quote = ft_substr(str, tok->s_loc, tok->len);
 	}
 	tok->tok = ret;
+	free (q_check);
 }
 
 int	count_tokens(char *str)
@@ -166,13 +170,17 @@ int	count_tokens(char *str)
 	return (n_tok);
 }
 
+// locates a pipe if it is not in quotes
 int	is_pipe(char *str, t_tok *tok)
 {
 	int	i;
+	int	*q_check;
 
+	q_check = parse_quotes(str);
 	i = 0;
-	while (str[i] != '\0' && str[i] != '|')
+	while (str[i] != '\0' && !(str[i] == '|' && q_check[i] == 0))
 		i++;
+	free (q_check);
 	if (i < (int)ft_strlen(str))
 	{
 		tok->s_loc = i + 1;
@@ -183,6 +191,7 @@ int	is_pipe(char *str, t_tok *tok)
 	return (0);
 }
 
+// trims string so it only contains stuff after the pipe
 char	*after_pipe(char *str, t_tok *tok)
 {
 	char	*next_cmd;
@@ -231,7 +240,7 @@ int	*parse_quotes(char *str)
 			sq_tok++;
 		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
 			dq_tok++;
-		if (dq_tok % 2 != 0 || sq_tok % 2 != 0)
+		if (dq_tok % 2 != 0 || sq_tok % 2 != 0 || ft_issym(str[i]) == SQ || ft_issym(str[i]) == DQ)
 			in_quotes[i] = 1;
 		else
 			in_quotes[i] = 0;
@@ -254,7 +263,6 @@ t_cmd	*lexer(char *str)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
-	//int			*in_quotes;
 
 	if (str == NULL)
 		return (NULL);
@@ -263,8 +271,6 @@ t_cmd	*lexer(char *str)
 		ft_printf("error: Unbalanced quotes!\n");
 		return (NULL);
 	}
-	//in_quotes = parse_quotes(str);
-	//free (in_quotes);
 	if (is_pipe(str, &tok) == 1)
 	{
 		cmd = parse_pipe(str, &tok);
