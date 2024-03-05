@@ -45,7 +45,7 @@ t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd)
+t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode)
 {
 	t_redircmd	*rcmd;
 
@@ -55,6 +55,6 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd)
 	rcmd->cmd = subcmd;
 	rcmd->file = file;
 	rcmd->mode = mode;
-	rcmd->fd = fd;
+	rcmd->fd = -1;
 	return ((t_cmd *)rcmd);
 }

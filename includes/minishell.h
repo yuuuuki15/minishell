@@ -29,6 +29,7 @@
 
 # define PROMPT "minishell> "
 
+// types of tokens
 # define RIN		1 // > redirect input
 # define PIP	3 // | pipe
 # define ROUT 	2 // < redirect output, overwrite
@@ -36,7 +37,7 @@
 # define DOL 	5 // $ env
 # define BS 	6 // \ backslash
 # define SQ 	8 // ' single quotes
-# define DQ 	9 // " double quotes, expend env var
+# define DQ 	9 // " double quotes, expand env var
 # define ROUTA 	10 // >> redirect ouput append
 # define RHERE 	11 // << redirect input to heredoc
 
@@ -56,7 +57,10 @@ typedef struct s_tok
 	int		tok;
 	int		s_loc;
 	int		len;
+	int		size;
+	int		cut;
 	char	*str;
+	char	*quote;
 }	t_tok;
 
 typedef struct s_cmd
@@ -132,7 +136,8 @@ int		ft_issym(char c);
 int		ft_istok(char c);
 int		ft_isspace(char c);
 int		ft_isredir(char c);
-char	*ft_delstr(char const *s, unsigned int start, size_t len);
+int		ft_tofile(int tok);
+char	*ft_delstr(char const *s, unsigned int start, unsigned int end);
 int		balance_quotes(char *str);
 
 // parsing
@@ -144,7 +149,7 @@ t_cmd	*lexer(char *str);
 t_cmd	*make_execcmd(void);
 t_cmd	*make_backcmd(t_cmd *subcmd);
 t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right);
-t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode, int fd);
+t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode);
 
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);

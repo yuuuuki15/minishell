@@ -17,16 +17,24 @@ void	manage_redir2(t_cmd *cmd)
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	close(rcmd->fd);
-	rcmd->fd = open(rcmd->file, rcmd->mode);
+	if (rcmd->fd != -1)
+		close(rcmd->fd);
+	if (rcmd->mode == RIN)
+		rcmd->fd = open(rcmd->file, O_RDONLY);
+	else if (rcmd->mode == ROUT)
+		rcmd->fd = open(rcmd->file, O_WRONLY | O_CREAT);
+	else if (rcmd->mode == ROUTA)
+		rcmd->fd = open(rcmd->file, O_APPEND | O_CREAT);
+	else
+		rcmd->fd = 0;
 	ft_printf("fd: %d\n", rcmd->fd);
 	if (rcmd->fd < 0)
 	{
 		ft_printf("open file error, clean this up!\n");
 		exit(1);
 	}
-	if (rcmd->mode == O_RDONLY)
-		dup2(rcmd->fd, 0);
+	//if (rcmd->mode == O_RDONLY)
+	//	dup2(rcmd->fd, 0);
 	free(rcmd->file);
 }
 
