@@ -58,9 +58,8 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
 	t_execcmd	*cmd;
-	char		*s_left;
-	char		*s_right;
 	char		*substr;
+	t_tok		tok2;
 
 	if (tok->tok == -1)
 	{
@@ -71,23 +70,15 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	if (tok->tok == AND)
 	{
 		str = ft_strtrim(str, "&");
-		tok->tok = -1;
-		ret = make_backcmd(parsecmd(str, tok));
+		get_token(&tok2, str);
+		ret = make_backcmd(parsecmd(str, &tok2));
 	}
-	if (tok->tok == PIP)
+	if (ft_tofile(tok->tok) == 1)
 	{
-		s_left = ft_substr(str, 0, tok->s_loc);
-		s_right = ft_substr(str, tok->s_loc + 1,
-				(int)ft_strlen(str) - tok->s_loc);
-		tok->tok = -1;
-		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, tok));
-	}
-	if (tok->tok == REDIR)
-	{
-		tok->tok = -1;
-		substr = ft_delstr(str, tok->s_loc, tok->len);
-		ft_printf("substr: %s\n", substr);
-		ret = make_redircmd(parsecmd(substr, tok), tok->str, O_RDONLY, 0);
+		substr = ft_delstr(str, tok->s_loc, tok->cut);
+		get_token(&tok2, substr);
+		ret = make_redircmd(parsecmd(substr, &tok2), tok->str, tok->tok);
+		free (substr);
 	}
 	return (ret);
 }
@@ -96,29 +87,33 @@ void	get_token(t_tok *tok, char *str)
 {
 	int		ret;
 	int		i;
+	int		size;
 
 	ret = 0;
 	i = 0;
 	while (str[i] != '\0' && (ft_isspace(str[i]) || ft_issym(str[i]) == -1))
 		i++;
 	tok->s_loc = i;
-	if (ft_issym(str[i]) != RINPUT && ft_issym(str[i]) != LT)
+	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
 		ret = ft_issym(str[i]);
 	else
 	{
-		if (ft_issym(str[i]) == RINPUT && ft_issym(str[i + 1]) == RINPUT)
+		size = 1;
+		if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) == RIN)
 		{
 			i++;
-			ret = DGT;
+			ret = RHERE;
+			size++;
 		}
-		else if (ft_issym(str[i]) == RINPUT && ft_issym(str[i + 1]) != RINPUT)
-			ret = RINPUT;
-		else if (ft_issym(str[i]) == LT && ft_issym(str[i + 1]) != LT)
-			ret = LT;
-		else if (ft_issym(str[i]) == LT && ft_issym(str[i + 1]) == LT)
+		else if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) != RIN)
+			ret = RIN;
+		else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) != ROUT)
+			ret = ROUT;
+		else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) == ROUT)
 		{
-			ret = DLT;
+			ret = ROUTA;
 			i++;
+			size++;
 		}
 		i++;
 		tok->len = 0;
@@ -127,8 +122,10 @@ void	get_token(t_tok *tok, char *str)
 			tok->len++;
 			i++;
 		}
-		tok->str = ft_strtrim(ft_substr(str, tok->s_loc + 1, tok->len), " ");
-		ft_printf("file name for redirect: %s\n", tok->str);
+		tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
+		tok->size = tok->len + size - 1;
+		tok->cut = i;
+		ft_printf("file name for redirect: .%s.\n", tok->str);
 	}
 	if (ret == SQ || ret == DQ)
 	{
@@ -140,12 +137,12 @@ void	get_token(t_tok *tok, char *str)
 			tok->len++;
 			i++;
 		}
-		tok->str = ft_substr(str, tok->s_loc, tok->len);
+		tok->quote = ft_substr(str, tok->s_loc, tok->len);
 	}
 	tok->tok = ret;
 }
 
-void	count_tokens(char *str)
+int	count_tokens(char *str)
 {
 	int	n_tok;
 	int	sq_tok;
@@ -158,20 +155,96 @@ void	count_tokens(char *str)
 	dq_tok = 0;
 	while (str[i] != '\0')
 	{
-		if (ft_issym(str[i]) != -1)
+		if (ft_istok(str[i]) != -1)
 		{
 			ft_printf("found %c at %d\n", str[i], i);
 			n_tok++;
-			if (ft_issym(str[i]) == SQ)
-				sq_tok++;
-			if (ft_issym(str[i]) == DQ)
-				dq_tok++;
 		}
 		i++;
 	}
 	ft_printf("Total number of tokens: %d\n", n_tok);
-	ft_printf("Total number of single quotes: %d\n", sq_tok);
-	ft_printf("Total number of double quotes: %d\n", dq_tok);
+	return (n_tok);
+}
+
+int	is_pipe(char *str, t_tok *tok)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != '|')
+		i++;
+	if (i < (int)ft_strlen(str))
+	{
+		tok->s_loc = i + 1;
+		tok->tok = PIP;
+		tok->len = (int)ft_strlen(str) - (i + 1);
+		return (1);
+	}
+	return (0);
+}
+
+char	*after_pipe(char *str, t_tok *tok)
+{
+	char	*next_cmd;
+
+	next_cmd = ft_substr(str, tok->s_loc, tok->len);
+	ft_printf("remainder: %s\n", next_cmd);
+	return (next_cmd);
+}
+
+t_cmd	*parse_pipe(char *str, t_tok *tok)
+{
+	t_cmd		*ret;
+	char		*s_left;
+	char		*s_right;
+	t_tok		tok_right;
+
+	s_left = ft_substr(str, 0, tok->s_loc - 1);
+	s_right = after_pipe(str, tok);
+	get_token(tok, s_left);
+	if (is_pipe(s_right, &tok_right) == 1)
+		ret = make_pipecmd(parsecmd(s_left, tok), parse_pipe(s_right, &tok_right));
+	else
+	{
+		get_token(&tok_right, s_right);
+		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, &tok_right));
+	}
+	return (ret);
+}
+
+int	*parse_quotes(char *str)
+{
+	int	*in_quotes;
+	int	i;
+	int	sq_tok;
+	int	dq_tok;
+
+	in_quotes = (int *) malloc ((ft_strlen(str) + 1) * sizeof(int));
+	if (in_quotes == 0)
+		return (NULL);
+	i = 0;
+	sq_tok = 0;
+	dq_tok = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
+			sq_tok++;
+		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
+			dq_tok++;
+		if (dq_tok % 2 != 0 || sq_tok % 2 != 0)
+			in_quotes[i] = 1;
+		else
+			in_quotes[i] = 0;
+		i++;
+	}
+	i = 0;
+	while (i < (int)ft_strlen(str))
+	{
+		ft_printf("%d", in_quotes[i]);
+		i++;
+	}
+	ft_printf("\n");
+	return (in_quotes);
 }
 
 // currently checks if input is NULL
@@ -181,12 +254,30 @@ t_cmd	*lexer(char *str)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
+	//int			*in_quotes;
 
 	if (str == NULL)
 		return (NULL);
-	count_tokens(str);
-	get_token(&tok, str);
-	cmd = parsecmd(str, &tok);
+	if (balance_quotes(str) == 0)
+	{
+		ft_printf("error: Unbalanced quotes!\n");
+		return (NULL);
+	}
+	//in_quotes = parse_quotes(str);
+	//free (in_quotes);
+	if (is_pipe(str, &tok) == 1)
+	{
+		cmd = parse_pipe(str, &tok);
+	}
+	else
+	{
+		get_token(&tok, str);
+		cmd = parsecmd(str, &tok);
+	}
 	print_tree(cmd);
+	//get_token(&tok, str);
+	cmd = NULL;
+	//cmd = parsecmd(str, &tok);
+	//print_tree(cmd);
 	return (cmd);
 }
