@@ -32,8 +32,8 @@ int	main(int ac, char **av, char **env)
 		if (do_exe)
 		{
 			cmd = lexer(g_shell->user_input);
-			//if (cmd != NULL)
-			//	run_exec(cmd, env);
+			if (cmd != NULL)
+				run_exec(cmd, env);
 		}
 	}
 	rl_clear_history();

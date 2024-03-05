@@ -24,9 +24,9 @@ int	ft_isspace(char c)
 int	ft_isredir(char c)
 {
 	if (c == '<')
-		return (ROUT);
-	if (c == '>')
 		return (RIN);
+	if (c == '>')
+		return (ROUT);
 	return (-1);
 }
 
@@ -40,9 +40,9 @@ int	ft_tofile(int tok)
 int	ft_istok(char c)
 {
 	if (c == '<')
-		return (ROUT);
-	if (c == '>')
 		return (RIN);
+	if (c == '>')
+		return (ROUT);
 	if (c == '|')
 		return (PIP);
 	if (c == '&')
@@ -53,9 +53,9 @@ int	ft_istok(char c)
 int	ft_issym(char c)
 {
 	if (c == '<')
-		return (ROUT);
-	if (c == '>')
 		return (RIN);
+	if (c == '>')
+		return (ROUT);
 	if (c == '|')
 		return (PIP);
 	if (c == '\'')

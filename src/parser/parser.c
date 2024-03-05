@@ -12,48 +12,30 @@
 
 #include "minishell.h"
 
-// exiting shell, free global variable
-// should also free tree! Add this.
-void	exit_shell(void)
+char	**clean_quotes(char **tab)
 {
-	free (g_shell->user_input);
-	rl_clear_history();
-	ft_printf("%s", "Exiting shell\n");
-	exit(0);
+	int	i;
+
+	i = 0;
+	ft_printf("Sent to cleaners\n");
+	while (tab[i] != NULL)
+	{
+		if (tab[i][0] == '\'')
+		{
+			ft_printf("cleaning single quotes\n");
+			tab[i] = ft_strtrim(tab[i], "\'");
+		}
+		else if (tab[i][0] == '\"')
+		{
+			ft_printf("cleaning double quotes\n");
+			tab[i] = ft_strtrim(tab[i], "\"");
+		}
+		i++;
+	}
+	return (tab);
 }
 
-// use readline to display prompt and read in user input
-// treat "exit" and ctrl-D but only when alone on line
-// add non-blank lines to history
-int	get_data(void)
-{
-	if (g_shell->user_input)
-	{
-		free (g_shell->user_input);
-		g_shell->user_input = NULL;
-	}
-	g_shell->user_input = readline(PROMPT);
-	if (!g_shell->user_input || ft_strcmp(g_shell->user_input, "exit") == 0)
-	{
-		if (!g_shell->user_input)
-			ft_printf("Exiting due to NULL input\n");
-		if (ft_strcmp(g_shell->user_input, "exit") == 0)
-			ft_printf("exiting due to exit command\n");
-		exit_shell();
-	}
-	if (ft_strlen(g_shell->user_input) > 0)
-		add_history(g_shell->user_input);
-	if (ft_strcmp(g_shell->user_input, "") == 0
-		|| ft_strisspace(g_shell->user_input))
-		return (0);
-	else
-	{
-		ft_print_line(g_shell->user_input);
-		return (1);
-	}
-	return (0);
-}
-
+// store all commands in command structures
 t_cmd	*parsecmd(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
@@ -65,7 +47,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	{
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
-		cmd->argv = ft_split(str, ' ');
+		cmd->argv = clean_quotes(p_spliter(str)); //ft_split(str, ' ');
 	}
 	if (tok->tok == AND)
 	{
@@ -96,7 +78,6 @@ void	get_token(t_tok *tok, char *str)
 	while (str[i] != '\0' && (ft_isspace(str[i]) || !(ft_issym(str[i]) != -1 && q_check[i] == 0)))
 		i++;
 	tok->s_loc = i;
-	ft_printf("found a tok at %d\n", i);
 	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
 		ret = ft_issym(str[i]);
 	else
@@ -146,30 +127,6 @@ void	get_token(t_tok *tok, char *str)
 	free (q_check);
 }
 
-int	count_tokens(char *str)
-{
-	int	n_tok;
-	int	sq_tok;
-	int	dq_tok;
-	int	i;
-
-	i = 0;
-	n_tok = 0;
-	sq_tok = 0;
-	dq_tok = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_istok(str[i]) != -1)
-		{
-			ft_printf("found %c at %d\n", str[i], i);
-			n_tok++;
-		}
-		i++;
-	}
-	ft_printf("Total number of tokens: %d\n", n_tok);
-	return (n_tok);
-}
-
 // locates a pipe if it is not in quotes
 int	is_pipe(char *str, t_tok *tok)
 {
@@ -197,10 +154,10 @@ char	*after_pipe(char *str, t_tok *tok)
 	char	*next_cmd;
 
 	next_cmd = ft_substr(str, tok->s_loc, tok->len);
-	ft_printf("remainder: %s\n", next_cmd);
 	return (next_cmd);
 }
 
+// splits commands into pipe structure
 t_cmd	*parse_pipe(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
@@ -218,9 +175,12 @@ t_cmd	*parse_pipe(char *str, t_tok *tok)
 		get_token(&tok_right, s_right);
 		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, &tok_right));
 	}
+	free (s_left);
+	free (s_right);
 	return (ret);
 }
 
+// makes an integer array that denotes if in quotes
 int	*parse_quotes(char *str)
 {
 	int	*in_quotes;
@@ -246,13 +206,6 @@ int	*parse_quotes(char *str)
 			in_quotes[i] = 0;
 		i++;
 	}
-	i = 0;
-	while (i < (int)ft_strlen(str))
-	{
-		ft_printf("%d", in_quotes[i]);
-		i++;
-	}
-	ft_printf("\n");
 	return (in_quotes);
 }
 
@@ -281,9 +234,5 @@ t_cmd	*lexer(char *str)
 		cmd = parsecmd(str, &tok);
 	}
 	print_tree(cmd);
-	//get_token(&tok, str);
-	cmd = NULL;
-	//cmd = parsecmd(str, &tok);
-	//print_tree(cmd);
 	return (cmd);
 }

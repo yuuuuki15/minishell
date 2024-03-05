@@ -95,26 +95,29 @@ void	run_exec(t_cmd *cmd, char **env)
 	t_execcmd	*ecmd;
 
 	ft_printf("Executing type: %d\n", cmd->type);
-	if (cmd->type == EXEC || cmd->type == REDIR)
+	if (cmd->type == REDIR)
 	{
-		if (cmd->type == EXEC)
+		ft_printf("Going to redir manager\n");
+			manage_redir2(cmd, env);
+	}
+	if (cmd->type == EXEC)
+	{
+		ft_printf("Executing command\n");
+		ecmd = (t_execcmd *)cmd;
+		if (ft_is_builtin(ecmd))
 		{
-			ecmd = (t_execcmd *)cmd;
-			if (ft_is_builtin(ecmd))
-			{
-				g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
-				return ;
-			}
+			g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+			return ;
 		}
 		g_shell->pid = fork_child();
 		if (g_shell->pid == 0)
 		{
-			if (cmd->type == REDIR)
-				manage_redir2(cmd);
 			ft_exec(ecmd, env);
 		}
 		else
 			wait(NULL);
+		//close(STDIN);
+		//close(STOUT);
 	}
 	if (cmd->type == BACK)
 		manage_back(cmd, env);

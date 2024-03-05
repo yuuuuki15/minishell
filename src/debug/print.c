@@ -25,7 +25,7 @@ void	printcmd(t_cmd *cmd)
 	{
 		if (i == 1)
 			ft_printf("ARGS: ");
-		ft_printf("%s ", out->argv[i]);
+		ft_printf(".%s. ", out->argv[i]);
 		i++;
 	}
 	if (i > 1)
@@ -45,7 +45,6 @@ void	print_tree(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
 
-	ft_printf("cmd type: %d\n", cmd->type);
 	if (cmd->type == EXEC)
 	{
 		ft_printf("type: EXEC\n");

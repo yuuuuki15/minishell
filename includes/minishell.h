@@ -47,6 +47,10 @@
 # define PIPE	3
 # define BACK	4
 
+# define STDIN	0
+# define STOUT	1
+# define STERR	2
+
 // configuration
 # define PATH_MAX 1000
 
@@ -145,6 +149,7 @@ int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
 int		*parse_quotes(char *str);
+char	**p_spliter(char *s);
 
 // cmd tree
 t_cmd	*make_execcmd(void);
@@ -165,7 +170,7 @@ int		unset(t_execcmd *cmd);
 void	ft_exec(t_execcmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 void	manage_redir(t_cmd *cmd, char **env);
-void	manage_redir2(t_cmd *cmd);
+void	manage_redir2(t_cmd *cmd, char **env);
 void	manage_pipe(t_cmd *cmd, char **env);
 void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
@@ -173,6 +178,7 @@ int		fork_child(void);
 
 // signals
 void	set_signals(void);
+void	reset_prompt(void);
 
 // debug
 void	print_tree(t_cmd *cmd);

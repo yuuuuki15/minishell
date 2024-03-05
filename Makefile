@@ -28,7 +28,7 @@ INC			=	-I ./includes/\
 
 # Sources
 SRC_PATH	=	src/
-PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c)
+PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c p_spliter.c get_data.c)
 SIGNAL		=	$(addprefix signal/, signal.c)
 EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c background.c)
 DEBUG		=	$(addprefix debug/, print.c)
