@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 15:00:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:37:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ minishell: cd: OLDPWD not set"
 minishell: cd: string not in pwd: "
 # define ERR_NO_SUCH_FILE_OR_DIRECTORY "\
 minishell: cd: no such file or directory: "
+# define ERR_NO_PWD "\
+minishell: pwd: PWD not set"
 
 #endif
