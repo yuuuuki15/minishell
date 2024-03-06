@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:57:24 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/04 09:31:00 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:34:09 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
  *
  * This function adds or updates an environment variable based on the argument
  * provided.
- * If the argument does not contain an equal sign, it checks if the argument 
- * is a valid identifier. If it is, and the environment variable already 
- * exists, it does nothing. Otherwise, it adds the variable with an empty 
- * value. If the argument is not a valid identifier, it prints an error 
- * message. If the argument contains an equal sign, it splits the argument 
- * into a key and a value. If either the key or value cannot be obtained, it 
+ * If the argument does not contain an equal sign, it checks if the argument
+ * is a valid identifier. If it is, and the environment variable already
+ * exists, it does nothing. Otherwise, it adds the variable with an empty
+ * value. If the argument is not a valid identifier, it prints an error
+ * message. If the argument contains an equal sign, it splits the argument
+ * into a key and a value. If either the key or value cannot be obtained, it
  * returns 1. Otherwise, it adds or updates the environment variable with
  * the key and value. It returns 0 on success and 1 on failure.
  */

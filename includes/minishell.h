@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 14:05:01 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:33:59 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int		cd(t_execcmd *cmd);
 int		env(t_execcmd *cmd);
 int		export(t_execcmd *cmd);
 int		unset(t_execcmd *cmd);
+int		pwd(t_execcmd *cmd);
 
 // exec
 void	ft_exec(t_execcmd *cmd, char **env);

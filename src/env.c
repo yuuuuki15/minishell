@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 13:25:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:05:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	ft_is_valid_identifier(char *str)
 */
 void	ft_init_env(char **env)
 {
-	int	i;
+	int		i;
+	char	cwd[PATH_MAX];
 
+	ft_printf("env%s\n", getenv("PWD"));
 	if (env == NULL)
 		return ;
 	i = -1;
@@ -50,6 +52,15 @@ void	ft_init_env(char **env)
 		ft_add_env(ft_get_key(env[i]), ft_get_value(env[i]));
 	g_shell->user_input = NULL;
 	g_shell->is_inside_pipe = 0;
+	if (ft_get_env("PWD") == NULL)
+	{
+		if (getcwd(cwd, PATH_MAX) == NULL)
+		{
+			ft_putendl_fd("minishell: failed to initialize PWD", STDERR_FILENO);
+			return ;
+		}
+		ft_add_env(ft_strdup("PWD"), ft_strdup(cwd));
+	}
 }
 
 /**
