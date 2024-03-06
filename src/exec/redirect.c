@@ -22,6 +22,16 @@ void	manage_redir(t_cmd *cmd, char **env)
 		rcmd->fd = open(rcmd->file, O_RDONLY);
 		g_shell->in_fd = rcmd->fd;
 	}
+	else if (rcmd->mode == ROUT)
+	{
+		rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		g_shell->out_fd = rcmd->fd;
+	}
+	else if (rcmd->mode == ROUTA)
+	{
+		rcmd->fd = open(rcmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		g_shell->out_fd = rcmd->fd;
+	}
 	if (rcmd->fd < 0)
 	{
 		ft_printf("open file error, clean this up!\n");
