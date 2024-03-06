@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 19:41:18 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:58:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 int		fork_child(void);
 char	*ft_get_path(char *cmd);
+void	reset_descriptors(void);
+void	dup_descriptors(void);
 
 // signals
 void	set_signals(void);
