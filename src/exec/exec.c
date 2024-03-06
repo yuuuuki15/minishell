@@ -88,8 +88,6 @@ void	ft_exec(t_execcmd *cmd, char **env)
 
 // directs the execution of the cammand tree
 // BACK is managed and resubmited to run_exec prior to fork
-// REDIR is managed after fork
-// PIPE is in progress
 void	run_exec(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
@@ -98,7 +96,7 @@ void	run_exec(t_cmd *cmd, char **env)
 	if (cmd->type == REDIR)
 	{
 		ft_printf("Going to redir manager\n");
-			manage_redir2(cmd, env);
+			manage_redir(cmd, env);
 	}
 	if (cmd->type == EXEC)
 	{
@@ -112,12 +110,19 @@ void	run_exec(t_cmd *cmd, char **env)
 		g_shell->pid = fork_child();
 		if (g_shell->pid == 0)
 		{
+			if (g_shell->in_fd > 0)
+			{
+				dup2(g_shell->in_fd, 0);
+				close(g_shell->in_fd);
+			}
 			ft_exec(ecmd, env);
 		}
 		else
+		{
 			wait(NULL);
-		//close(STDIN);
-		//close(STOUT);
+			if (g_shell->in_fd > 0)
+				close(g_shell->in_fd);
+		}
 	}
 	if (cmd->type == BACK)
 		manage_back(cmd, env);

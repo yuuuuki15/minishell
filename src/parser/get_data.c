@@ -6,7 +6,7 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/05 17:01:11 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 10:43:45 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ int	get_data(void)
 	if (!g_shell->user_input || ft_strcmp(g_shell->user_input, "exit") == 0)
 	{
 		if (!g_shell->user_input)
-		{
 			ft_printf("NULL input %d\n", g_shell->pid);
-			reset_prompt();
-		}
 		if (ft_strcmp(g_shell->user_input, "exit") == 0)
 			ft_printf("exiting due to exit command\n");
 		exit_shell();

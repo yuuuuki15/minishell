@@ -25,7 +25,6 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
-# include <signal.h>
 
 # define PROMPT "minishell> "
 
@@ -54,7 +53,7 @@
 // configuration
 # define PATH_MAX 1000
 
-extern char	**environ;
+//extern char	**environ;
 
 typedef struct s_tok
 {
@@ -112,10 +111,22 @@ typedef struct s_shell
 	char	**env_path;
 	char	*user_input;
 	int		fd[2];
+	int		in_fd;
+	int		out_fd;
 	int		pid;
 	int		exit_status;
 	t_env	*env;
 }			t_shell;
+
+typedef struct s_pipex
+{
+	int		infile_fd;
+	int		outfile_fd;
+	int		pipe_fd[2];
+	char	**cmd_paths;
+	char	***cmd_args;
+	int		cmd_count;
+}	t_pipex;
 
 extern t_shell	*g_shell;
 
@@ -142,14 +153,17 @@ int		ft_isspace(char c);
 int		ft_isredir(char c);
 int		ft_tofile(int tok);
 char	*ft_delstr(char const *s, unsigned int start, unsigned int end);
-int		balance_quotes(char *str);
 
 // parsing
 int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
-int		*parse_quotes(char *str);
 char	**p_spliter(char *s);
+
+// quotes
+int		*parse_quotes(char *str);
+int		balance_quotes(char *str);
+char	*remove_quotes(char *str);
 
 // cmd tree
 t_cmd	*make_execcmd(void);
@@ -170,7 +184,6 @@ int		unset(t_execcmd *cmd);
 void	ft_exec(t_execcmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 void	manage_redir(t_cmd *cmd, char **env);
-void	manage_redir2(t_cmd *cmd, char **env);
 void	manage_pipe(t_cmd *cmd, char **env);
 void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);

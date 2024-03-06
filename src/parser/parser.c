@@ -6,7 +6,7 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/04 11:59:52 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 10:46:14 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,9 @@ char	**clean_quotes(char **tab)
 	int	i;
 
 	i = 0;
-	ft_printf("Sent to cleaners\n");
 	while (tab[i] != NULL)
 	{
-		if (tab[i][0] == '\'')
-		{
-			ft_printf("cleaning single quotes\n");
-			tab[i] = ft_strtrim(tab[i], "\'");
-		}
-		else if (tab[i][0] == '\"')
-		{
-			ft_printf("cleaning double quotes\n");
-			tab[i] = ft_strtrim(tab[i], "\"");
-		}
+		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}
 	return (tab);
@@ -47,7 +37,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	{
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
-		cmd->argv = clean_quotes(p_spliter(str)); //ft_split(str, ' ');
+		cmd->argv = clean_quotes(p_spliter(str));
 	}
 	if (tok->tok == AND)
 	{
@@ -75,7 +65,8 @@ void	get_token(t_tok *tok, char *str)
 	ret = 0;
 	i = 0;
 	q_check = parse_quotes(str);
-	while (str[i] != '\0' && (ft_isspace(str[i]) || !(ft_issym(str[i]) != -1 && q_check[i] == 0)))
+	while (str[i] != '\0' && (ft_isspace(str[i])
+			|| !(ft_issym(str[i]) != -1 && q_check[i] == 0)))
 		i++;
 	tok->s_loc = i;
 	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
@@ -169,44 +160,17 @@ t_cmd	*parse_pipe(char *str, t_tok *tok)
 	s_right = after_pipe(str, tok);
 	get_token(tok, s_left);
 	if (is_pipe(s_right, &tok_right) == 1)
-		ret = make_pipecmd(parsecmd(s_left, tok), parse_pipe(s_right, &tok_right));
+		ret = make_pipecmd(parsecmd(s_left, tok),
+				parse_pipe(s_right, &tok_right));
 	else
 	{
 		get_token(&tok_right, s_right);
-		ret = make_pipecmd(parsecmd(s_left, tok), parsecmd(s_right, &tok_right));
+		ret = make_pipecmd(parsecmd(s_left, tok),
+				parsecmd(s_right, &tok_right));
 	}
 	free (s_left);
 	free (s_right);
 	return (ret);
-}
-
-// makes an integer array that denotes if in quotes
-int	*parse_quotes(char *str)
-{
-	int	*in_quotes;
-	int	i;
-	int	sq_tok;
-	int	dq_tok;
-
-	in_quotes = (int *) malloc ((ft_strlen(str) + 1) * sizeof(int));
-	if (in_quotes == 0)
-		return (NULL);
-	i = 0;
-	sq_tok = 0;
-	dq_tok = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
-			sq_tok++;
-		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
-			dq_tok++;
-		if (dq_tok % 2 != 0 || sq_tok % 2 != 0 || ft_issym(str[i]) == SQ || ft_issym(str[i]) == DQ)
-			in_quotes[i] = 1;
-		else
-			in_quotes[i] = 0;
-		i++;
-	}
-	return (in_quotes);
 }
 
 // currently checks if input is NULL

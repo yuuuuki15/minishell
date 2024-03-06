@@ -12,14 +12,29 @@
 
 #include "minishell.h"
 
-void	manage_redir2(t_cmd *cmd, char **env)
+void	manage_redir(t_cmd *cmd, char **env)
 {
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	ft_printf("mode: %d\n", rcmd->mode);
-	if (rcmd->fd != -1)
-		close(rcmd->fd);
+	if (rcmd->mode == RIN)
+	{
+		rcmd->fd = open(rcmd->file, O_RDONLY);
+		g_shell->in_fd = rcmd->fd;
+	}
+	if (rcmd->fd < 0)
+	{
+		ft_printf("open file error, clean this up!\n");
+		exit(1);
+	}
+	run_exec(rcmd->cmd, env);
+}
+
+void	manage_redir_old(t_cmd *cmd, char **env)
+{
+	t_redircmd	*rcmd;
+
+	rcmd = (t_redircmd *)cmd;
 	if (rcmd->mode == RIN)
 		rcmd->fd = open(rcmd->file, O_RDONLY);
 	else if (rcmd->mode == ROUT)
@@ -40,6 +55,5 @@ void	manage_redir2(t_cmd *cmd, char **env)
 		dup2(rcmd->fd, STOUT);
 	ft_printf("fd: %d\n", rcmd->fd);
 	close (rcmd->fd);
-	free(rcmd->file);
 	run_exec(rcmd->cmd, env);
 }

@@ -24,6 +24,8 @@ int	main(int ac, char **av, char **env)
 	g_shell = malloc(sizeof(t_shell));
 	if (g_shell == NULL)
 		return (1);
+	g_shell->in_fd = 0;
+	g_shell->out_fd = 1;
 	set_signals();
 	ft_init_env(env);
 	while (1)

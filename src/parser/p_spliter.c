@@ -6,13 +6,13 @@
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:53:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/05 14:54:42 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 10:40:47 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// counts number of words in string
+// counts number of words in string based on spaces but not spaces in quotes
 size_t	p_num_words(char *s)
 {
 	size_t	words;
@@ -30,7 +30,7 @@ size_t	p_num_words(char *s)
 	i = 1;
 	while (s[i] != '\0')
 	{
-		if ((s[i] != ' ' && s[i - 1] == ' ' && q_check[i] == 0) || (q_check[i] != q_check[i - 1]))
+		if ((s[i] != ' ' && s[i - 1] == ' ' && q_check[i - 1] == 0))
 			words++;
 		i++;
 	}
@@ -61,20 +61,11 @@ char	*p_ft_strndup(char *s, size_t n)
 size_t	p_word_length(char *s, int *q_check)
 {
 	size_t	len;
-	int		state;
 
 	len = 0;
-	state = q_check[len];
-	if (state == 1)
-	{
-		while (q_check[len] == state && s[len] != '\0')
-			len++;
-	}
-	else
-	{
-		while (q_check[len] == 0 && (s[len] != ' ' && s[len] != '\0'))
-			len++;
-	}
+	while ((q_check[len] == 1 || (q_check[len] == 0
+				&& s[len] != ' ')) && s[len] != '\0')
+		len++;
 	return (len);
 }
 
@@ -92,7 +83,7 @@ int	p_allocate(char **a, char *s, size_t words)
 	{
 		if (s[i] != ' ')
 		{
-			if (i == 0 || (i > 0 && (s[i - 1] == ' ' || q_check[i] != q_check[i - 1])))
+			if (i == 0 || (i > 0 && (s[i - 1] == ' ' && q_check[i - 1] == 0)))
 			{
 				a[k] = p_ft_strndup(&s[i], p_word_length(&s[i], &q_check[i]));
 				if (a[k] == 0)
@@ -106,7 +97,7 @@ int	p_allocate(char **a, char *s, size_t words)
 	return (-1);
 }
 
-// splits a string into an array of words
+// splits a string into an array of words based on spaces nd quoted text
 char	**p_spliter(char *s)
 {
 	char	**array;

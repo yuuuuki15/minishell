@@ -6,12 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/04 09:20:02 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 10:41:19 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// checks if char is space character
 int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n')
@@ -21,6 +22,7 @@ int	ft_isspace(char c)
 	return (0);
 }
 
+// checks if char is > or <
 int	ft_isredir(char c)
 {
 	if (c == '<')
@@ -30,6 +32,7 @@ int	ft_isredir(char c)
 	return (-1);
 }
 
+// checks if token is a redirect
 int	ft_tofile(int tok)
 {
 	if (tok == RIN || tok == ROUT || tok == ROUTA || tok == RHERE)
@@ -37,6 +40,7 @@ int	ft_tofile(int tok)
 	return (0);
 }
 
+// checks if char is a token
 int	ft_istok(char c)
 {
 	if (c == '<')
@@ -50,6 +54,7 @@ int	ft_istok(char c)
 	return (-1);
 }
 
+// checks if char is a symbol maybe don't need this
 int	ft_issym(char c)
 {
 	if (c == '<')
@@ -71,6 +76,7 @@ int	ft_issym(char c)
 	return (-1);
 }
 
+// checks if string is all spaces
 int	ft_strisspace(char *line)
 {
 	int	i;
@@ -110,27 +116,4 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 		sub[i++] = s[j++ + end];
 	sub[i] = '\0';
 	return (sub);
-}
-
-// checks if quotes are all balanced, if not will return 0
-int	balance_quotes(char *str)
-{
-	int	sq_tok;
-	int	dq_tok;
-	int	i;
-
-	i = 0;
-	sq_tok = 0;
-	dq_tok = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
-			sq_tok++;
-		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
-			dq_tok++;
-		i++;
-	}
-	if (sq_tok % 2 == 0 && dq_tok % 2 == 0)
-		return (1);
-	return (0);
 }
