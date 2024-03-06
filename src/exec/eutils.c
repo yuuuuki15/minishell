@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 13:18:38 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:41:13 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ int	fork_child(void)
 		exit(1);
 	}
 	return (g_shell->pid);
-}
-
-/**
- * This function will initialize environment path of the system.
- * And put them in g_shell->env_path.
-*/
-void	ft_init_env_path(void)
-{
-	ft_add_env("PATH", getenv("PATH"));
-	g_shell->user_input = NULL;
 }
 
 /**
