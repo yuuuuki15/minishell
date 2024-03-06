@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 16:05:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:28:10 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_init_env(char **env)
 	int		i;
 	char	cwd[PATH_MAX];
 
-	ft_printf("env%s\n", getenv("PWD"));
 	if (env == NULL)
 		return ;
 	i = -1;
