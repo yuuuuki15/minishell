@@ -38,12 +38,34 @@ void	ft_print_line(char *line)
 	ft_printf("read in:\t %s\n", line);
 }
 
+// print content of a pipe
+void	print_pipe(t_cmd *cmd)
+{
+	t_pipecmd	*pcmd;
+
+	ft_printf("type: PIPE\n");
+	pcmd = (t_pipecmd *)cmd;
+	ft_printf("left\n");
+	print_tree(pcmd->left);
+	ft_printf("right\n");
+	print_tree(pcmd->right);
+}
+
+// print content of a redirect
+void	print_redir(t_cmd *cmd)
+{
+	t_redircmd	*rcmd;
+
+	ft_printf("type: REDIR\n");
+	rcmd = (t_redircmd *)cmd;
+	printf("file: %s, mode: %d\n", rcmd->file, rcmd->mode);
+	print_tree(rcmd->cmd);
+}
+
 // print out structure of tree following parsing
 void	print_tree(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
 
 	if (cmd->type == EXEC)
 	{
@@ -57,19 +79,7 @@ void	print_tree(t_cmd *cmd)
 		print_tree(bcmd->cmd);
 	}
 	if (cmd->type == PIPE)
-	{
-		ft_printf("type: PIPE\n");
-		pcmd = (t_pipecmd *)cmd;
-		ft_printf("left\n");
-		print_tree(pcmd->left);
-		ft_printf("right\n");
-		print_tree(pcmd->right);
-	}
+		print_pipe(cmd);
 	if (cmd->type == REDIR)
-	{
-		ft_printf("type: REDIR\n");
-		rcmd = (t_redircmd *)cmd;
-		printf("file: %s, mode: %d\n", rcmd->file, rcmd->mode);
-		print_tree(rcmd->cmd);
-	}
+		print_redir(cmd);
 }

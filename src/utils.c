@@ -51,7 +51,8 @@ char	*ft_get_key(char *str)
  * @param char* str
  * @return char* value
  *
- * This function returns the value of the first string found after the equal sign.
+ * This function returns the value of the first string found after the
+ * equal sign.
 */
 char	*ft_get_value(char *str)
 {

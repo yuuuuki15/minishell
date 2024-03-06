@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-char	**clean_quotes(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		tab[i] = remove_quotes(tab[i]);
-		i++;
-	}
-	return (tab);
-}
-
 // store all commands in command structures
 t_cmd	*parsecmd(char *str, t_tok *tok)
 {
@@ -38,6 +25,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
 		cmd->argv = clean_quotes(p_spliter(str));
+		expand_var(cmd->argv);
 	}
 	if (tok->tok == AND)
 	{
@@ -55,14 +43,57 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	return (ret);
 }
 
+// extracts file name from string 
+void	get_file_name(t_tok *tok, int i, int size, char *str)
+{
+	i++;
+	tok->len = 0;
+	while (str[i] != '\0' && ft_isspace(str[i]))
+	{
+		tok->len++;
+		i++;
+	}
+	while (str[i] != '\0' && ft_isspace(str[i]) == 0)
+	{
+		tok->len++;
+		i++;
+	}
+	tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
+	tok->size = tok->len + size - 1;
+	tok->cut = i;
+}
+
+// get information for redirection tokens
+void	get_redir_token(t_tok *tok, int i, char *str)
+{
+	int	size;
+
+	size = 1;
+	if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) == RIN)
+	{
+		i++;
+		tok->tok = RHERE;
+		size++;
+	}
+	else if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) != RIN)
+		tok->tok = RIN;
+	else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) != ROUT)
+		tok->tok = ROUT;
+	else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) == ROUT)
+	{
+		tok->tok = ROUTA;
+		i++;
+		size++;
+	}
+	get_file_name(tok, i, size, str);
+}
+
+// identifies and returns the first token in a string
 void	get_token(t_tok *tok, char *str)
 {
-	int		ret;
 	int		i;
-	int		size;
 	int		*q_check;
 
-	ret = 0;
 	i = 0;
 	q_check = parse_quotes(str);
 	while (str[i] != '\0' && (ft_isspace(str[i])
@@ -70,107 +101,10 @@ void	get_token(t_tok *tok, char *str)
 		i++;
 	tok->s_loc = i;
 	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
-		ret = ft_issym(str[i]);
+		tok->tok = ft_issym(str[i]);
 	else
-	{
-		size = 1;
-		if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) == RIN)
-		{
-			i++;
-			ret = RHERE;
-			size++;
-		}
-		else if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) != RIN)
-			ret = RIN;
-		else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) != ROUT)
-			ret = ROUT;
-		else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) == ROUT)
-		{
-			ret = ROUTA;
-			i++;
-			size++;
-		}
-		i++;
-		tok->len = 0;
-		while (str[i] != '\0' && (ft_isspace(str[i]) || ft_issym(str[i]) == -1))
-		{
-			tok->len++;
-			i++;
-		}
-		tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
-		tok->size = tok->len + size - 1;
-		tok->cut = i;
-		ft_printf("file name for redirect: .%s.\n", tok->str);
-	}
-	if (ret == SQ || ret == DQ)
-	{
-		tok->s_loc++;
-		i++;
-		tok->len = 0;
-		while (str[i] != '\0' && ft_issym(str[i]) != ret)
-		{
-			tok->len++;
-			i++;
-		}
-		tok->quote = ft_substr(str, tok->s_loc, tok->len);
-	}
-	tok->tok = ret;
+		get_redir_token(tok, i, str);
 	free (q_check);
-}
-
-// locates a pipe if it is not in quotes
-int	is_pipe(char *str, t_tok *tok)
-{
-	int	i;
-	int	*q_check;
-
-	q_check = parse_quotes(str);
-	i = 0;
-	while (str[i] != '\0' && !(str[i] == '|' && q_check[i] == 0))
-		i++;
-	free (q_check);
-	if (i < (int)ft_strlen(str))
-	{
-		tok->s_loc = i + 1;
-		tok->tok = PIP;
-		tok->len = (int)ft_strlen(str) - (i + 1);
-		return (1);
-	}
-	return (0);
-}
-
-// trims string so it only contains stuff after the pipe
-char	*after_pipe(char *str, t_tok *tok)
-{
-	char	*next_cmd;
-
-	next_cmd = ft_substr(str, tok->s_loc, tok->len);
-	return (next_cmd);
-}
-
-// splits commands into pipe structure
-t_cmd	*parse_pipe(char *str, t_tok *tok)
-{
-	t_cmd		*ret;
-	char		*s_left;
-	char		*s_right;
-	t_tok		tok_right;
-
-	s_left = ft_substr(str, 0, tok->s_loc - 1);
-	s_right = after_pipe(str, tok);
-	get_token(tok, s_left);
-	if (is_pipe(s_right, &tok_right) == 1)
-		ret = make_pipecmd(parsecmd(s_left, tok),
-				parse_pipe(s_right, &tok_right));
-	else
-	{
-		get_token(&tok_right, s_right);
-		ret = make_pipecmd(parsecmd(s_left, tok),
-				parsecmd(s_right, &tok_right));
-	}
-	free (s_left);
-	free (s_right);
-	return (ret);
 }
 
 // currently checks if input is NULL
@@ -189,9 +123,7 @@ t_cmd	*lexer(char *str)
 		return (NULL);
 	}
 	if (is_pipe(str, &tok) == 1)
-	{
 		cmd = parse_pipe(str, &tok);
-	}
 	else
 	{
 		get_token(&tok, str);

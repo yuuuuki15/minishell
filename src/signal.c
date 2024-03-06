@@ -47,7 +47,6 @@ static void	ft_ignore_signal(int sig)
  */
 static void	ft_exit_program(int sig)
 {
-	// it doesn't work for now. I think signal is not SIGKILL...
 	if (sig == SIGKILL)
 	{
 		ft_putstr_fd("exit minishell\n", STDOUT_FILENO);

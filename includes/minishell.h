@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 15:33:59 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:03:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,6 @@ typedef struct s_shell
 	t_env	*env;
 }			t_shell;
 
-typedef struct s_pipex
-{
-	int		infile_fd;
-	int		outfile_fd;
-	int		pipe_fd[2];
-	char	**cmd_paths;
-	char	***cmd_args;
-	int		cmd_count;
-}	t_pipex;
-
 extern t_shell	*g_shell;
 
 void	ft_init_env_path(void);
@@ -160,11 +150,19 @@ int		get_data(void);
 void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str);
 char	**p_spliter(char *s);
+int		is_pipe(char *str, t_tok *tok);
+t_cmd	*parse_pipe(char *str, t_tok *tok);
+t_cmd	*parsecmd(char *str, t_tok *tok);
+void	get_file_name(t_tok *tok, int i, int size, char *str);
+
+// variables
+void	expand_var(char **tab);
 
 // quotes
 int		*parse_quotes(char *str);
 int		balance_quotes(char *str);
 char	*remove_quotes(char *str);
+char	**clean_quotes(char **tab);
 
 // cmd tree
 t_cmd	*make_execcmd(void);

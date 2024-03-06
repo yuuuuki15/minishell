@@ -64,33 +64,35 @@ void	dup_descriptors(void)
 	}
 }
 
-// directs the execution of the cammand tree
-// BACK is managed and resubmited to run_exec prior to fork
-// REDIR is good for a single file, pipe, I don't know
-void	run_exec(t_cmd *cmd, char **env)
+// manage the executable part of the tree by forking
+void	manage_exec(t_cmd *cmd, char **env)
 {
 	t_execcmd	*ecmd;
 
+	ecmd = (t_execcmd *)cmd;
+	if (ft_is_builtin(ecmd))
+	{
+		g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+		return ;
+	}
+	g_shell->pid = fork_child();
+	if (g_shell->pid == 0)
+	{
+		dup_descriptors();
+		ft_exec(ecmd, env);
+	}
+	else
+		wait(NULL);
+	reset_descriptors();
+}
+
+// directs the execution of the cammand tree
+void	run_exec(t_cmd *cmd, char **env)
+{
 	if (cmd->type == REDIR)
 		manage_redir(cmd, env);
 	if (cmd->type == EXEC)
-	{
-		ecmd = (t_execcmd *)cmd;
-		if (ft_is_builtin(ecmd))
-		{
-			g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
-			return ;
-		}
-		g_shell->pid = fork_child();
-		if (g_shell->pid == 0)
-		{
-			dup_descriptors();
-			ft_exec(ecmd, env);
-		}
-		else
-			wait(NULL);
-		reset_descriptors();
-	}
+		manage_exec(cmd, env);
 	if (cmd->type == BACK)
 		manage_back(cmd, env);
 	if (cmd->type == PIPE)
