@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 18:03:54 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:58:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ typedef struct s_shell
 
 extern t_shell	*g_shell;
 
-void	ft_init_env_path(void);
 void	ft_signal_manager(void);
 void	ft_init_env(char **env);
 int		ft_add_env(char *key, char *value);
@@ -189,6 +188,8 @@ void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 int		fork_child(void);
 char	*ft_get_path(char *cmd);
+void	reset_descriptors(void);
+void	dup_descriptors(void);
 
 // signals
 void	set_signals(void);
