@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 13:21:34 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:05:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ void	manage_pipe(t_cmd *cmd, char **env);
 void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 int		fork_child(void);
+char	*ft_get_path(char *cmd);
 
 // signals
 void	set_signals(void);
