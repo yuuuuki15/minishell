@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/04 09:16:10 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:36:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,16 @@ void	manage_exec(t_cmd *cmd, char **env)
 	ecmd = (t_execcmd *)cmd;
 	if (ft_is_builtin(ecmd))
 	{
+		int	saved_stdin, saved_stdout;
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
+		dup_descriptors();
 		g_shell->exit_status = ft_builtin_manager((t_execcmd *)cmd);
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
+		reset_descriptors();
 		return ;
 	}
 	g_shell->pid = fork_child();
