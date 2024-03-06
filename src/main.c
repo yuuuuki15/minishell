@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 16:31:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:25:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	main(int ac, char **av, char **env)
 	g_shell = malloc(sizeof(t_shell));
 	if (g_shell == NULL)
 		return (1);
-	g_shell->in_fd = 0;
-	g_shell->out_fd = 1;
 	set_signals();
 	ft_init_env(env);
 	while (1)
@@ -36,6 +34,8 @@ int	main(int ac, char **av, char **env)
 			cmd = lexer(g_shell->user_input);
 			if (cmd != NULL)
 				run_exec(cmd, env);
+			if (g_shell->is_inside_pipe == 1)
+				exit(0);
 		}
 	}
 	rl_clear_history();

@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+// removes quotes from arguments
+char	**clean_quotes(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		tab[i] = remove_quotes(tab[i]);
+		i++;
+	}
+	return (tab);
+}
+
 // mark the positions of quotes that need to be removed
 int	*to_remove(int *in_quotes, int len)
 {
