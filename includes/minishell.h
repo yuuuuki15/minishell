@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 17:29:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:21:34 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_shell
 	int		out_fd;
 	int		pid;
 	int		exit_status;
+	int		is_inside_pipe;
 	t_env	*env;
 }			t_shell;
 

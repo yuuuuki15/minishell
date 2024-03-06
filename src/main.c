@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 16:31:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:25:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	main(int ac, char **av, char **env)
 			cmd = lexer(g_shell->user_input);
 			if (cmd != NULL)
 				run_exec(cmd, env);
+			if (g_shell->is_inside_pipe == 1)
+				exit(0);
 		}
 	}
 	rl_clear_history();
