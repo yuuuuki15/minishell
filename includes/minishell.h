@@ -155,7 +155,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
 
 // variables
-void	expand_var(char **tab);
+char	*expand_var(char *str);
 
 // quotes
 int		*parse_quotes(char *str);

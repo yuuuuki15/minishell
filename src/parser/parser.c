@@ -25,13 +25,12 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
 		cmd->argv = clean_quotes(p_spliter(str));
-		expand_var(cmd->argv);
 	}
 	if (tok->tok == AND)
 	{
 		str = ft_strtrim(str, "&");
-		get_token(&tok2, str);
-		ret = make_backcmd(parsecmd(str, &tok2));
+		get_token(tok, str);
+		ret = make_backcmd(parsecmd(str, tok));
 	}
 	if (ft_tofile(tok->tok) == 1)
 	{
