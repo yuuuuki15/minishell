@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_pipe.c                                       :+:      :+:    :+:   */
+/*   back.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 16:20:25 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 16:21:21 by mevonuk          ###   ########.fr       */
+/*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
+/*   Updated: 2024/03/07 13:45:01 by mevonuk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// locates a pipe if it is not in quotes
-int	is_pipe(char *str, t_tok *tok)
+// locates an & if it is not in quotes
+int	is_back(char *str, t_tok *tok)
 {
 	int	i;
 	int	*q_check;
 
 	q_check = parse_quotes(str);
 	i = 0;
-	while (str[i] != '\0' && !(str[i] == '|' && q_check[i] == 0))
+	while (str[i] != '\0' && !(str[i] == '&' && q_check[i] == 0))
 		i++;
 	free (q_check);
 	if (i < (int)ft_strlen(str))
 	{
 		tok->s_loc = i + 1;
-		tok->tok = PIP;
+		tok->tok = AND;
 		tok->len = (int)ft_strlen(str) - (i + 1);
 		return (1);
 	}
@@ -34,7 +34,7 @@ int	is_pipe(char *str, t_tok *tok)
 }
 
 // trims string so it only contains stuff after the pipe, to the right
-char	*after_pipe(char *str, t_tok *tok)
+char	*after_back(char *str, t_tok *tok)
 {
 	char	*next_cmd;
 
@@ -42,8 +42,8 @@ char	*after_pipe(char *str, t_tok *tok)
 	return (next_cmd);
 }
 
-// splits commands into pipe structure
-t_cmd	*parse_pipe(char *str, t_tok *tok)
+// splits commands into pipe structure if back is between two commands
+t_cmd	*parse_back(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
 	char		*s_left;
@@ -51,9 +51,13 @@ t_cmd	*parse_pipe(char *str, t_tok *tok)
 	t_tok		tok_right;
 
 	s_left = ft_substr(str, 0, tok->s_loc - 1);
-	s_right = after_pipe(str, tok);
+	s_right = after_back(str, tok);
+	// need to change the way I get here similar to pipe
+	// if s_right is empty, need to make back
+	// if s_right is occupied, make pipe
+	// nothing lower down is right
 	get_token(tok, s_left);
-	if (is_pipe(s_right, &tok_right) == 1)
+	if (is_back(s_right, &tok_right) == 1)
 		ret = make_pipecmd(parsecmd(s_left, tok),
 				parse_pipe(s_right, &tok_right));
 	else

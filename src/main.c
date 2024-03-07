@@ -34,6 +34,7 @@ int	main(int ac, char **av, char **env)
 			cmd = lexer(g_shell->user_input);
 			if (cmd != NULL)
 				run_exec(cmd, env);
+			clean_tree(cmd);
 			if (g_shell->is_inside_pipe == 1)
 				exit(0);
 		}

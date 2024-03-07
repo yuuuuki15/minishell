@@ -200,4 +200,7 @@ void	print_tree(t_cmd *cmd);
 void	ft_print_line(char *line);
 void	printcmd(t_cmd *cmd);
 
+// clean
+void	clean_tree(t_cmd *cmd);
+
 #endif

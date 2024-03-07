@@ -97,7 +97,7 @@ int	p_allocate(char **a, char *s, size_t words)
 	return (-1);
 }
 
-// splits a string into an array of words based on spaces nd quoted text
+// splits a string into an array of words based on spaces and quoted text
 char	**p_spliter(char *s)
 {
 	char	**array;

@@ -53,6 +53,7 @@ char	*remove_quotes(char *str)
 		}
 	}
 	str[j] = '\0';
+	free (in_quotes);
 	return (str);
 }
 
@@ -108,7 +109,7 @@ void	set_quote_values(int *in_quotes, char *str)
 	}
 }
 
-// makes an integer array that denotes if in quotes
+// makes an integer array that denotes if in quotes and quote type
 int	*parse_quotes(char *str)
 {
 	int	*in_quotes;
