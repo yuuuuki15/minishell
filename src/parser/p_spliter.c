@@ -25,7 +25,7 @@ size_t	p_num_words(char *s)
 	words = 0;
 	if (ft_strlen(s) == 0)
 		return (words);
-	if (s[0] != ' ' || state == 1)
+	if (s[0] != ' ' || state != 0)
 		words++;
 	i = 1;
 	while (s[i] != '\0')
@@ -63,7 +63,7 @@ size_t	p_word_length(char *s, int *q_check)
 	size_t	len;
 
 	len = 0;
-	while ((q_check[len] == 1 || (q_check[len] == 0
+	while ((q_check[len] != 0 || (q_check[len] == 0
 				&& s[len] != ' ')) && s[len] != '\0')
 		len++;
 	return (len);
