@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/07 13:20:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:40:14 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,14 @@ static void	handle_builtin(t_execcmd *ecmd)
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	dup_descriptors();
+	dup_descriptors(ecmd);
 	g_shell->exit_status = ft_builtin_manager(ecmd);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
-	reset_descriptors();
+	reset_descriptors(ecmd);
 }
-
 // manage the executable part of the tree by forking
 void	manage_exec(t_cmd *cmd, char **env)
 {
@@ -62,18 +61,18 @@ void	manage_exec(t_cmd *cmd, char **env)
 	ecmd = (t_execcmd *)cmd;
 	if (ft_is_builtin(ecmd))
 	{
-		handle_builtin((t_execcmd *)cmd);
+		handle_builtin(ecmd);
 		return ;
 	}
+	dup_descriptors(ecmd);
 	g_shell->pid = fork_child();
 	if (g_shell->pid == 0)
 	{
-		dup_descriptors();
 		ft_exec(ecmd, env);
 	}
 	else
 		wait(NULL);
-	reset_descriptors();
+	reset_descriptors(ecmd);
 }
 
 // directs the execution of the cammand tree

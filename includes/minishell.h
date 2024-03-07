@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 19:58:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/07 16:44:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,16 @@ typedef struct s_tok
 typedef struct s_cmd
 {
 	int	type;
+	int		in_fd;
+	int		out_fd;
 }	t_cmd;
 
 typedef struct s_execcmd
 {
 	int		type;
 	char	**argv;
+	int		in_fd;
+	int		out_fd;
 }	t_execcmd;
 
 typedef struct s_backcmd
@@ -188,8 +192,8 @@ void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 int		fork_child(void);
 char	*ft_get_path(char *cmd);
-void	reset_descriptors(void);
-void	dup_descriptors(void);
+void	reset_descriptors(t_execcmd *ecmd);
+void	dup_descriptors(t_execcmd *ecmd);
 
 // signals
 void	set_signals(void);
