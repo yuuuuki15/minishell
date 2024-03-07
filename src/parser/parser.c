@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// store all commands in command structures
+// stores all commands in command structures in a tree
 t_cmd	*parsecmd(char *str, t_tok *tok)
 {
 	t_cmd		*ret;
@@ -28,6 +28,8 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	}
 	if (tok->tok == AND)
 	{
+		// this should not be passed here, it should be passed to parse_cak to check for pipe-like behavior
+		ft_printf("back\n");
 		str = ft_strtrim(str, "&");
 		get_token(tok, str);
 		ret = make_backcmd(parsecmd(str, tok));
@@ -87,7 +89,7 @@ void	get_redir_token(t_tok *tok, int i, char *str)
 	get_file_name(tok, i, size, str);
 }
 
-// identifies and returns the first token in a string
+// identifies and returns the first token in a string that is not in quotes
 void	get_token(t_tok *tok, char *str)
 {
 	int		i;
@@ -107,7 +109,9 @@ void	get_token(t_tok *tok, char *str)
 }
 
 // currently checks if input is NULL
-// reads in first token and then parses command into simple "tree"
+// checks if quotes are balanced
+// checks for pipe and devides accordingly
+// parses command into simple "tree" based on tokens
 // prints tree and then returns tree
 t_cmd	*lexer(char *str)
 {

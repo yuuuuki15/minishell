@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// stores information for an executable command
 t_cmd	*make_execcmd(void)
 {
 	t_execcmd	*cmd;
@@ -22,6 +23,7 @@ t_cmd	*make_execcmd(void)
 	return ((t_cmd *)cmd);
 }
 
+// essentially strips the ampersand and passes cmd, in bash after & is like a pipe
 t_cmd	*make_backcmd(t_cmd *subcmd)
 {
 	t_backcmd	*cmd;
@@ -33,6 +35,7 @@ t_cmd	*make_backcmd(t_cmd *subcmd)
 	return ((t_cmd *)cmd);
 }
 
+// makes a pipe com holding pointers to left and right comds in pipe
 t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right)
 {
 	t_pipecmd	*cmd;
@@ -45,6 +48,7 @@ t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)cmd);
 }
 
+// makes a redirect cmd containing filename and type of redir
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode)
 {
 	t_redircmd	*rcmd;
