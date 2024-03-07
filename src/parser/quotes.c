@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 10:51:52 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/07 13:18:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ char	*remove_quotes(char *str)
 	int	*in_quotes;
 	int	i;
 	int	j;
-	int	len;
 
 	if (str == NULL)
 		return (NULL);
-	len = ft_strlen(str);
 	in_quotes = parse_quotes(str);
 	i = 0;
 	j = 0;
