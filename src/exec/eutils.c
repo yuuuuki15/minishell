@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/08 17:26:06 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:42:46 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,10 @@ void	reset_descriptors()
  */
 void	dup_descriptors()
 {
-	if (g_shell->in_fd != STDIN_FILENO)
+		if (g_shell->in_fd != STDIN_FILENO)
 	{
 		dup2(g_shell->in_fd, STDIN_FILENO);
+		close(g_shell->in_fd);
 	}
 	if (g_shell->out_fd != STDOUT_FILENO)
 	{

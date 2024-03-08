@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/08 17:20:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:23:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	handle_builtin(t_execcmd *ecmd)
 	g_shell->exit_status = ft_builtin_manager(ecmd);
 	reset_descriptors();
 }
+
 // manage the executable part of the tree by forking
 void	manage_exec(t_cmd *cmd, char **env)
 {
@@ -58,8 +59,7 @@ void	manage_exec(t_cmd *cmd, char **env)
 	g_shell->pid = fork_child();
 	if (g_shell->pid == 0)
 	{
-		// if (!g_shell->is_inside_pipe)
-			dup_descriptors();
+		dup_descriptors();
 		ft_exec(ecmd, env);
 	}
 	else
