@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/07 16:50:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:35:32 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	ft_init_env(char **env)
 	g_shell->is_inside_pipe = 0;
 	g_shell->in_fd = STDIN_FILENO;
 	g_shell->out_fd = STDOUT_FILENO;
+	g_shell->stdin = dup(STDIN_FILENO);
+	g_shell->stdout = dup(STDOUT_FILENO);
 	if (ft_get_env("PWD") == NULL)
 	{
 		if (getcwd(cwd, PATH_MAX) == NULL)

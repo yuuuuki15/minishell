@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:24:11 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/04 09:24:36 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:37:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ void	sig_test(int signum)
 		reset_prompt();
 	}
 	if (signum == SIGQUIT)
+	{
 		(void)signum;
+		close(g_shell->stdin);
+		close(g_shell->stdout);
+	}
 }
 
 void	set_signals(void)

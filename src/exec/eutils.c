@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 17:39:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:26:06 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,40 +75,39 @@ char	*ft_get_path(char *cmd)
 /**
  * Resets the file descriptors for standard input and output to their defaults.
  */
-void	reset_descriptors(t_execcmd *ecmd)
+void	reset_descriptors()
 {
-	if (g_shell->in_fd != STDIN_FILENO)
-	{
-		dup2(ecmd->in_fd, STDIN_FILENO);
-		close(ecmd->in_fd);
-		g_shell->in_fd = 0;
-	}
-	if (g_shell->out_fd != STDOUT_FILENO)
-	{
-		dup2(ecmd->out_fd, STDOUT_FILENO);
-		close(ecmd->out_fd);
-		g_shell->out_fd = 1;
-	}
+	// if (!g_shell->is_inside_pipe)
+	// {
+		if (g_shell->in_fd != STDIN_FILENO)
+		{
+			if (!g_shell->is_inside_pipe)
+				close(g_shell->in_fd);
+			close(STDIN_FILENO);
+			dup2(g_shell->stdin, STDIN_FILENO);
+		}
+		if (g_shell->out_fd != STDOUT_FILENO)
+		{
+			if (!g_shell->is_inside_pipe)
+				close(g_shell->out_fd);
+			close(STDOUT_FILENO);
+			dup2(g_shell->stdout, STDOUT_FILENO);
+		}
+	// }
 }
 
 /**
  * Duplicates the file descriptors for input and output
  * if they have been redirected.
  */
-void	dup_descriptors(t_execcmd *ecmd)
+void	dup_descriptors()
 {
 	if (g_shell->in_fd != STDIN_FILENO)
 	{
-		ecmd->in_fd = dup(STDIN_FILENO);
-		close(STDIN_FILENO);
 		dup2(g_shell->in_fd, STDIN_FILENO);
-		close(g_shell->in_fd);
 	}
 	if (g_shell->out_fd != STDOUT_FILENO)
 	{
-		ecmd->out_fd = dup(STDOUT_FILENO);
-		close(STDOUT_FILENO);
 		dup2(g_shell->out_fd, STDOUT_FILENO);
-		close(g_shell->out_fd);
 	}
 }

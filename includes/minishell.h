@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/07 16:44:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:05:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ typedef struct s_shell
 	int		fd[2];
 	int		in_fd;
 	int		out_fd;
+	int		stdin;
+	int		stdout;
 	int		pid;
 	int		exit_status;
 	int		is_inside_pipe;
@@ -192,8 +194,8 @@ void	manage_back(t_cmd *cmd, char **env);
 void	run_exec(t_cmd *cmd, char **env);
 int		fork_child(void);
 char	*ft_get_path(char *cmd);
-void	reset_descriptors(t_execcmd *ecmd);
-void	dup_descriptors(t_execcmd *ecmd);
+void	reset_descriptors(void);
+void	dup_descriptors(void);
 
 // signals
 void	set_signals(void);
