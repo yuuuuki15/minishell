@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   back.c                                             :+:      :+:    :+:   */
+/*   parse_andor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 13:45:01 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/09 15:45:35 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*after_token(char *str, t_tok *tok)
 }
 
 // splits commands into list structure if && is between two commands
-t_cmd	*parse_ifthen(char *str, t_tok *tok)
+t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *g_shell)
 {
 	t_cmd		*ret;
 	char		*s_left;
@@ -82,17 +82,17 @@ t_cmd	*parse_ifthen(char *str, t_tok *tok)
 	if (is_ifthen(s_right, &tok_right) != -1 || is_ifor(s_right, &tok2) != -1)
 	{
 		if (tok_right.s_loc < tok2.s_loc)
-			ret = make_listcmd(parsecmd(s_left, tok),
-					parse_ifthen(s_right, &tok_right), tok_right.tok);
+			ret = make_listcmd(parsecmd(s_left, tok, g_shell),
+					parse_ifthen(s_right, &tok_right, g_shell), tok_right.tok);
 		else
-			ret = make_listcmd(parsecmd(s_left, tok),
-					parse_ifthen(s_right, &tok_right), tok2.tok);
+			ret = make_listcmd(parsecmd(s_left, tok, g_shell),
+					parse_ifthen(s_right, &tok_right, g_shell), tok2.tok);
 	}
 	else
 	{
 		get_token(&tok_right, s_right);
-		ret = make_listcmd(parsecmd(s_left, tok),
-				parsecmd(s_right, &tok_right), type);
+		ret = make_listcmd(parsecmd(s_left, tok, g_shell),
+				parsecmd(s_right, &tok_right, g_shell), type);
 	}
 	free (s_left);
 	free (s_right);

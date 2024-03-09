@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 15:26:31 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:44:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,12 @@ void	get_token(t_tok *tok, char *str);
 t_cmd	*lexer(char *str, t_shell *g_shell);
 char	**p_spliter(char *s);
 int		is_pipe(char *str, t_tok *tok);
-t_cmd	*parse_pipe(char *str, t_tok *tok);
+t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *g_shell);
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
 
 // bonus
-t_cmd	*parse_ifthen(char *str, t_tok *tok);
+t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *g_shell);
 int		is_ifthen(char *str, t_tok *tok);
 int		is_ifor(char *str, t_tok *tok);
 
@@ -196,7 +196,7 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_redir(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_pipe(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_back(t_cmd *cmd, char **env, t_shell *g_shell);
-void	manage_andor(t_cmd *cmd, char **env);
+void	manage_andor(t_cmd *cmd, char **env, t_shell *g_shell);
 int		fork_child(t_shell *g_shell);
 char	*ft_get_path(char *cmd, t_shell *g_shell);
 void	reset_descriptors(t_shell *g_shell);

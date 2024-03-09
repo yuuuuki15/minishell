@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 15:27:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:43:58 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *g_shell)
 			waitpid(g_shell->pid, NULL, 0);
 	}
 	if (cmd->type == IFTHEN || cmd->type == IFOR)
-		manage_andor(cmd, env);
+		manage_andor(cmd, env, g_shell);
 }

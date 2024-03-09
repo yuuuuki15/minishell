@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:20:25 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 16:21:21 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/09 15:41:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*after_pipe(char *str, t_tok *tok)
 }
 
 // splits commands into pipe structure
-t_cmd	*parse_pipe(char *str, t_tok *tok)
+t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *g_shell)
 {
 	t_cmd		*ret;
 	char		*s_left;
@@ -54,13 +54,13 @@ t_cmd	*parse_pipe(char *str, t_tok *tok)
 	s_right = after_pipe(str, tok);
 	get_token(tok, s_left);
 	if (is_pipe(s_right, &tok_right) == 1)
-		ret = make_listcmd(parsecmd(s_left, tok),
-				parse_pipe(s_right, &tok_right), PIPE);
+		ret = make_listcmd(parsecmd(s_left, tok, g_shell),
+				parse_pipe(s_right, &tok_right, g_shell), PIPE);
 	else
 	{
 		get_token(&tok_right, s_right);
-		ret = make_listcmd(parsecmd(s_left, tok),
-				parsecmd(s_right, &tok_right), PIPE);
+		ret = make_listcmd(parsecmd(s_left, tok, g_shell),
+				parsecmd(s_right, &tok_right, g_shell), PIPE);
 	}
 	free (s_left);
 	free (s_right);

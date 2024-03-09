@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:40:00 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:45:28 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,14 @@ t_cmd	*lexer(char *str, t_shell *g_shell)
 	if (is_ifthen(str, &tok) != -1 || is_ifor(str, &tok2) != -1)
 	{
 		if (tok.s_loc < tok2.s_loc)
-			cmd = parse_ifthen(str, &tok);
+			cmd = parse_ifthen(str, &tok, g_shell);
 		else
-			cmd = parse_ifthen(str, &tok2);
+			cmd = parse_ifthen(str, &tok2, g_shell);
 	}
 	else
 	{
 		if (is_pipe(str, &tok) == 1)
-			cmd = parse_pipe(str, &tok);
+			cmd = parse_pipe(str, &tok, g_shell);
 		else
 		{
 			get_token(&tok, str);
