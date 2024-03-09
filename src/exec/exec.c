@@ -31,6 +31,7 @@ void	ft_exec(t_execcmd *cmd, char **env)
 		if (pathname != NULL)
 			free(pathname);
 		ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
+		g_shell->exit_status = 127;
 		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
 		ft_free_tab(cmd->argv);
 		free (cmd);
@@ -86,5 +87,16 @@ void	run_exec(t_cmd *cmd, char **env)
 	if (cmd->type == BACK)
 		manage_back(cmd, env);
 	if (cmd->type == PIPE)
+<<<<<<< Updated upstream
 		manage_pipe(cmd, env);
+=======
+	{
+		if (fork_child() == 0)
+			manage_pipe(cmd, env);
+		else
+			waitpid(g_shell->pid, NULL, 0);
+	}
+	if (cmd->type == IFTHEN || cmd->type == IFOR)
+		manage_andor(cmd, env);
+>>>>>>> Stashed changes
 }

@@ -28,7 +28,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	}
 	if (tok->tok == AND)
 	{
-		// this should not be passed here, it should be passed to parse_cak to check for pipe-like behavior
+		// this should not be passed here, it should be passed to parse_back to check for pipe-like behavior
 		ft_printf("back\n");
 		str = ft_strtrim(str, "&");
 		get_token(tok, str);
@@ -117,6 +117,7 @@ t_cmd	*lexer(char *str)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
+	t_tok		tok2;
 
 	if (str == NULL)
 		return (NULL);
@@ -125,12 +126,22 @@ t_cmd	*lexer(char *str)
 		ft_printf("error: Unbalanced quotes!\n");
 		return (NULL);
 	}
-	if (is_pipe(str, &tok) == 1)
-		cmd = parse_pipe(str, &tok);
+	if (is_ifthen(str, &tok) != -1 || is_ifor(str, &tok2) != -1)
+	{
+		if (tok.s_loc < tok2.s_loc)
+			cmd = parse_ifthen(str, &tok);
+		else
+			cmd = parse_ifthen(str, &tok2);
+	}
 	else
 	{
-		get_token(&tok, str);
-		cmd = parsecmd(str, &tok);
+		if (is_pipe(str, &tok) == 1)
+			cmd = parse_pipe(str, &tok);
+		else
+		{
+			get_token(&tok, str);
+			cmd = parsecmd(str, &tok);
+		}
 	}
 	print_tree(cmd);
 	return (cmd);

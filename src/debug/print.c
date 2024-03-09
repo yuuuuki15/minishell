@@ -39,16 +39,21 @@ void	ft_print_line(char *line)
 }
 
 // print content of a pipe
-void	print_pipe(t_cmd *cmd)
+void	print_list(t_cmd *cmd)
 {
-	t_pipecmd	*pcmd;
+	t_listcmd	*lcmd;
 
-	ft_printf("type: PIPE\n");
-	pcmd = (t_pipecmd *)cmd;
+	if (cmd->type == PIPE)
+		ft_printf("type: PIPE\n");
+	if (cmd->type == IFTHEN)
+		ft_printf("type: IFTHEN\n");
+	if (cmd->type == IFOR)
+		ft_printf("type: IFOR\n");
+	lcmd = (t_listcmd *)cmd;
 	ft_printf("left\n");
-	print_tree(pcmd->left);
+	print_tree(lcmd->left);
 	ft_printf("right\n");
-	print_tree(pcmd->right);
+	print_tree(lcmd->right);
 }
 
 // print content of a redirect
@@ -78,8 +83,8 @@ void	print_tree(t_cmd *cmd)
 		ft_printf("type: BACK\n");
 		print_tree(bcmd->cmd);
 	}
-	if (cmd->type == PIPE)
-		print_pipe(cmd);
+	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
+		print_list(cmd);
 	if (cmd->type == REDIR)
 		print_redir(cmd);
 }

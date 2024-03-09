@@ -17,7 +17,8 @@
 void	exit_shell(void)
 {
 	free (g_shell->user_input);
-	rl_clear_history();
+	//rl_clear_history(); //changed for home compiler
+	clear_history();
 	ft_printf("%s", "Exiting shell\n");
 	exit(0);
 }

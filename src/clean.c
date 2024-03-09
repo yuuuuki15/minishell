@@ -13,16 +13,21 @@
 #include "minishell.h"
 
 // clean content of a pipe
-void	clean_pipe(t_cmd *cmd)
+void	clean_list(t_cmd *cmd)
 {
-	t_pipecmd	*pcmd;
+	t_listcmd	*lcmd;
 
-	ft_printf("clean PIPE\n");
-	pcmd = (t_pipecmd *)cmd;
+	if (cmd->type == PIPE)
+		ft_printf("clean PIPE\n");
+	if (cmd->type == IFTHEN)
+		ft_printf("clean IFTHEN\n");
+	if (cmd->type == IFOR)
+		ft_printf("clean IFOR\n");
+	lcmd = (t_listcmd *)cmd;
 	ft_printf("clean left\n");
-	clean_tree(pcmd->left);
+	clean_tree(lcmd->left);
 	ft_printf("clean right\n");
-	clean_tree(pcmd->right);
+	clean_tree(lcmd->right);
 }
 
 // clean content of a redirect
@@ -73,8 +78,8 @@ void	clean_tree(t_cmd *cmd)
 	}
 	if (cmd->type == BACK)
 		clean_back(cmd);
-	if (cmd->type == PIPE)
-		clean_pipe(cmd);
+	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
+		clean_list(cmd);
 	if (cmd->type == REDIR)
 		clean_redir(cmd);
 }

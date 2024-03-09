@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	execute_pipe_side(t_pipecmd *pcmd, char **env, int fd[2], int side)
+static void	execute_pipe_side(t_listcmd *pcmd, char **env, int fd[2], int side)
 {
 	if (side == 0)
 	{
@@ -34,10 +34,10 @@ static void	execute_pipe_side(t_pipecmd *pcmd, char **env, int fd[2], int side)
 
 void	manage_pipe(t_cmd *cmd, char **env)
 {
-	t_pipecmd	*pcmd;
+	t_listcmd	*pcmd;
 	int			fd[2];
 
-	pcmd = (t_pipecmd *)cmd;
+	pcmd = (t_listcmd *)cmd;
 	if (pipe(fd) < 0)
 	{
 		ft_printf("Pipe error\n");
