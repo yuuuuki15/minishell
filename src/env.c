@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 14:50:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:59:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,16 @@ int	ft_is_valid_identifier(char *str)
 int	ft_init_env(char **env, t_shell *g_shell)
 {
 	int		i;
-	char	cwd[PATH_MAX];
 	char	*key;
 	char	*value;
 
 	if (env == NULL)
-		return (1);
+		return (ft_set_pwd(g_shell));
 	i = -1;
 	while (env[++i])
 	{
 		key = ft_get_key(env[i]);
 		value = ft_get_value(env[i]);
-		if (ft_add_env(key, value, g_shell) == 1)
-		{
-			ft_clean_env(g_shell);
-			return (1);
-		}
-	}
-	if (ft_get_env("PWD", g_shell) == NULL)
-	{
-		if (getcwd(cwd, PATH_MAX) == NULL)
-		{
-			ft_clean_env(g_shell);
-			return (1);
-		}
-		key = ft_get_key("PWD");
-		value = ft_get_value(cwd);
 		if (ft_add_env(key, value, g_shell) == 1)
 		{
 			ft_clean_env(g_shell);

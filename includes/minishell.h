@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 16:01:10 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:59:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	ft_show_env(t_shell *g_shell);
 void	ft_unset_env(char *key, t_shell *g_shell);
 int		ft_is_valid_identifier(char *str);
 void	exit_shell(t_shell *g_shell);
+int		ft_set_pwd(t_shell *g_shell);
 
 // utils
 void	ft_free_tab(char **array);

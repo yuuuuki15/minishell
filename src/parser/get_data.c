@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:38:53 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:09:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ int	get_data(t_shell *g_shell)
 		g_shell->user_input = NULL;
 	}
 	g_shell->user_input = readline(PROMPT);
+	if (ft_strchr(g_shell->user_input, EOF) != NULL)
+	{
+		ft_printf("this is control plus D handler \n");
+	}
 	if (!g_shell->user_input || ft_strcmp(g_shell->user_input, "exit") == 0)
 	{
 		if (!g_shell->user_input)

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 15:03:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:38:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ static int	ft_minishell_initializer(char **env, t_shell *g_shell)
 {
 	g_shell->user_input = NULL;
 	g_shell->is_inside_pipe = 0;
+	g_shell->pid = 0;
 	g_shell->in_fd = STDIN_FILENO;
 	g_shell->out_fd = STDOUT_FILENO;
 	g_shell->stdin = dup(STDIN_FILENO);
 	g_shell->stdout = dup(STDOUT_FILENO);
+	g_shell->env = NULL;
 	if (g_shell->stdin == -1 || g_shell->stdout == -1)
 		return (1);
 	// set_signals();

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 14:50:43 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:59:09 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,32 @@ void	ft_clean_env(t_shell *g_shell)
 		free(to_delete);
 	}
 	g_shell->env = NULL;
+}
+
+/**
+ * @param t_shel *g_shell
+ * Function to set the environment variable named PWD when it does not exist
+*/
+int	ft_set_pwd(t_shell *g_shell)
+{
+	char	cwd[PATH_MAX];
+	char	*key;
+	char	*value;
+
+	if (ft_get_env("PWD", g_shell) == NULL)
+	{
+		if (getcwd(cwd, PATH_MAX) == NULL)
+		{
+			ft_clean_env(g_shell);
+			return (1);
+		}
+		key = ft_get_key("PWD");
+		value = ft_get_value(cwd);
+		if (ft_add_env(key, value, g_shell) == 1)
+		{
+			ft_clean_env(g_shell);
+			return (1);
+		}
+	}
+	return (0);
 }
