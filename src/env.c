@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/07 18:35:32 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:27:45 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,31 @@ int	ft_is_valid_identifier(char *str)
  * This function takes an array of environment variables and initializes them
  * to the variable t_env inside global variable shell.
 */
-void	ft_init_env(char **env)
+int	ft_init_env(char **env)
 {
 	int		i;
 	char	cwd[PATH_MAX];
+	char	*key;
+	char	*value;
 
 	if (env == NULL)
-		return ;
+		return (1);
 	i = -1;
 	while (env[++i])
-		ft_add_env(ft_get_key(env[i]), ft_get_value(env[i]));
-	g_shell->user_input = NULL;
-	g_shell->is_inside_pipe = 0;
-	g_shell->in_fd = STDIN_FILENO;
-	g_shell->out_fd = STDOUT_FILENO;
-	g_shell->stdin = dup(STDIN_FILENO);
-	g_shell->stdout = dup(STDOUT_FILENO);
+	{
+		key = ft_get_key(env[i]);
+		value = ft_get_value(env[i]);
+		if (ft_add_env(key, value) == 1)
+			return (1);
+	}
 	if (ft_get_env("PWD") == NULL)
 	{
 		if (getcwd(cwd, PATH_MAX) == NULL)
-		{
-			ft_putendl_fd("minishell: failed to initialize PWD", STDERR_FILENO);
-			return ;
-		}
-		ft_add_env(ft_strdup("PWD"), ft_strdup(cwd));
+			return (1);
+		if (ft_add_env(ft_strdup("PWD"), ft_strdup(cwd)) == 1)
+			return (1);
 	}
+	return (0);
 }
 
 /**
@@ -123,7 +123,7 @@ int	ft_add_env(char *key, char *value)
 	t_env	*new;
 	t_env	*curr;
 
-	if (ft_is_valid_identifier(key) == 0)
+	if (key == NULL || ft_is_valid_identifier(key) == 0)
 		return (1);
 	if (ft_get_env(key) != NULL)
 	{

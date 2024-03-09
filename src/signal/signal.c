@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:24:11 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 18:37:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 11:42:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	set_signals(void)
 	struct sigaction	sa;
 
 	sa.sa_handler = &sig_test;
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);

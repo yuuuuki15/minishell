@@ -6,12 +6,15 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 15:37:08 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:02:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGE_H
 # define MESSAGE_H
+
+# define ERR_INITIALIZE_MINISHELL "\
+Error\nSomething happened during initializing minishell."
 
 # define ERR_PIPE "\
 Error\nPipe error.\n"
