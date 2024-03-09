@@ -58,6 +58,7 @@ int	main(int ac, char **av, char **env)
 				exit(0);
 		}
 	}
-	rl_clear_history();
+	//rl_clear_history(); //changed for home compiler
+	clear_history();
 	return (0);
 }

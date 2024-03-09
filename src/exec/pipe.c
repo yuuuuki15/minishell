@@ -6,13 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:08:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:38:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_pipe_side(t_pipecmd *pcmd, char **env, int fd[2],
+static void	execute_pipe_side(t_listcmd *pcmd, char **env, int fd[2],
 								int side, t_shell *g_shell)
 {
 	if (side == 0)
@@ -37,10 +37,10 @@ static void	execute_pipe_side(t_pipecmd *pcmd, char **env, int fd[2],
 
 void	manage_pipe(t_cmd *cmd, char **env, t_shell *g_shell)
 {
-	t_pipecmd	*pcmd;
+	t_listcmd	*pcmd;
 	int			fd[2];
 
-	pcmd = (t_pipecmd *)cmd;
+	pcmd = (t_listcmd *)cmd;
 	if (pipe(fd) < 0)
 		exit(1);
 	if (fork_child(g_shell) == 0)

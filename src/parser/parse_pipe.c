@@ -54,13 +54,13 @@ t_cmd	*parse_pipe(char *str, t_tok *tok)
 	s_right = after_pipe(str, tok);
 	get_token(tok, s_left);
 	if (is_pipe(s_right, &tok_right) == 1)
-		ret = make_pipecmd(parsecmd(s_left, tok),
-				parse_pipe(s_right, &tok_right));
+		ret = make_listcmd(parsecmd(s_left, tok),
+				parse_pipe(s_right, &tok_right), PIPE);
 	else
 	{
 		get_token(&tok_right, s_right);
-		ret = make_pipecmd(parsecmd(s_left, tok),
-				parsecmd(s_right, &tok_right));
+		ret = make_listcmd(parsecmd(s_left, tok),
+				parsecmd(s_right, &tok_right), PIPE);
 	}
 	free (s_left);
 	free (s_right);

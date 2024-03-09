@@ -21,3 +21,22 @@ void	manage_back(t_cmd *cmd, char **env, t_shell *g_shell)
 	ft_printf(" Running command in foreground.\n");
 	run_exec(bcmd->cmd, env, g_shell);
 }
+
+void	manage_andor(t_cmd *cmd, char **env)
+{
+	t_listcmd	*lcmd;
+
+	lcmd = (t_listcmd *)cmd;
+
+	run_exec(lcmd->left, env);
+	if (g_shell->exit_status == 0 && cmd->type == IFTHEN)
+	{
+		ft_printf("exit status %d\n", g_shell->exit_status);
+		run_exec(lcmd->right, env);
+	}
+	else if (g_shell->exit_status == 1 && cmd->type == IFOR)
+	{
+		ft_printf("exit status %d\n", g_shell->exit_status);
+		run_exec(lcmd->right, env);
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 15:08:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:26:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # define PIP	3 // | pipe
 # define ROUT 	2 // < redirect output, overwrite
 # define AND 	4 // & background
-# define DOL 	5 // $ env
-# define BS 	6 // \ backslash
+# define DOL 	12 // $ env
+# define BS 	7 // \ backslash
 # define SQ 	8 // ' single quotes
 # define DQ 	9 // " double quotes, expand env var
 # define ROUTA 	10 // >> redirect ouput append
@@ -44,7 +44,9 @@
 # define EXEC	1
 # define REDIR	2
 # define PIPE	3
-# define BACK	4
+# define BACK	4 // & run in background, not supported
+# define IFTHEN	5 // && if cmd 1 executes then also execute cmd 2
+# define IFOR	6 // || if cmd 1 does not execute, then execute cmd 2
 
 # define STDIN	0
 # define STOUT	1
@@ -87,12 +89,12 @@ typedef struct s_backcmd
 	t_cmd	*cmd;
 }	t_backcmd;
 
-typedef struct s_pipecmd
+typedef struct s_listcmd
 {
 	int		type;
 	t_cmd	*left;
 	t_cmd	*right;
-}	t_pipecmd;
+}	t_listcmd;
 
 typedef struct s_redircmd
 {
@@ -158,6 +160,11 @@ t_cmd	*parse_pipe(char *str, t_tok *tok);
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
 
+// bonus
+t_cmd	*parse_ifthen(char *str, t_tok *tok);
+int		is_ifthen(char *str, t_tok *tok);
+int		is_ifor(char *str, t_tok *tok);
+
 // variables
 char	*expand_var(char *str, t_shell *g_shell);
 
@@ -170,7 +177,7 @@ char	**clean_quotes(char **tab, t_shell *g_shell);
 // cmd tree
 t_cmd	*make_execcmd(void);
 t_cmd	*make_backcmd(t_cmd *subcmd);
-t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right);
+t_cmd	*make_listcmd(t_cmd *left, t_cmd *right, int type);
 t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode);
 
 // builltin
@@ -189,6 +196,7 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_redir(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_pipe(t_cmd *cmd, char **env, t_shell *g_shell);
 void	manage_back(t_cmd *cmd, char **env, t_shell *g_shell);
+void	manage_andor(t_cmd *cmd, char **env);
 int		fork_child(t_shell *g_shell);
 char	*ft_get_path(char *cmd, t_shell *g_shell);
 void	reset_descriptors(t_shell *g_shell);

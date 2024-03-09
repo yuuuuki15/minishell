@@ -36,13 +36,13 @@ t_cmd	*make_backcmd(t_cmd *subcmd)
 }
 
 // makes a pipe com holding pointers to left and right comds in pipe
-t_cmd	*make_pipecmd(t_cmd *left, t_cmd *right)
+t_cmd	*make_listcmd(t_cmd *left, t_cmd *right, int type)
 {
-	t_pipecmd	*cmd;
+	t_listcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->type = PIPE;
+	cmd->type = type;
 	cmd->left = left;
 	cmd->right = right;
 	return ((t_cmd *)cmd);
