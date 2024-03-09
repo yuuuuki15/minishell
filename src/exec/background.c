@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:02:54 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:43:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:50:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	manage_andor(t_cmd *cmd, char **env, t_shell *g_shell)
 	t_listcmd	*lcmd;
 
 	lcmd = (t_listcmd *)cmd;
-
 	run_exec(lcmd->left, env, g_shell);
 	if (g_shell->exit_status == 0 && cmd->type == IFTHEN)
 	{

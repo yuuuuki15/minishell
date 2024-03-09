@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:08:10 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:44:58 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,20 @@ char	*ft_get_path(char *cmd, t_shell *g_shell)
  */
 void	reset_descriptors(t_shell *g_shell)
 {
-	// if (!g_shell->is_inside_pipe)
-	// {
-		if (g_shell->in_fd != STDIN_FILENO)
-		{
-			if (!g_shell->is_inside_pipe)
-				close(g_shell->in_fd);
-			close(STDIN_FILENO);
-			dup2(g_shell->stdin, STDIN_FILENO);
-		}
-		if (g_shell->out_fd != STDOUT_FILENO)
-		{
-			if (!g_shell->is_inside_pipe)
-				close(g_shell->out_fd);
-			close(STDOUT_FILENO);
-			dup2(g_shell->stdout, STDOUT_FILENO);
-		}
-	// }
+	if (g_shell->in_fd != STDIN_FILENO)
+	{
+		if (!g_shell->is_inside_pipe)
+			close(g_shell->in_fd);
+		close(STDIN_FILENO);
+		dup2(g_shell->stdin, STDIN_FILENO);
+	}
+	if (g_shell->out_fd != STDOUT_FILENO)
+	{
+		if (!g_shell->is_inside_pipe)
+			close(g_shell->out_fd);
+		close(STDOUT_FILENO);
+		dup2(g_shell->stdout, STDOUT_FILENO);
+	}
 }
 
 /**
@@ -102,7 +99,7 @@ void	reset_descriptors(t_shell *g_shell)
  */
 void	dup_descriptors(t_shell *g_shell)
 {
-		if (g_shell->in_fd != STDIN_FILENO)
+	if (g_shell->in_fd != STDIN_FILENO)
 	{
 		dup2(g_shell->in_fd, STDIN_FILENO);
 		close(g_shell->in_fd);
