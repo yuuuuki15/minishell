@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 15:43:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:04:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ void	ft_exec(t_execcmd *cmd, char **env, t_shell *g_shell)
 		if (pathname != NULL)
 			free(pathname);
 		ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
-		g_shell->exit_status = 127;
 		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
 		ft_free_tab(cmd->argv);
 		free (cmd);
-		exit(errno);
+		exit(127);
 	}
 }
 
@@ -50,6 +49,7 @@ static void	handle_builtin(t_execcmd *ecmd, t_shell *g_shell)
 static void	manage_exec(t_cmd *cmd, char **env, t_shell *g_shell)
 {
 	t_execcmd	*ecmd;
+	int			status;
 
 	ecmd = (t_execcmd *)cmd;
 	if (ft_is_builtin(ecmd))
@@ -65,7 +65,8 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *g_shell)
 	}
 	else
 	{
-		waitpid(g_shell->pid, NULL, 0);
+		waitpid(g_shell->pid, &status, 0);
+		g_shell->exit_status = WEXITSTATUS(status);
 		reset_descriptors(g_shell);
 	}
 }
