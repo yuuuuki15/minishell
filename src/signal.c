@@ -6,11 +6,21 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/01 16:03:06 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:02:41 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// resets the prompt for readline
+// clears line, puts you on a nel line and redisplays prompt
+static void	reset_prompt(void)
+{
+	// rl_replace_line("", 0);
+	rl_on_new_line();
+	write(2, "\n", 1);
+	rl_redisplay();
+}
 
 /**
  * @param sig The signal number.
@@ -22,8 +32,7 @@ static void	ft_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		ft_putstr_fd(PROMPT, STDOUT_FILENO);
+		reset_prompt();
 	}
 }
 
@@ -35,7 +44,10 @@ static void	ft_handler(int sig)
  */
 static void	ft_ignore_signal(int sig)
 {
-	(void)sig;
+	if (sig == SIGQUIT)
+	{
+		// exit_shell(g_shell);
+	}
 }
 
 /**
@@ -45,14 +57,14 @@ static void	ft_ignore_signal(int sig)
  * Linux: Ctrl + D
  * Mac: Ctrl + Z
  */
-static void	ft_exit_program(int sig)
-{
-	if (sig == SIGKILL)
-	{
-		ft_putstr_fd("exit minishell\n", STDOUT_FILENO);
-		exit(0);
-	}
-}
+// static void	ft_exit_program(int sig)
+// {
+// 	if (sig == SIGKILL)
+// 	{
+// 		ft_putstr_fd("exit minishell\n", STDOUT_FILENO);
+// 		exit(0);
+// 	}
+// }
 
 /**
  * Sets up signal handlers for SIGINT, SIGQUIT, and SIGKILL.
@@ -61,7 +73,7 @@ void	ft_signal_manager(void)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
-	struct sigaction	sa_exit;
+	// struct sigaction	sa_exit;
 
 	sa_int.sa_handler = ft_handler;
 	sigemptyset(&sa_int.sa_mask);
@@ -71,8 +83,8 @@ void	ft_signal_manager(void)
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = SA_RESTART;
 	sigaction(SIGQUIT, &sa_quit, NULL);
-	sa_exit.sa_handler = ft_exit_program;
-	sigemptyset(&sa_exit.sa_mask);
-	sa_exit.sa_flags = SA_RESTART;
-	sigaction(SIGKILL, &sa_exit, NULL);
+	// sa_exit.sa_handler = ft_exit_program;
+	// sigemptyset(&sa_exit.sa_mask);
+	// sa_exit.sa_flags = SA_RESTART;
+	// sigaction(SIGKILL, &sa_exit, NULL);
 }

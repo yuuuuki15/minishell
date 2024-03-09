@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 10:43:45 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/09 14:25:21 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 // exiting shell, free global variable
 // should also free tree! Add this.
-void	exit_shell(void)
+void	exit_shell(t_shell *g_shell)
 {
-	free (g_shell->user_input);
+	close(g_shell->stdin);
+	close(g_shell->stdout);
+	if (g_shell->user_input)
+		free (g_shell->user_input);
 	rl_clear_history();
+	ft_clean_env(g_shell);
 	ft_printf("%s", "Exiting shell\n");
 	exit(0);
 }
@@ -25,7 +29,7 @@ void	exit_shell(void)
 // use readline to display prompt and read in user input
 // treat "exit" and ctrl-D but only when alone on line
 // add non-blank lines to history
-int	get_data(void)
+int	get_data(t_shell *g_shell)
 {
 	if (g_shell->user_input)
 	{
@@ -37,9 +41,9 @@ int	get_data(void)
 	{
 		if (!g_shell->user_input)
 			ft_printf("NULL input %d\n", g_shell->pid);
-		if (ft_strcmp(g_shell->user_input, "exit") == 0)
+		else if (ft_strcmp(g_shell->user_input, "exit") == 0)
 			ft_printf("exiting due to exit command\n");
-		exit_shell();
+		exit_shell(g_shell);
 	}
 	if (ft_strlen(g_shell->user_input) > 0)
 		add_history(g_shell->user_input);

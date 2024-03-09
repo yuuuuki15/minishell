@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/08 18:42:46 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:08:10 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Creates a child process using fork and checks for errors.
  * @return The PID of the child process, or exits if fork fails.
  */
-int	fork_child(void)
+int	fork_child(t_shell *g_shell)
 {
 	g_shell->pid = fork();
 	if (g_shell->pid == -1)
@@ -57,14 +57,14 @@ static char	*validate_path(char **env_path, char *cmd)
  * @param cmd The command to find the path for.
  * @return The full path to the command if found, otherwise exits.
  */
-char	*ft_get_path(char *cmd)
+char	*ft_get_path(char *cmd, t_shell *g_shell)
 {
 	char	**env_path;
 	char	*full_path;
 
 	env_path = NULL;
-	if (ft_get_env("PATH"))
-		env_path = ft_split(ft_get_env("PATH")->value, ':');
+	if (ft_get_env("PATH", g_shell))
+		env_path = ft_split(ft_get_env("PATH", g_shell)->value, ':');
 	if (env_path == NULL)
 		exit(1);
 	full_path = validate_path(env_path, cmd);
@@ -75,7 +75,7 @@ char	*ft_get_path(char *cmd)
 /**
  * Resets the file descriptors for standard input and output to their defaults.
  */
-void	reset_descriptors()
+void	reset_descriptors(t_shell *g_shell)
 {
 	// if (!g_shell->is_inside_pipe)
 	// {
@@ -100,7 +100,7 @@ void	reset_descriptors()
  * Duplicates the file descriptors for input and output
  * if they have been redirected.
  */
-void	dup_descriptors()
+void	dup_descriptors(t_shell *g_shell)
 {
 		if (g_shell->in_fd != STDIN_FILENO)
 	{

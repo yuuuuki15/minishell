@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/04 09:32:14 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/09 14:52:59 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
  *
  * Updates the environment variables for the current and old working directories.
  */
-static int	ft_update_environment(char *old_pwd, char *pwd)
+static int	ft_update_environment(char *old_pwd, char *pwd, t_shell *g_shell)
 {
-	ft_add_env("OLDPWD", ft_strdup(old_pwd));
-	ft_add_env("PWD", ft_strdup(pwd));
+	ft_add_env("OLDPWD", ft_strdup(old_pwd), g_shell);
+	ft_add_env("PWD", ft_strdup(pwd), g_shell);
 	return (0);
 }
 
@@ -33,7 +33,7 @@ static int	ft_update_environment(char *old_pwd, char *pwd)
  * Changes the current working directory and updates the relevant environment
  * variables.
  */
-static int	ft_change_directory(char *path)
+static int	ft_change_directory(char *path, t_shell *g_shell)
 {
 	char	cwd[PATH_MAX];
 	char	old_cwd[PATH_MAX];
@@ -48,7 +48,7 @@ static int	ft_change_directory(char *path)
 	}
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (1);
-	if (ft_update_environment(old_cwd, cwd) != 0)
+	if (ft_update_environment(old_cwd, cwd, g_shell) != 0)
 		return (1);
 	return (0);
 }
@@ -58,17 +58,17 @@ static int	ft_change_directory(char *path)
  *
  * Handles the case where the user wants to change to the home directory.
  */
-static int	ft_handle_home_directory(void)
+static int	ft_handle_home_directory(t_shell *g_shell)
 {
 	t_env	*path;
 
-	path = ft_get_env("HOME");
+	path = ft_get_env("HOME", g_shell);
 	if (!path)
 	{
 		ft_putendl_fd(ERR_HOME_NOT_FOUND, STDERR_FILENO);
 		return (1);
 	}
-	return (ft_change_directory(path->value));
+	return (ft_change_directory(path->value, g_shell));
 }
 
 /**
@@ -78,17 +78,17 @@ static int	ft_handle_home_directory(void)
  * Handles the case where the user wants to change to the previous
  * working directory.
  */
-static int	ft_handle_oldpwd(void)
+static int	ft_handle_oldpwd(t_shell *g_shell)
 {
 	t_env	*path;
 
-	path = ft_get_env("OLDPWD");
+	path = ft_get_env("OLDPWD", g_shell);
 	if (!path)
 	{
 		ft_putendl_fd(ERR_OLD_PATH_NOT_FOUND, STDERR_FILENO);
 		return (1);
 	}
-	return (ft_change_directory(path->value));
+	return (ft_change_directory(path->value, g_shell));
 }
 
 /**
@@ -97,12 +97,12 @@ static int	ft_handle_oldpwd(void)
  *
  * The main function for the cd command. Changes the current working directory.
  */
-int	cd(t_execcmd *cmd)
+int	cd(t_execcmd *cmd, t_shell *g_shell)
 {
 	if (cmd->argv[1] == NULL)
-		return (ft_handle_home_directory());
+		return (ft_handle_home_directory(g_shell));
 	else if (ft_strcmp(cmd->argv[1], "-") == 0)
-		return (ft_handle_oldpwd());
+		return (ft_handle_oldpwd(g_shell));
 	else
 	{
 		if (cmd->argv[2] != NULL)
@@ -111,6 +111,6 @@ int	cd(t_execcmd *cmd)
 			ft_putendl_fd(cmd->argv[1], STDERR_FILENO);
 			return (1);
 		}
-		return (ft_change_directory(cmd->argv[1]));
+		return (ft_change_directory(cmd->argv[1], g_shell));
 	}
 }

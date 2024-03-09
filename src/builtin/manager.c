@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 15:28:02 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 14:47:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_is_builtin(t_execcmd *cmd)
  *
  * Manages the execution of built-in commands.
  */
-int	ft_builtin_manager(t_execcmd *cmd)
+int	ft_builtin_manager(t_execcmd *cmd, t_shell *g_shell)
 {
 	int	result;
 
@@ -45,14 +45,14 @@ int	ft_builtin_manager(t_execcmd *cmd)
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		result = echo(cmd);
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
-		result = cd(cmd);
+		result = cd(cmd, g_shell);
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		result = export(cmd);
+		result = export(cmd, g_shell);
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-		result = unset(cmd);
+		result = unset(cmd, g_shell);
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-		result = env(cmd);
+		result = env(cmd, g_shell);
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		result = pwd(cmd);
+		result = pwd(cmd, g_shell);
 	return (result);
 }

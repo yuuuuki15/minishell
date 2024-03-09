@@ -6,13 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 14:35:21 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:08:14 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_here_doc(t_redircmd *rcmd)
+static void	ft_here_doc(t_redircmd *rcmd, t_shell *g_shell)
 {
 	int		pipefd[2];
 	char	*line;
@@ -32,7 +32,7 @@ static void	ft_here_doc(t_redircmd *rcmd)
 	g_shell->in_fd = pipefd[0];
 }
 
-void	manage_redir(t_cmd *cmd, char **env)
+void	manage_redir(t_cmd *cmd, char **env, t_shell *g_shell)
 {
 	t_redircmd	*rcmd;
 
@@ -55,12 +55,12 @@ void	manage_redir(t_cmd *cmd, char **env)
 	else if (rcmd->mode == RHERE)
 	{
 		rcmd->fd = STDIN_FILENO;
-		ft_here_doc(rcmd);
+		ft_here_doc(rcmd, g_shell);
 	}
 	if (rcmd->fd < 0)
 	{
 		ft_printf("open file error, clean this up!\n");
 		exit(1);
 	}
-	run_exec(rcmd->cmd, env);
+	run_exec(rcmd->cmd, env, g_shell);
 }

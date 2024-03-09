@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 12:32:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:08:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	char	**env_path;
 	char	*user_input;
 	int		fd[2];
 	int		in_fd;
@@ -125,16 +124,15 @@ typedef struct s_shell
 	t_env	*env;
 }			t_shell;
 
-extern t_shell	*g_shell;
-
 void	ft_signal_manager(void);
-int		ft_init_env(char **env);
-int		ft_add_env(char *key, char *value);
-t_env	*ft_get_env(char *name);
-void	ft_clean_env(void);
-void	ft_show_env(void);
-void	ft_unset_env(char *key);
+int		ft_init_env(char **env, t_shell *g_shell);
+int		ft_add_env(char *key, char *value, t_shell *g_shell);
+t_env	*ft_get_env(char *name, t_shell *g_shell);
+void	ft_clean_env(t_shell *g_shell);
+void	ft_show_env(t_shell *g_shell);
+void	ft_unset_env(char *key, t_shell *g_shell);
 int		ft_is_valid_identifier(char *str);
+void	exit_shell(t_shell *g_shell);
 
 // utils
 void	ft_free_tab(char **array);
@@ -151,23 +149,23 @@ int		ft_tofile(int tok);
 char	*ft_delstr(char const *s, unsigned int start, unsigned int end);
 
 // parsing
-int		get_data(void);
+int		get_data(t_shell *g_shell);
 void	get_token(t_tok *tok, char *str);
-t_cmd	*lexer(char *str);
+t_cmd	*lexer(char *str, t_shell *g_shell);
 char	**p_spliter(char *s);
 int		is_pipe(char *str, t_tok *tok);
 t_cmd	*parse_pipe(char *str, t_tok *tok);
-t_cmd	*parsecmd(char *str, t_tok *tok);
+t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
 
 // variables
-char	*expand_var(char *str);
+char	*expand_var(char *str, t_shell *g_shell);
 
 // quotes
 int		*parse_quotes(char *str);
 int		balance_quotes(char *str);
 char	*remove_quotes(char *str);
-char	**clean_quotes(char **tab);
+char	**clean_quotes(char **tab, t_shell *g_shell);
 
 // cmd tree
 t_cmd	*make_execcmd(void);
@@ -177,29 +175,28 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode);
 
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
-int		ft_builtin_manager(t_execcmd *cmd);
+int		ft_builtin_manager(t_execcmd *cmd, t_shell *g_shell);
 int		echo(t_execcmd *cmd);
-int		cd(t_execcmd *cmd);
-int		env(t_execcmd *cmd);
-int		export(t_execcmd *cmd);
-int		unset(t_execcmd *cmd);
-int		pwd(t_execcmd *cmd);
+int		cd(t_execcmd *cmd, t_shell *g_shell);
+int		env(t_execcmd *cmd, t_shell *g_shell);
+int		export(t_execcmd *cmd, t_shell *g_shell);
+int		unset(t_execcmd *cmd, t_shell *g_shell);
+int		pwd(t_execcmd *cmd, t_shell *g_shell);
 
 // exec
-void	ft_exec(t_execcmd *cmd, char **env);
-void	run_exec(t_cmd *cmd, char **env);
-void	manage_redir(t_cmd *cmd, char **env);
-void	manage_pipe(t_cmd *cmd, char **env);
-void	manage_back(t_cmd *cmd, char **env);
-void	run_exec(t_cmd *cmd, char **env);
-int		fork_child(void);
-char	*ft_get_path(char *cmd);
-void	reset_descriptors(void);
-void	dup_descriptors(void);
+void	ft_exec(t_execcmd *cmd, char **env, t_shell *g_shell);
+void	run_exec(t_cmd *cmd, char **env, t_shell *g_shell);
+void	manage_redir(t_cmd *cmd, char **env, t_shell *g_shell);
+void	manage_pipe(t_cmd *cmd, char **env, t_shell *g_shell);
+void	manage_back(t_cmd *cmd, char **env, t_shell *g_shell);
+int		fork_child(t_shell *g_shell);
+char	*ft_get_path(char *cmd, t_shell *g_shell);
+void	reset_descriptors(t_shell *g_shell);
+void	dup_descriptors(t_shell *g_shell);
 
 // signals
 void	set_signals(void);
-void	reset_prompt(void);
+// void	reset_prompt(void);
 
 // debug
 void	print_tree(t_cmd *cmd);

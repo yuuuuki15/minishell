@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 10:46:14 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/09 15:00:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // stores all commands in command structures in a tree
-t_cmd	*parsecmd(char *str, t_tok *tok)
+t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell)
 {
 	t_cmd		*ret;
 	t_execcmd	*cmd;
@@ -24,7 +24,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 	{
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
-		cmd->argv = clean_quotes(p_spliter(str));
+		cmd->argv = clean_quotes(p_spliter(str), g_shell);
 	}
 	if (tok->tok == AND)
 	{
@@ -32,19 +32,19 @@ t_cmd	*parsecmd(char *str, t_tok *tok)
 		ft_printf("back\n");
 		str = ft_strtrim(str, "&");
 		get_token(tok, str);
-		ret = make_backcmd(parsecmd(str, tok));
+		ret = make_backcmd(parsecmd(str, tok, g_shell));
 	}
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
 		get_token(&tok2, substr);
-		ret = make_redircmd(parsecmd(substr, &tok2), tok->str, tok->tok);
+		ret = make_redircmd(parsecmd(substr, &tok2, g_shell), tok->str, tok->tok);
 		free (substr);
 	}
 	return (ret);
 }
 
-// extracts file name from string 
+// extracts file name from string
 void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
 	i++;
@@ -113,7 +113,7 @@ void	get_token(t_tok *tok, char *str)
 // checks for pipe and devides accordingly
 // parses command into simple "tree" based on tokens
 // prints tree and then returns tree
-t_cmd	*lexer(char *str)
+t_cmd	*lexer(char *str, t_shell *g_shell)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
@@ -130,7 +130,7 @@ t_cmd	*lexer(char *str)
 	else
 	{
 		get_token(&tok, str);
-		cmd = parsecmd(str, &tok);
+		cmd = parsecmd(str, &tok, g_shell);
 	}
 	print_tree(cmd);
 	return (cmd);

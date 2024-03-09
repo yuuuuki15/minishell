@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/06 17:40:54 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 14:52:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	print_invalid_identifier(char *arg)
  * @param arg The argument to be processed.
  * @return Returns 0 on success, 1 on failure.
  */
-static int	handle_no_equal(char *arg)
+static int	handle_no_equal(char *arg, t_shell *g_shell)
 {
 	if (ft_is_valid_identifier(arg))
 	{
-		if (ft_get_env(arg) != NULL)
+		if (ft_get_env(arg, g_shell) != NULL)
 			return (0);
-		ft_add_env(ft_strdup(arg), ft_strdup(""));
+		ft_add_env(ft_strdup(arg), ft_strdup(""), g_shell);
 		return (0);
 	}
 	print_invalid_identifier(arg);
@@ -51,7 +51,7 @@ static int	handle_no_equal(char *arg)
  * @param equal_pos The position of the equal sign in the argument.
  * @return Returns 0 on success, 1 on failure.
  */
-static int	handle_with_equal(char *arg, int equal_pos)
+static int	handle_with_equal(char *arg, int equal_pos, t_shell *g_shell)
 {
 	char	*key;
 	char	*value;
@@ -64,7 +64,7 @@ static int	handle_with_equal(char *arg, int equal_pos)
 		free(value);
 		return (1);
 	}
-	ft_add_env(key, value);
+	ft_add_env(key, value, g_shell);
 	return (0);
 }
 
@@ -76,15 +76,15 @@ static int	handle_with_equal(char *arg, int equal_pos)
  * @param arg The argument to be processed.
  * @return Returns 0 on success, 1 on failure.
  */
-static int	ft_add_or_update_env(char *arg)
+static int	ft_add_or_update_env(char *arg, t_shell *g_shell)
 {
 	int	equal_pos;
 
 	equal_pos = ft_strchr(arg, '=') - arg;
 	if (equal_pos < 0)
-		return (handle_no_equal(arg));
+		return (handle_no_equal(arg, g_shell));
 	else
-		return (handle_with_equal(arg, equal_pos));
+		return (handle_with_equal(arg, equal_pos, g_shell));
 }
 
 /**
@@ -95,7 +95,7 @@ static int	ft_add_or_update_env(char *arg)
  * @param cmd The command structure
  * @return exit status
  */
-int	export(t_execcmd *cmd)
+int	export(t_execcmd *cmd, t_shell *g_shell)
 {
 	int	i;
 	int	status;
@@ -104,11 +104,11 @@ int	export(t_execcmd *cmd)
 	status = 0;
 	if (cmd->argv[1] == NULL)
 	{
-		ft_show_env();
+		ft_show_env(g_shell);
 		return (0);
 	}
 	while (cmd->argv[++i])
-		if (ft_add_or_update_env(cmd->argv[i]) != 0)
+		if (ft_add_or_update_env(cmd->argv[i], g_shell) != 0)
 			status = 1;
 	return (status);
 }

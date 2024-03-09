@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/08 18:23:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:08:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
  * checks path using env info from shell then
  * executes command. Print error message when error occurs.
 */
-void	ft_exec(t_execcmd *cmd, char **env)
+void	ft_exec(t_execcmd *cmd, char **env, t_shell *g_shell)
 {
 	char	*pathname;
 	int		res;
 
-	pathname = ft_get_path(cmd->argv[0]);
+	pathname = ft_get_path(cmd->argv[0], g_shell);
 	res = execve(pathname, cmd->argv, env);
 	if (res < 0)
 	{
@@ -38,50 +38,50 @@ void	ft_exec(t_execcmd *cmd, char **env)
 	}
 }
 
-static void	handle_builtin(t_execcmd *ecmd)
+static void	handle_builtin(t_execcmd *ecmd, t_shell *g_shell)
 {
-	dup_descriptors();
-	g_shell->exit_status = ft_builtin_manager(ecmd);
-	reset_descriptors();
+	dup_descriptors(g_shell);
+	g_shell->exit_status = ft_builtin_manager(ecmd, g_shell);
+	reset_descriptors(g_shell);
 }
 
 // manage the executable part of the tree by forking
-void	manage_exec(t_cmd *cmd, char **env)
+static void	manage_exec(t_cmd *cmd, char **env, t_shell *g_shell)
 {
 	t_execcmd	*ecmd;
 
 	ecmd = (t_execcmd *)cmd;
 	if (ft_is_builtin(ecmd))
 	{
-		handle_builtin(ecmd);
+		handle_builtin(ecmd, g_shell);
 		return ;
 	}
-	g_shell->pid = fork_child();
+	g_shell->pid = fork_child(g_shell);
 	if (g_shell->pid == 0)
 	{
-		dup_descriptors();
-		ft_exec(ecmd, env);
+		dup_descriptors(g_shell);
+		ft_exec(ecmd, env, g_shell);
 	}
 	else
 	{
 		waitpid(g_shell->pid, NULL, 0);
-		reset_descriptors();
+		reset_descriptors(g_shell);
 	}
 }
 
 // directs the execution of the cammand tree
-void	run_exec(t_cmd *cmd, char **env)
+void	run_exec(t_cmd *cmd, char **env, t_shell *g_shell)
 {
 	if (cmd->type == REDIR)
-		manage_redir(cmd, env);
+		manage_redir(cmd, env, g_shell);
 	if (cmd->type == EXEC)
-		manage_exec(cmd, env);
+		manage_exec(cmd, env, g_shell);
 	if (cmd->type == BACK)
-		manage_back(cmd, env);
+		manage_back(cmd, env, g_shell);
 	if (cmd->type == PIPE)
 	{
-		if (fork_child() == 0)
-			manage_pipe(cmd, env);
+		if (fork_child(g_shell) == 0)
+			manage_pipe(cmd, env, g_shell);
 		else
 			waitpid(g_shell->pid, NULL, 0);
 	}
