@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:24:11 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:40:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 // 	}
 // 	if (signum == SIGQUIT)
 // 	{
-// 		close(g_shell->stdin);
-// 		close(g_shell->stdout);
+// 		close(shell->stdin);
+// 		close(shell->stdout);
 // 	}
 // }
 

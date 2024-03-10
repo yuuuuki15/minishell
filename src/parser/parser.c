@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 15:45:28 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // stores all commands in command structures in a tree
-t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell)
+t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 {
 	t_cmd		*ret;
 	t_execcmd	*cmd;
@@ -24,7 +24,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell)
 	{
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
-		cmd->argv = clean_quotes(p_spliter(str), g_shell);
+		cmd->argv = clean_quotes(p_spliter(str), shell);
 	}
 	if (tok->tok == AND)
 	{
@@ -32,13 +32,13 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *g_shell)
 		ft_printf("back\n");
 		str = ft_strtrim(str, "&");
 		get_token(tok, str);
-		ret = make_backcmd(parsecmd(str, tok, g_shell));
+		ret = make_backcmd(parsecmd(str, tok, shell));
 	}
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
 		get_token(&tok2, substr);
-		ret = make_redircmd(parsecmd(substr, &tok2, g_shell), tok->str, tok->tok);
+		ret = make_redircmd(parsecmd(substr, &tok2, shell), tok->str, tok->tok);
 		free (substr);
 	}
 	return (ret);
@@ -113,7 +113,7 @@ void	get_token(t_tok *tok, char *str)
 // checks for pipe and devides accordingly
 // parses command into simple "tree" based on tokens
 // prints tree and then returns tree
-t_cmd	*lexer(char *str, t_shell *g_shell)
+t_cmd	*lexer(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
@@ -129,18 +129,18 @@ t_cmd	*lexer(char *str, t_shell *g_shell)
 	if (is_ifthen(str, &tok) != -1 || is_ifor(str, &tok2) != -1)
 	{
 		if (tok.s_loc < tok2.s_loc)
-			cmd = parse_ifthen(str, &tok, g_shell);
+			cmd = parse_ifthen(str, &tok, shell);
 		else
-			cmd = parse_ifthen(str, &tok2, g_shell);
+			cmd = parse_ifthen(str, &tok2, shell);
 	}
 	else
 	{
 		if (is_pipe(str, &tok) == 1)
-			cmd = parse_pipe(str, &tok, g_shell);
+			cmd = parse_pipe(str, &tok, shell);
 		else
 		{
 			get_token(&tok, str);
-			cmd = parsecmd(str, &tok, g_shell);
+			cmd = parsecmd(str, &tok, shell);
 		}
 	}
 	print_tree(cmd);

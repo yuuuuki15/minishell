@@ -6,57 +6,57 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 17:38:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_minishell_initializer(char **env, t_shell *g_shell)
+static int	ft_minishell_initializer(char **env, t_shell *shell)
 {
-	g_shell->user_input = NULL;
-	g_shell->is_inside_pipe = 0;
-	g_shell->pid = 0;
-	g_shell->in_fd = STDIN_FILENO;
-	g_shell->out_fd = STDOUT_FILENO;
-	g_shell->stdin = dup(STDIN_FILENO);
-	g_shell->stdout = dup(STDOUT_FILENO);
-	g_shell->env = NULL;
-	if (g_shell->stdin == -1 || g_shell->stdout == -1)
+	shell->user_input = NULL;
+	shell->is_inside_pipe = 0;
+	shell->pid = 0;
+	shell->in_fd = STDIN_FILENO;
+	shell->out_fd = STDOUT_FILENO;
+	shell->stdin = dup(STDIN_FILENO);
+	shell->stdout = dup(STDOUT_FILENO);
+	shell->env = NULL;
+	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
 	// set_signals();
 	ft_signal_manager();
-	if (ft_init_env(env, g_shell) == 1)
+	if (ft_init_env(env, shell) == 1)
 		return (1);
 	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	t_shell	g_shell;
+	t_shell	shell;
 	int		do_exe;
 	t_cmd	*cmd;
 
 	(void)ac;
 	(void)av;
-	if (ft_minishell_initializer(env, &g_shell) == 1)
+	if (ft_minishell_initializer(env, &shell) == 1)
 	{
-		close(g_shell.stdin);
-		close(g_shell.stdout);
+		close(shell.stdin);
+		close(shell.stdout);
 		rl_clear_history();
-		ft_clean_env(&g_shell);
+		ft_clean_env(&shell);
 		ft_error(ERR_INITIALIZE_MINISHELL);
 	}
 	while (1)
 	{
-		do_exe = get_data(&g_shell);
+		do_exe = get_data(&shell);
 		if (do_exe)
 		{
-			cmd = lexer(g_shell.user_input, &g_shell);
+			cmd = lexer(shell.user_input, &shell);
 			if (cmd != NULL)
-				run_exec(cmd, env, &g_shell);
+				run_exec(cmd, env, &shell);
 			clean_tree(cmd);
-			if (g_shell.is_inside_pipe == 1)
+			if (shell.is_inside_pipe == 1)
 				exit(0);
 		}
 	}

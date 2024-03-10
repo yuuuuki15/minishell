@@ -6,21 +6,21 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 14:57:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // removes quotes from arguments after expanding variables not in single quotes
-char	**clean_quotes(char **tab, t_shell *g_shell)
+char	**clean_quotes(char **tab, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		tab[i] = expand_var(tab[i], g_shell);
+		tab[i] = expand_var(tab[i], shell);
 		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}

@@ -6,13 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 17:49:52 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_here_doc(t_redircmd *rcmd, t_shell *g_shell)
+static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 {
 	int		pipefd[2];
 	char	*line;
@@ -29,43 +29,43 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *g_shell)
 		free(line);
 	}
 	close(pipefd[1]);
-	g_shell->in_fd = pipefd[0];
+	shell->in_fd = pipefd[0];
 }
 
-static void	ft_redir_helper(t_redircmd *rcmd, t_shell *g_shell)
+static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
 	if (rcmd->mode == RIN)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
-		g_shell->in_fd = rcmd->fd;
+		shell->in_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUT)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		g_shell->out_fd = rcmd->fd;
+		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUTA)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		g_shell->out_fd = rcmd->fd;
+		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == RHERE)
 	{
 		rcmd->fd = STDIN_FILENO;
-		ft_here_doc(rcmd, g_shell);
+		ft_here_doc(rcmd, shell);
 	}
 }
 
-void	manage_redir(t_cmd *cmd, char **env, t_shell *g_shell)
+void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	ft_redir_helper(rcmd, g_shell);
+	ft_redir_helper(rcmd, shell);
 	if (rcmd->fd < 0)
 	{
 		ft_printf("open file error, clean this up!\n");
 		exit(1);
 	}
-	run_exec(rcmd->cmd, env, g_shell);
+	run_exec(rcmd->cmd, env, shell);
 }

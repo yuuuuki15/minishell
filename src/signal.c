@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 17:20:29 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	ft_ignore_signal(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		// exit_shell(g_shell);
+		// exit_shell(shell);
 	}
 }
 
