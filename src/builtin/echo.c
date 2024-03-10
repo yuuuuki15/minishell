@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/02 18:03:54 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:34 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *
  * Executes the echo command with or without the newline.
  */
-int	echo(t_execcmd *cmd)
+int	ft_echo(t_execcmd *cmd)
 {
 	int	n_flg;
 	int	i;

@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/09 12:00:53 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/10 19:27:12 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SIGNAL		=	$(addprefix signal/, signal.c)
 EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c background.c)
 DEBUG		=	$(addprefix debug/, print.c)
 BONUS		=	$(addprefix parser/, parse_andor.c)
-BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c)
+BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c exit.c)
 SRC			=	main.c signal.c clean.c \
 				utils.c env.c env2.c error.c\
 				$(PARSER) \

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:57:36 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:45 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * This function takes a command structure and finds the matching
  * environment variable and unset it
 */
-int	unset(t_execcmd *cmd, t_shell *shell)
+int	ft_unset(t_execcmd *cmd, t_shell *shell)
 {
 	int	i;
 

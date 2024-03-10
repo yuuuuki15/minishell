@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:32 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	ft_handle_oldpwd(t_shell *shell)
  *
  * The main function for the cd command. Changes the current working directory.
  */
-int	cd(t_execcmd *cmd, t_shell *shell)
+int	ft_cd(t_execcmd *cmd, t_shell *shell)
 {
 	if (cmd->argv[1] == NULL)
 		return (ft_handle_home_directory(shell));

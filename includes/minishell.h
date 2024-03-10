@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:22 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,13 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode);
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
 int		ft_builtin_manager(t_execcmd *cmd, t_shell *shell);
-int		echo(t_execcmd *cmd);
-int		cd(t_execcmd *cmd, t_shell *shell);
-int		env(t_execcmd *cmd, t_shell *shell);
-int		export(t_execcmd *cmd, t_shell *shell);
-int		unset(t_execcmd *cmd, t_shell *shell);
-int		pwd(t_execcmd *cmd, t_shell *shell);
+int		ft_echo(t_execcmd *cmd);
+int		ft_cd(t_execcmd *cmd, t_shell *shell);
+int		ft_env(t_execcmd *cmd, t_shell *shell);
+int		ft_export(t_execcmd *cmd, t_shell *shell);
+int		ft_unset(t_execcmd *cmd, t_shell *shell);
+int		ft_pwd(t_execcmd *cmd, t_shell *shell);
+void	ft_exit(t_shell *shell);
 
 // exec
 void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell);

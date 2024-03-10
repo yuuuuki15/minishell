@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
  * @param cmd The command structure
  * @return exit status
  */
-int	export(t_execcmd *cmd, t_shell *shell)
+int	ft_export(t_execcmd *cmd, t_shell *shell)
 {
 	int	i;
 	int	status;
