@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/10 19:27:12 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/10 23:43:09 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME =		minishell
 CC		= cc
 CFLAGS	= -Werror -Wextra -Wall
 LDFLAGS	+= -lreadline
+LINKERS	= -L$(LIBFT_PATH) -lft -lreadline
 
 # Libft
 LIBFT_PATH	= libft/
@@ -24,7 +25,7 @@ LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 
 # Includes
 INC			=	-I ./includes/\
-				-I ./libft/
+				-I ./libft/ -I $(HOME)/readline/include
 
 # Sources
 SRC_PATH	=	src/
@@ -63,7 +64,7 @@ $(LIBFT):
 
 $(NAME): $(OBJS)
 	@echo "Compiling minishell..."
-	@$(CC) $(CFLAGS) $(LDFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(INC)
+	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LINKERS) -o $(NAME)
 	@echo "Minishell ready."
 
 clean:
