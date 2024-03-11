@@ -6,11 +6,11 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/11 17:56:35 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/11 18:00:06 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		minishell
+NAME = minishell
 
 # Compiler
 CC		= cc
@@ -24,8 +24,7 @@ LIBFT_NAME	= libft.a
 LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 
 # Includes
-INC			=	-I ./includes/\
-				-I ./libft/ -I $(HOME)/readline/include
+INC = -I ./includes -I ./libft/ -I $(HOME)/readline/include
 
 # Sources
 SRC_PATH	=	src/
@@ -52,7 +51,7 @@ OBJ_PATH	= obj/
 OBJ			= $(SRC:.c=.o)
 OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
@@ -62,7 +61,7 @@ $(LIBFT):
 	@echo "Making libft..."
 	@make -sC $(LIBFT_PATH)
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT) $(OBJS)
 	@echo "Compiling minishell..."
 	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LINKERS) -o $(NAME)
 	@echo "Minishell ready."
