@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:39:22 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,12 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 	else
 	{
 		waitpid(shell->pid, &status, 0);
-		shell->exit_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			shell->exit_status = 130;
+		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			shell->exit_status = 131;
+		else
+			shell->exit_status = WEXITSTATUS(status);
 		reset_descriptors(shell);
 	}
 }

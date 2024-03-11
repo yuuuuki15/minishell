@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:27:56 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ int	get_data(t_shell *shell)
 		shell->user_input = NULL;
 	}
 	shell->user_input = readline(PROMPT);
-	if (!shell->user_input || ft_strcmp(shell->user_input, "exit") == 0)
+	if (!shell->user_input)
 	{
-		if (!shell->user_input)
-			ft_printf("NULL input %d\n", shell->pid);
-		else if (ft_strcmp(shell->user_input, "exit") == 0)
-			ft_printf("exiting due to exit command\n");
+		ft_printf("NULL input %d\n", shell->pid);
 		exit_shell(shell);
 	}
 	if (ft_strlen(shell->user_input) > 0)

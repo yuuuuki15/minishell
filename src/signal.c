@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 19:02:08 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:11:40 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 // clears line, puts you on a nel line and redisplays prompt
 static void	reset_prompt(void)
 {
+	write(2, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	write(2, "\n", 1);
 	rl_redisplay();
 }
 
