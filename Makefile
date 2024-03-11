@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/09 12:00:53 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/10 23:43:09 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME =		minishell
 CC		= cc
 CFLAGS	= -Werror -Wextra -Wall
 LDFLAGS	+= -lreadline
+LINKERS	= -L$(LIBFT_PATH) -lft -lreadline
 
 # Libft
 LIBFT_PATH	= libft/
@@ -24,7 +25,7 @@ LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 
 # Includes
 INC			=	-I ./includes/\
-				-I ./libft/
+				-I ./libft/ -I $(HOME)/readline/include
 
 # Sources
 SRC_PATH	=	src/
@@ -33,8 +34,8 @@ PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c \
 SIGNAL		=	$(addprefix signal/, signal.c)
 EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c background.c)
 DEBUG		=	$(addprefix debug/, print.c)
-BONUS		=	$(addprefix parser/, parse_andor.c)
-BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c)
+BONUS		=	$(addprefix parser/, parse_andor.c parse_para.c)
+BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c exit.c)
 SRC			=	main.c signal.c clean.c \
 				utils.c env.c env2.c error.c\
 				$(PARSER) \
@@ -63,7 +64,7 @@ $(LIBFT):
 
 $(NAME): $(OBJS)
 	@echo "Compiling minishell..."
-	@$(CC) $(CFLAGS) $(LDFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(INC)
+	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LINKERS) -o $(NAME)
 	@echo "Minishell ready."
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 17:44:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:05:56 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
  * Creates a child process using fork and checks for errors.
  * @return The PID of the child process, or exits if fork fails.
  */
-int	fork_child(t_shell *g_shell)
+int	fork_child(t_shell *shell)
 {
-	g_shell->pid = fork();
-	if (g_shell->pid == -1)
+	shell->pid = fork();
+	if (shell->pid == -1)
 	{
 		ft_putstr_fd(ERR_FORK, STDERR_FILENO);
 		exit(1);
 	}
-	return (g_shell->pid);
+	return (shell->pid);
 }
 
 /**
@@ -57,14 +57,16 @@ static char	*validate_path(char **env_path, char *cmd)
  * @param cmd The command to find the path for.
  * @return The full path to the command if found, otherwise exits.
  */
-char	*ft_get_path(char *cmd, t_shell *g_shell)
+char	*ft_get_path(char *cmd, t_shell *shell)
 {
 	char	**env_path;
 	char	*full_path;
 
 	env_path = NULL;
-	if (ft_get_env("PATH", g_shell))
-		env_path = ft_split(ft_get_env("PATH", g_shell)->value, ':');
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
+	if (ft_get_env("PATH", shell))
+		env_path = ft_split(ft_get_env("PATH", shell)->value, ':');
 	if (env_path == NULL)
 		exit(1);
 	full_path = validate_path(env_path, cmd);
@@ -75,21 +77,21 @@ char	*ft_get_path(char *cmd, t_shell *g_shell)
 /**
  * Resets the file descriptors for standard input and output to their defaults.
  */
-void	reset_descriptors(t_shell *g_shell)
+void	reset_descriptors(t_shell *shell)
 {
-	if (g_shell->in_fd != STDIN_FILENO)
+	if (shell->in_fd != STDIN_FILENO)
 	{
-		if (!g_shell->is_inside_pipe)
-			close(g_shell->in_fd);
+		if (!shell->is_inside_pipe)
+			close(shell->in_fd);
 		close(STDIN_FILENO);
-		dup2(g_shell->stdin, STDIN_FILENO);
+		dup2(shell->stdin, STDIN_FILENO);
 	}
-	if (g_shell->out_fd != STDOUT_FILENO)
+	if (shell->out_fd != STDOUT_FILENO)
 	{
-		if (!g_shell->is_inside_pipe)
-			close(g_shell->out_fd);
+		if (!shell->is_inside_pipe)
+			close(shell->out_fd);
 		close(STDOUT_FILENO);
-		dup2(g_shell->stdout, STDOUT_FILENO);
+		dup2(shell->stdout, STDOUT_FILENO);
 	}
 }
 
@@ -97,15 +99,16 @@ void	reset_descriptors(t_shell *g_shell)
  * Duplicates the file descriptors for input and output
  * if they have been redirected.
  */
-void	dup_descriptors(t_shell *g_shell)
+void	dup_descriptors(t_shell *shell)
 {
-	if (g_shell->in_fd != STDIN_FILENO)
+	if (shell->in_fd != STDIN_FILENO)
 	{
-		dup2(g_shell->in_fd, STDIN_FILENO);
-		close(g_shell->in_fd);
+		dup2(shell->in_fd, STDIN_FILENO);
+		close(shell->in_fd);
 	}
-	if (g_shell->out_fd != STDOUT_FILENO)
+	if (shell->out_fd != STDOUT_FILENO)
 	{
-		dup2(g_shell->out_fd, STDOUT_FILENO);
+		dup2(shell->out_fd, STDOUT_FILENO);
+		close(shell->out_fd);
 	}
 }

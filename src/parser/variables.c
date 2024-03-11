@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:27:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 14:57:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*frankenstein(char *str, t_tok *tok, char *exp)
 }
 
 // locate $var then expand it, recursively if necessary
-char	*expand_var(char *str, t_shell *g_shell)
+char	*expand_var(char *str, t_shell *shell)
 {
 	t_tok	tok;
 	char	*expansion;
@@ -99,18 +99,18 @@ char	*expand_var(char *str, t_shell *g_shell)
 	{
 		get_var(&tok, str);
 		if (ft_strcmp(tok.str, "?") == 0)
-			expansion = ft_itoa(g_shell->exit_status);
+			expansion = ft_itoa(shell->exit_status);
 		else
 		{
-			if (ft_get_env(tok.str, g_shell) == NULL)
+			if (ft_get_env(tok.str, shell) == NULL)
 				return (str);
 			else
-				expansion = ft_strdup(ft_get_env(tok.str, g_shell)->value);
+				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
 		}
 		frank = frankenstein(str, &tok, expansion);
 		free(expansion);
 		if (find_var(frank))
-			frank = expand_var(frank, g_shell);
+			frank = expand_var(frank, shell);
 		return (frank);
 	}
 	return (str);

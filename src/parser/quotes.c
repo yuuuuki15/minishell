@@ -6,22 +6,41 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/09 14:57:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // removes quotes from arguments after expanding variables not in single quotes
-char	**clean_quotes(char **tab, t_shell *g_shell)
+char	**clean_quotes(char **tab, t_shell *shell)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		tab[i] = expand_var(tab[i], g_shell);
-		tab[i] = remove_quotes(tab[i]);
+		if (ft_strcmp(tab[i], "<<<") == 0)
+			tab[i] = NULL;
+		else if (ft_strncmp(tab[i], "<<<", 3) == 0
+			&& (tab[i][3] == '<' || tab[i][3] == '>'))
+		{
+			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);
+			tab[0] = NULL;
+		}
+		else
+		{
+			if (i == 0 && tab[i][0] == '(')
+				tab[i] = ft_strtrim(tab[i], "()");
+			else if (i > 0 && tab[i][0] == '(')
+			{
+				ft_printf("syntax error near unexpected token \'%s\'\n",
+					ft_strtrim(tab[i], "()"));
+				tab[0] = NULL;
+			}
+			tab[i] = expand_var(tab[i], shell);
+			tab[i] = remove_quotes(tab[i]);
+		}
 		i++;
 	}
 	return (tab);
@@ -55,29 +74,6 @@ char	*remove_quotes(char *str)
 	return (str);
 }
 
-// checks if quotes are all balanced, if not will return 0
-int	balance_quotes(char *str)
-{
-	int	sq_tok;
-	int	dq_tok;
-	int	i;
-
-	i = 0;
-	sq_tok = 0;
-	dq_tok = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
-			sq_tok++;
-		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
-			dq_tok++;
-		i++;
-	}
-	if (sq_tok % 2 == 0 && dq_tok % 2 == 0)
-		return (1);
-	return (0);
-}
-
 // sets values to 3 if quote, 2 in inside "", 1 if inside ''
 void	set_quote_values(int *in_quotes, char *str)
 {
@@ -107,15 +103,30 @@ void	set_quote_values(int *in_quotes, char *str)
 	}
 }
 
+// set array to zero
+void	zero_array(int *in_quotes, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		in_quotes[i] = 0;
+		i++;
+	}
+}
+
 // makes an integer array that denotes if in quotes and quote type
 int	*parse_quotes(char *str)
 {
 	int	*in_quotes;
+	int	len;
 
-	in_quotes = (int *) malloc ((ft_strlen(str) + 1) * sizeof(int));
+	len = ft_strlen(str);
+	in_quotes = (int *) malloc (len * sizeof(int));
 	if (in_quotes == 0)
 		return (NULL);
-	ft_memset(in_quotes, 0, sizeof(in_quotes));
+	zero_array(in_quotes, len);
 	set_quote_values(in_quotes, str);
 	return (in_quotes);
 }

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:27:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/09 14:52:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/10 19:28:42 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
  *
  * print PWD from environment
  */
-int	pwd(t_execcmd *cmd, t_shell *g_shell)
+int	ft_pwd(t_execcmd *cmd, t_shell *shell)
 {
 	t_env	*env;
 
 	(void)cmd;
-	env = ft_get_env("PWD", g_shell);
+	env = ft_get_env("PWD", shell);
 	if (env == NULL)
 	{
 		ft_putendl_fd(ERR_NO_PWD, STDERR_FILENO);
