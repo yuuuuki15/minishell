@@ -12,7 +12,26 @@
 
 #include "minishell.h"
 
-// locates && if not in quotes
+int	has_first_level(char *str, t_tok *tok)
+{
+	t_tok	tok2;
+
+	if (is_ifthen(str, tok) != -1)
+	{
+		if (is_ifor(str, &tok2) != -1 && tok->s_loc > tok2.s_loc)
+		{
+			is_ifor(str, tok);
+			return (1);
+		}
+		else
+			return (1);
+	}
+	if (is_ifor(str, tok) != -1)
+		return (1);
+	return (0);
+}
+
+// locates && and & if not in quotes
 int	is_ifthen(char *str, t_tok *tok)
 {
 	int	i;
@@ -28,6 +47,14 @@ int	is_ifthen(char *str, t_tok *tok)
 		tok->s_loc = i + 1;
 		tok->tok = IFTHEN;
 		tok->size = 2;
+		tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
+		return (i + 1);
+	}
+	if (i < (int)ft_strlen(str) && str[i + 1] != '&')
+	{
+		tok->s_loc = i + 1;
+		tok->tok = AND;
+		tok->size = 1;
 		tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
 		return (i + 1);
 	}
@@ -65,35 +92,26 @@ char	*after_token(char *str, t_tok *tok)
 	return (next_cmd);
 }
 
-// splits commands into list structure if && is between two commands
+// splits commands into list structure if && or || is between two commands
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell)
 {
 	t_cmd		*ret;
 	char		*s_left;
 	char		*s_right;
 	t_tok		tok_right;
-	t_tok		tok2;
 	int			type;
 
 	s_left = ft_substr(str, 0, tok->s_loc - 1);
 	s_right = after_token(str, tok);
-	type = tok->tok;
-	get_token(tok, s_left);
-	if (is_ifthen(s_right, &tok_right) != -1 || is_ifor(s_right, &tok2) != -1)
-	{
-		if (tok_right.s_loc < tok2.s_loc)
-			ret = make_listcmd(parsecmd(s_left, tok, shell),
-					parse_ifthen(s_right, &tok_right, shell), tok_right.tok);
-		else
-			ret = make_listcmd(parsecmd(s_left, tok, shell),
-					parse_ifthen(s_right, &tok_right, shell), tok2.tok);
-	}
+	if (tok->tok == AND && ft_strlen(ft_strtrim(s_right, " ")) > 0)
+		type = IFTHEN;
 	else
-	{
-		get_token(&tok_right, s_right);
-		ret = make_listcmd(parsecmd(s_left, tok, shell),
-				parsecmd(s_right, &tok_right, shell), type);
-	}
+		type = tok->tok;
+	if (has_first_level(s_right, &tok_right) == 1)
+		ret = make_listcmd(lexer(s_left, shell),
+				parse_ifthen(s_right, &tok_right, shell), type);
+	else
+		ret = make_listcmd(lexer(s_left, shell), lexer(s_right, shell), type);
 	free (s_left);
 	free (s_right);
 	return (ret);

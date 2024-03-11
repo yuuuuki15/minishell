@@ -37,10 +37,6 @@ int	get_data(t_shell *shell)
 		shell->user_input = NULL;
 	}
 	shell->user_input = readline(PROMPT);
-	if (ft_strchr(shell->user_input, EOF) != NULL)
-	{
-		ft_printf("this is control plus D handler \n");
-	}
 	if (!shell->user_input || ft_strcmp(shell->user_input, "exit") == 0)
 	{
 		if (!shell->user_input)
@@ -55,9 +51,6 @@ int	get_data(t_shell *shell)
 		|| ft_strisspace(shell->user_input))
 		return (0);
 	else
-	{
-		ft_print_line(shell->user_input);
 		return (1);
-	}
 	return (0);
 }

@@ -24,7 +24,6 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->env = NULL;
 	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
-	// set_signals();
 	ft_signal_manager();
 	if (ft_init_env(env, shell) == 1)
 		return (1);
@@ -54,13 +53,17 @@ int	main(int ac, char **av, char **env)
 		{
 			cmd = lexer(shell.user_input, &shell);
 			if (cmd != NULL)
+			{
+				//ft_printf("Printing command tree in main:\n");
+				//print_tree(cmd);
 				run_exec(cmd, env, &shell);
-			clean_tree(cmd);
+				//ft_printf("Cleaning command tree in main\n");
+				//clean_tree(cmd);
+			}
 			if (shell.is_inside_pipe == 1)
 				exit(0);
 		}
 	}
-	//rl_clear_history(); //changed for home compiler
-	clear_history();
+	rl_clear_history();
 	return (0);
 }

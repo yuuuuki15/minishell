@@ -109,5 +109,6 @@ void	dup_descriptors(t_shell *shell)
 	if (shell->out_fd != STDOUT_FILENO)
 	{
 		dup2(shell->out_fd, STDOUT_FILENO);
+		close(shell->out_fd);
 	}
 }

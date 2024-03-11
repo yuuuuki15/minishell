@@ -53,3 +53,26 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 	sub[i] = '\0';
 	return (sub);
 }
+
+// checks if quotes are all balanced, if not will return 0
+int	balance_quotes(char *str)
+{
+	int	sq_tok;
+	int	dq_tok;
+	int	i;
+
+	i = 0;
+	sq_tok = 0;
+	dq_tok = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
+			sq_tok++;
+		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
+			dq_tok++;
+		i++;
+	}
+	if (sq_tok % 2 == 0 && dq_tok % 2 == 0)
+		return (1);
+	return (0);
+}

@@ -25,7 +25,7 @@ int	ft_echo(t_execcmd *cmd)
 
 	n_flg = 0;
 	i = 0;
-	if (ft_strcmp(cmd->argv[1], "-n") == 0)
+	if (cmd->argv[1] != NULL && ft_strcmp(cmd->argv[1], "-n") == 0)
 	{
 		i++;
 		n_flg = 1;

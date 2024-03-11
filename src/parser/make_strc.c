@@ -23,7 +23,7 @@ t_cmd	*make_execcmd(void)
 	return ((t_cmd *)cmd);
 }
 
-// essentially strips the ampersand and passes cmd, in bash after & is like a pipe
+// essentially strips the ampersand and passes cmd
 t_cmd	*make_backcmd(t_cmd *subcmd)
 {
 	t_backcmd	*cmd;

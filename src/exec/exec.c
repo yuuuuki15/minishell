@@ -52,6 +52,8 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 	int			status;
 
 	ecmd = (t_execcmd *)cmd;
+	if (ecmd->argv[0] == NULL)
+		return ;
 	if (ft_is_builtin(ecmd))
 	{
 		handle_builtin(ecmd, shell);

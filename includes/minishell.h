@@ -29,16 +29,16 @@
 # define PROMPT "minishell> "
 
 // types of tokens
-# define RIN		1 // > redirect input
+# define RIN		1 // < redirect input
 # define PIP	3 // | pipe
-# define ROUT 	2 // < redirect output, overwrite
+# define ROUT 	2 // > redirect output, overwrite
 # define AND 	4 // & background
-# define DOL 	12 // $ env
 # define BS 	7 // \ backslash
 # define SQ 	8 // ' single quotes
 # define DQ 	9 // " double quotes, expand env var
 # define ROUTA 	10 // >> redirect ouput append
 # define RHERE 	11 // << redirect input to heredoc
+# define DOL 	12 // $ env
 
 // types of cmds
 # define EXEC	1
@@ -165,6 +165,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str);
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);
 int		is_ifthen(char *str, t_tok *tok);
 int		is_ifor(char *str, t_tok *tok);
+int		has_first_level(char *str, t_tok *tok);
 
 // variables
 char	*expand_var(char *str, t_shell *shell);
@@ -206,7 +207,6 @@ void	dup_descriptors(t_shell *shell);
 
 // signals
 void	set_signals(void);
-// void	reset_prompt(void);
 
 // debug
 void	print_tree(t_cmd *cmd);

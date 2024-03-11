@@ -26,14 +26,6 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 		cmd = (t_execcmd *)ret;
 		cmd->argv = clean_quotes(p_spliter(str), shell);
 	}
-	if (tok->tok == AND)
-	{
-		// this should not be passed here, it should be passed to parse_back to check for pipe-like behavior
-		ft_printf("back\n");
-		str = ft_strtrim(str, "&");
-		get_token(tok, str);
-		ret = make_backcmd(parsecmd(str, tok, shell));
-	}
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
@@ -49,6 +41,8 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
 	i++;
 	tok->len = 0;
+	if (str[i] == '<' || str[i] == '>')
+		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
 	while (str[i] != '\0' && ft_isspace(str[i]))
 	{
 		tok->len++;
@@ -103,6 +97,12 @@ void	get_token(t_tok *tok, char *str)
 	tok->s_loc = i;
 	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
 		tok->tok = ft_issym(str[i]);
+	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<')
+	{
+		str = ft_substr(str, 0, tok->s_loc);
+		str[tok->s_loc] = '\0';
+		tok->tok = -1;
+	}
 	else
 		get_redir_token(tok, i, str);
 	free (q_check);
@@ -117,7 +117,6 @@ t_cmd	*lexer(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
-	t_tok		tok2;
 
 	if (str == NULL)
 		return (NULL);
@@ -126,13 +125,8 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		ft_printf("error: Unbalanced quotes!\n");
 		return (NULL);
 	}
-	if (is_ifthen(str, &tok) != -1 || is_ifor(str, &tok2) != -1)
-	{
-		if (tok.s_loc < tok2.s_loc)
-			cmd = parse_ifthen(str, &tok, shell);
-		else
-			cmd = parse_ifthen(str, &tok2, shell);
-	}
+	if (has_first_level(str, &tok) == 1)
+		cmd = parse_ifthen(str, &tok, shell);
 	else
 	{
 		if (is_pipe(str, &tok) == 1)
@@ -143,6 +137,5 @@ t_cmd	*lexer(char *str, t_shell *shell)
 			cmd = parsecmd(str, &tok, shell);
 		}
 	}
-	print_tree(cmd);
 	return (cmd);
 }
