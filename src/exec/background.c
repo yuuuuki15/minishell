@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:02:54 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:54:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,7 @@ void	manage_andor(t_cmd *cmd, char **env, t_shell *shell)
 	lcmd = (t_listcmd *)cmd;
 	run_exec(lcmd->left, env, shell);
 	if (shell->exit_status == 0 && cmd->type == IFTHEN)
-	{
-		ft_printf("exit status %d\n", shell->exit_status);
 		run_exec(lcmd->right, env, shell);
-	}
 	else if (shell->exit_status == 1 && cmd->type == IFOR)
-	{
-		ft_printf("exit status %d\n", shell->exit_status);
 		run_exec(lcmd->right, env, shell);
-	}
 }

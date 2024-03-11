@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:54:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,36 @@
 int	has_first_level(char *str, t_tok *tok)
 {
 	t_tok	tok2;
-
-	if (is_ifthen(str, tok) != -1)
-	{
-		if (is_ifor(str, &tok2) != -1 && tok->s_loc > tok2.s_loc)
-		{
-			is_ifor(str, tok);
-			return (1);
-		}
-		else
-			return (1);
-	}
-	if (is_ifor(str, tok) != -1)
-		return (1);
-	return (0);
-}
-
-// locates && and & if not in quotes
-int	is_ifthen(char *str, t_tok *tok)
-{
-	int	i;
-	int	*q_check;
+	int		*p_check;
+	int		ret;
+	int		*q_check;
 
 	q_check = parse_quotes(str);
-	i = 0;
-	while (str[i] != '\0' && !(str[i] == '&' && q_check[i] == 0))
-		i++;
+	p_check = parse_para(str);
+	ret = 0;
+	if (is_ifthen(str, tok, q_check, p_check) != -1)
+	{
+		if (is_ifor(str, &tok2, q_check, p_check) != -1
+			&& tok->s_loc > tok2.s_loc)
+			is_ifor(str, tok, q_check, p_check);
+		ret = 1;
+	}
+	if (is_ifor(str, tok, q_check, p_check) != -1)
+		ret = 1;
+	free (p_check);
 	free (q_check);
+	return (ret);
+}
+
+// locates && and & if not in quotes and not in ()
+int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0' && !(str[i] == '&'
+			&& q_check[i] == 0 && p_check[i] == 0))
+		i++;
 	if (i < (int)ft_strlen(str) && str[i + 1] == '&')
 	{
 		tok->s_loc = i + 1;
@@ -61,17 +64,15 @@ int	is_ifthen(char *str, t_tok *tok)
 	return (-1);
 }
 
-// locates || if not in quotes
-int	is_ifor(char *str, t_tok *tok)
+// locates || if not in quotes and not in ()
+int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
 {
 	int	i;
-	int	*q_check;
 
-	q_check = parse_quotes(str);
 	i = 0;
-	while (str[i] != '\0' && !(str[i] == '|' && q_check[i] == 0))
+	while (str[i] != '\0' && !(str[i] == '|'
+			&& q_check[i] == 0 && p_check[i] == 0))
 		i++;
-	free (q_check);
 	if (i < (int)ft_strlen(str) && str[i + 1] == '|')
 	{
 		tok->s_loc = i + 1;

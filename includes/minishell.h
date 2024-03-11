@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 19:28:22 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:55:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 # define PROMPT "minishell> "
 
 // types of tokens
-# define RIN		1 // < redirect input
-# define PIP	3 // | pipe
+# define RIN	1 // < redirect input
 # define ROUT 	2 // > redirect output, overwrite
+# define PIP	3 // | pipe
 # define AND 	4 // & background
 # define BS 	7 // \ backslash
 # define SQ 	8 // ' single quotes
@@ -39,6 +39,8 @@
 # define ROUTA 	10 // >> redirect ouput append
 # define RHERE 	11 // << redirect input to heredoc
 # define DOL 	12 // $ env
+# define OP		13 // open parenthesis
+# define CP		14 // close parenthesis
 
 // types of cmds
 # define EXEC	1
@@ -47,6 +49,7 @@
 # define BACK	4 // & run in background, not supported
 # define IFTHEN	5 // && if cmd 1 executes then also execute cmd 2
 # define IFOR	6 // || if cmd 1 does not execute, then execute cmd 2
+# define PARA	7 // group commands in parantheses
 
 # define STDIN	0
 # define STOUT	1
@@ -70,7 +73,7 @@ typedef struct s_tok
 
 typedef struct s_cmd
 {
-	int	type;
+	int		type;
 	int		in_fd;
 	int		out_fd;
 }	t_cmd;
@@ -163,9 +166,12 @@ void	get_file_name(t_tok *tok, int i, int size, char *str);
 
 // bonus
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);
-int		is_ifthen(char *str, t_tok *tok);
-int		is_ifor(char *str, t_tok *tok);
+int		is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check);
+int		is_ifor(char *str, t_tok *tok, int *q_check, int *p_check);
 int		has_first_level(char *str, t_tok *tok);
+int		balance_para(char *str);
+void	zero_array(int *in_quotes, int len);
+int		*parse_para(char *str);
 
 // variables
 char	*expand_var(char *str, t_shell *shell);

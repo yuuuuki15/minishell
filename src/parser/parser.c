@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:52:29 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	get_redir_token(t_tok *tok, int i, char *str)
 	int	size;
 
 	size = 1;
-	if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) == RIN)
+	if (ft_istok(str[i]) == RIN && ft_istok(str[i + 1]) == RIN)
 	{
 		i++;
 		tok->tok = RHERE;
 		size++;
 	}
-	else if (ft_issym(str[i]) == RIN && ft_issym(str[i + 1]) != RIN)
+	else if (ft_istok(str[i]) == RIN && ft_istok(str[i + 1]) != RIN)
 		tok->tok = RIN;
-	else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) != ROUT)
+	else if (ft_istok(str[i]) == ROUT && ft_istok(str[i + 1]) != ROUT)
 		tok->tok = ROUT;
-	else if (ft_issym(str[i]) == ROUT && ft_issym(str[i + 1]) == ROUT)
+	else if (ft_istok(str[i]) == ROUT && ft_istok(str[i + 1]) == ROUT)
 	{
 		tok->tok = ROUTA;
 		i++;
@@ -83,20 +83,38 @@ void	get_redir_token(t_tok *tok, int i, char *str)
 	get_file_name(tok, i, size, str);
 }
 
+// extracts para phrase from string
+void	get_para_tok(t_tok *tok, int i, char *str, int *p_check)
+{
+	i++;
+	tok->len = 0;
+	while (p_check[i] == 1)
+	{
+		tok->len++;
+		i++;
+	}
+	tok->str = ft_substr(str, tok->s_loc + 1, tok->len);
+	tok->size = tok->len;
+	tok->cut = i;
+	ft_printf("in parentheses: %s\n", tok->str);
+}
+
 // identifies and returns the first token in a string that is not in quotes
 void	get_token(t_tok *tok, char *str)
 {
 	int		i;
 	int		*q_check;
+	int		*p_check;
 
 	i = 0;
 	q_check = parse_quotes(str);
+	p_check = parse_para(str);
 	while (str[i] != '\0' && (ft_isspace(str[i])
-			|| !(ft_issym(str[i]) != -1 && q_check[i] == 0)))
+			|| !(ft_istok(str[i]) != -1 && q_check[i] == 0)))
 		i++;
 	tok->s_loc = i;
-	if (ft_issym(str[i]) != RIN && ft_issym(str[i]) != ROUT)
-		tok->tok = ft_issym(str[i]);
+	if (ft_istok(str[i]) != RIN && ft_istok(str[i]) != ROUT)
+		tok->tok = ft_istok(str[i]);
 	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<')
 	{
 		str = ft_substr(str, 0, tok->s_loc);
@@ -106,13 +124,28 @@ void	get_token(t_tok *tok, char *str)
 	else
 		get_redir_token(tok, i, str);
 	free (q_check);
+	free (p_check);
 }
 
-// currently checks if input is NULL
-// checks if quotes are balanced
-// checks for pipe and devides accordingly
+// check balance of () and quotes
+int	balance_pandq(char *str)
+{
+	int	ret;
+
+	ret = 1;
+	if (balance_quotes(str) == 0)
+		ret = 0;
+	if (balance_para(str) == -1)
+		ret = 0;
+	if (ret == 0)
+		ft_printf("Parsing error! Check your quotes and parentheses!\n");
+	return (ret);
+}
+
+// checks if input is NULL
+// checks if parenthesis and quotes are balanced
 // parses command into simple "tree" based on tokens
-// prints tree and then returns tree
+// returns tree
 t_cmd	*lexer(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
@@ -120,11 +153,8 @@ t_cmd	*lexer(char *str, t_shell *shell)
 
 	if (str == NULL)
 		return (NULL);
-	if (balance_quotes(str) == 0)
-	{
-		ft_printf("error: Unbalanced quotes!\n");
+	if (balance_pandq(str) == 0)
 		return (NULL);
-	}
 	if (has_first_level(str, &tok) == 1)
 		cmd = parse_ifthen(str, &tok, shell);
 	else

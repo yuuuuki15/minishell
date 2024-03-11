@@ -40,7 +40,7 @@ int	ft_tofile(int tok)
 	return (0);
 }
 
-// checks if char is a token, not including quotes
+// checks if char is a token, not including quotes but including parentheses
 int	ft_istok(char c)
 {
 	if (c == '<')
@@ -54,7 +54,7 @@ int	ft_istok(char c)
 	return (-1);
 }
 
-// checks if char is a symbol, includes quotes
+// checks if char is a symbol, includes quotes and parentheses
 int	ft_issym(char c)
 {
 	if (c == '<')
@@ -69,5 +69,9 @@ int	ft_issym(char c)
 		return (DQ);
 	if (c == '&')
 		return (AND);
+	if (c == '(')
+		return (OP);
+	if (c == ')')
+		return (CP);
 	return (-1);
 }

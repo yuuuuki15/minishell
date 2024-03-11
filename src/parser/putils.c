@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 10:41:19 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:50:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,31 @@ int	balance_quotes(char *str)
 	if (sq_tok % 2 == 0 && dq_tok % 2 == 0)
 		return (1);
 	return (0);
+}
+
+// checks if parenthesis are all balanced, if not will return 0
+int	balance_para(char *str)
+{
+	int	op;
+	int	cp;
+	int	i;
+	int	*in_quotes;
+
+	in_quotes = parse_quotes(str);
+	i = 0;
+	op = 0;
+	cp = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '(' && in_quotes[i] == 0)
+			op++;
+		if (str[i] == ')' && in_quotes[i] == 0)
+			cp++;
+		if (cp > op)
+			return (0);
+		i++;
+	}
+	if (op != cp)
+		return (-1);
+	return (op);
 }

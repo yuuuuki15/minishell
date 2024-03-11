@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/11 15:57:25 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/11 17:58:20 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c \
 SIGNAL		=	$(addprefix signal/, signal.c)
 EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c background.c)
 DEBUG		=	$(addprefix debug/, print.c)
-BONUS		=	$(addprefix parser/, parse_andor.c)
+BONUS		=	$(addprefix parser/, parse_andor.c parse_para.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c exit.c)
 SRC			=	main.c signal.c clean.c \
 				utils.c env.c env2.c error.c\

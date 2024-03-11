@@ -6,16 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:50:35 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
 // removes quotes from arguments after expanding variables not in single quotes
 char	**clean_quotes(char **tab, t_shell *shell)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (tab[i] != NULL)
@@ -30,6 +31,14 @@ char	**clean_quotes(char **tab, t_shell *shell)
 		}
 		else
 		{
+			if (i == 0 && tab[i][0] == '(')
+				tab[i] = ft_strtrim(tab[i], "()");
+			else if (i > 0 && tab[i][0] == '(')
+			{
+				ft_printf("syntax error near unexpected token \'%s\'\n",
+					ft_strtrim(tab[i], "()"));
+				tab[0] = NULL;
+			}
 			tab[i] = expand_var(tab[i], shell);
 			tab[i] = remove_quotes(tab[i]);
 		}
@@ -96,14 +105,15 @@ void	set_quote_values(int *in_quotes, char *str)
 }
 
 // set array to zero
-void	zero_quotes(int *in_quotes, char *str)
+void	zero_array(int *in_quotes, int len)
 {
 	int	i;
 
-	i = -1;
-	while (str[++i] != '\0')
+	i = 0;
+	while (i < len)
 	{
 		in_quotes[i] = 0;
+		i++;
 	}
 }
 
@@ -111,11 +121,13 @@ void	zero_quotes(int *in_quotes, char *str)
 int	*parse_quotes(char *str)
 {
 	int	*in_quotes;
+	int	len;
 
-	in_quotes = (int *) malloc ((ft_strlen(str) + 1) * sizeof(int));
+	len = ft_strlen(str);
+	in_quotes = (int *) malloc (len * sizeof(int));
 	if (in_quotes == 0)
 		return (NULL);
-	zero_quotes(in_quotes, str);
+	zero_array(in_quotes, len);
 	set_quote_values(in_quotes, str);
 	return (in_quotes);
 }
