@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:14:49 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->env = NULL;
 	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
-	ft_signal_manager();
 	if (ft_init_env(env, shell) == 1)
 		return (1);
 	return (0);

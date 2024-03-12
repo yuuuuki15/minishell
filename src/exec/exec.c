@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 15:27:00 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:14:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 		handle_builtin(ecmd, shell);
 		return ;
 	}
+	ft_signal_manager(2);
 	dup_descriptors(shell);
 	shell->pid = fork_child(shell);
 	if (shell->pid == 0)

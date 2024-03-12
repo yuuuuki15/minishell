@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:27:56 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:15:10 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	exit_shell(t_shell *shell)
 // add non-blank lines to history
 int	get_data(t_shell *shell)
 {
+	ft_signal_manager(1);
 	if (shell->user_input)
 	{
 		free (shell->user_input);

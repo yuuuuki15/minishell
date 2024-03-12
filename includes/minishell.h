@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/11 17:55:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:12:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ typedef struct s_shell
 	t_env	*env;
 }			t_shell;
 
-void	ft_signal_manager(void);
+void	ft_signal_manager(int option);
 int		ft_init_env(char **env, t_shell *shell);
 int		ft_add_env(char *key, char *value, t_shell *shell);
 t_env	*ft_get_env(char *name, t_shell *shell);
