@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-// removes quotes from arguments after expanding variables not in single quotes
-char	**clean_quotes(char **tab, t_shell *shell)
+// check for extra < and >
+char	**redirect_syntax_check(char **tab)
 {
 	int		i;
 
@@ -22,26 +21,43 @@ char	**clean_quotes(char **tab, t_shell *shell)
 	while (tab[i] != NULL)
 	{
 		if (ft_strcmp(tab[i], "<<<") == 0)
-			tab[i] = NULL;
+		{
+			ft_printf("here string syntax is not supported\n");
+			tab[0] = NULL;
+		}
 		else if (ft_strncmp(tab[i], "<<<", 3) == 0
 			&& (tab[i][3] == '<' || tab[i][3] == '>'))
 		{
 			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);
 			tab[0] = NULL;
 		}
-		else
+		i++;
+	}
+	return (tab);
+}
+
+// removes quotes from arguments after expanding variables not in single quotes
+char	**clean_quotes(char **tab, t_shell *shell)
+{
+	int		i;
+
+	tab = redirect_syntax_check(tab);
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		if (i > 0 && tab[i][0] == '(')
 		{
-			if (i == 0 && tab[i][0] == '(')
-				tab[i] = ft_strtrim(tab[i], "()");
-			else if (i > 0 && tab[i][0] == '(')
-			{
-				ft_printf("syntax error near unexpected token \'%s\'\n",
-					ft_strtrim(tab[i], "()"));
-				tab[0] = NULL;
-			}
-			tab[i] = expand_var(tab[i], shell);
-			tab[i] = remove_quotes(tab[i]);
+			ft_printf("syntax error near unexpected token \'%s\'\n",
+				ft_strtrim(tab[i], "()"));
+			tab[0] = NULL;
 		}
+		i++;
+	}
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		tab[i] = expand_var(tab[i], shell);
+		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}
 	return (tab);
@@ -101,19 +117,6 @@ void	set_quote_values(int *in_quotes, char *str)
 			in_quotes[i] = 2;
 		else if (sq_tok % 2 != 0)
 			in_quotes[i] = 1;
-	}
-}
-
-// set array to zero
-void	zero_array(int *in_quotes, int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		in_quotes[i] = 0;
-		i++;
 	}
 }
 

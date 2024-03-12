@@ -30,35 +30,34 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	return (0);
 }
 
+void	reset_minishell(t_shell *shell)
+{
+	close(shell->stdin);
+	close(shell->stdout);
+	rl_clear_history();
+	ft_clean_env(shell);
+	ft_error(ERR_INITIALIZE_MINISHELL);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
-	int		do_exe;
 	t_cmd	*cmd;
 
 	(void)ac;
 	(void)av;
 	if (ft_minishell_initializer(env, &shell) == 1)
-	{
-		close(shell.stdin);
-		close(shell.stdout);
-		rl_clear_history();
-		ft_clean_env(&shell);
-		ft_error(ERR_INITIALIZE_MINISHELL);
-	}
+		reset_minishell(&shell);
 	while (1)
 	{
-		do_exe = get_data(&shell);
-		if (do_exe)
+		if (get_data(&shell))
 		{
 			cmd = lexer(shell.user_input, &shell);
 			if (cmd != NULL)
 			{
-				//ft_printf("Printing command tree in main:\n");
-				//print_tree(cmd);
-				run_exec(cmd, env, &shell);
-				//ft_printf("Cleaning command tree in main\n");
-				//clean_tree(cmd);
+				if (check_tree(cmd, &shell) == 0)
+					run_exec(cmd, env, &shell);
+				clean_tree(cmd);
 			}
 			if (shell.is_inside_pipe == 1)
 				exit(0);

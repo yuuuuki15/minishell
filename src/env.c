@@ -13,27 +13,6 @@
 #include "minishell.h"
 
 /**
- * @param char* str
- * @return int result
- *
- * This function checks if the given string is a valid identifier.
- * The first character must not be a digit, and it must consist only
- * of alphabets or underscores.
-*/
-int	ft_is_valid_identifier(char *str)
-{
-	if (str == NULL || *str == '\0' || ft_isdigit(*str))
-		return (0);
-	while (*str)
-	{
-		if (!ft_isalnum(*str) && *str != '_')
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-/**
  * @param char **env
  *
  * This function takes an array of environment variables and initializes them
@@ -104,6 +83,18 @@ void	ft_update_env(char *key, char *value, t_shell *shell)
 	curr->value = value;
 }
 
+int	first_check(char *key, char *value, t_shell *shell)
+{
+	if (key == NULL || ft_is_valid_identifier(key) == 0)
+		return (1);
+	if (ft_get_env(key, shell) != NULL)
+	{
+		ft_update_env(key, value, shell);
+		return (0);
+	}
+	return (2);
+}
+
 /**
  * @param char* key
  * @param char* value
@@ -118,13 +109,8 @@ int	ft_add_env(char *key, char *value, t_shell *shell)
 	t_env	*new;
 	t_env	*curr;
 
-	if (key == NULL || ft_is_valid_identifier(key) == 0)
-		return (1);
-	if (ft_get_env(key, shell) != NULL)
-	{
-		ft_update_env(key, value, shell);
-		return (0);
-	}
+	if (first_check(key, value, shell) != 2)
+		return (first_check(key, value, shell));
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
 		return (1);

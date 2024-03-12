@@ -22,16 +22,6 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-// checks if char is > or <
-int	ft_isredir(char c)
-{
-	if (c == '<')
-		return (RIN);
-	if (c == '>')
-		return (ROUT);
-	return (-1);
-}
-
 // checks if token is a redirect
 int	ft_tofile(int tok)
 {
@@ -74,4 +64,17 @@ int	ft_issym(char c)
 	if (c == ')')
 		return (CP);
 	return (-1);
+}
+
+// set array to zero
+void	zero_array(int *in_quotes, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		in_quotes[i] = 0;
+		i++;
+	}
 }

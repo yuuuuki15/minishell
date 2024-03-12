@@ -13,6 +13,27 @@
 #include "minishell.h"
 
 /**
+ * @param char* str
+ * @return int result
+ *
+ * This function checks if the given string is a valid identifier.
+ * The first character must not be a digit, and it must consist only
+ * of alphabets or underscores.
+*/
+int	ft_is_valid_identifier(char *str)
+{
+	if (str == NULL || *str == '\0' || ft_isdigit(*str))
+		return (0);
+	while (*str)
+	{
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+/**
  * This function displays all environment variables
 */
 void	ft_show_env(t_shell *shell)

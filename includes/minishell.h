@@ -33,7 +33,6 @@
 # define ROUT 	2 // > redirect output, overwrite
 # define PIP	3 // | pipe
 # define AND 	4 // & background
-# define BS 	7 // \ backslash
 # define SQ 	8 // ' single quotes
 # define DQ 	9 // " double quotes, expand env var
 # define ROUTA 	10 // >> redirect ouput append
@@ -49,7 +48,6 @@
 # define BACK	4 // & run in background, not supported
 # define IFTHEN	5 // && if cmd 1 executes then also execute cmd 2
 # define IFOR	6 // || if cmd 1 does not execute, then execute cmd 2
-# define PARA	7 // group commands in parantheses
 
 # define STDIN	0
 # define STOUT	1
@@ -150,7 +148,6 @@ int		ft_strisspace(char *line);
 int		ft_issym(char c);
 int		ft_istok(char c);
 int		ft_isspace(char c);
-int		ft_isredir(char c);
 int		ft_tofile(int tok);
 char	*ft_delstr(char const *s, unsigned int start, unsigned int end);
 
@@ -163,15 +160,19 @@ int		is_pipe(char *str, t_tok *tok);
 t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell);
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
+void	get_redir_token(t_tok *tok, int i, char *str);
 
-// bonus
+// bonus parsing
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);
 int		is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check);
 int		is_ifor(char *str, t_tok *tok, int *q_check, int *p_check);
 int		has_first_level(char *str, t_tok *tok);
-int		balance_para(char *str);
+int		balance_para(char *str, int *in_quotes);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
+int		has_para(char *str);
+int		check_tree(t_cmd *cmd, t_shell *shell);
+int		balance_pandq(char *str);
 
 // variables
 char	*expand_var(char *str, t_shell *shell);

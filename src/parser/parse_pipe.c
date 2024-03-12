@@ -17,12 +17,16 @@ int	is_pipe(char *str, t_tok *tok)
 {
 	int	i;
 	int	*q_check;
+	int	*p_check;
 
 	q_check = parse_quotes(str);
+	p_check = parse_para(str);
 	i = 0;
-	while (str[i] != '\0' && !(str[i] == '|' && q_check[i] == 0))
+	while (str[i] != '\0' && !(str[i] == '|'
+			&& q_check[i] == 0 && p_check[i] == 0))
 		i++;
 	free (q_check);
+	free (p_check);
 	if (i < (int)ft_strlen(str))
 	{
 		tok->s_loc = i + 1;
@@ -48,20 +52,15 @@ t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell)
 	t_cmd		*ret;
 	char		*s_left;
 	char		*s_right;
-	t_tok		tok_right;
 
 	s_left = ft_substr(str, 0, tok->s_loc - 1);
 	s_right = after_pipe(str, tok);
-	get_token(tok, s_left);
-	if (is_pipe(s_right, &tok_right) == 1)
-		ret = make_listcmd(parsecmd(s_left, tok, shell),
-				parse_pipe(s_right, &tok_right, shell), PIPE);
+	if (is_pipe(s_right, tok) == 1)
+		ret = make_listcmd(lexer(s_left, shell),
+				parse_pipe(s_right, tok, shell), PIPE);
 	else
-	{
-		get_token(&tok_right, s_right);
-		ret = make_listcmd(parsecmd(s_left, tok, shell),
-				parsecmd(s_right, &tok_right, shell), PIPE);
-	}
+		ret = make_listcmd(lexer(s_left, shell),
+				lexer(s_right, shell), PIPE);
 	free (s_left);
 	free (s_right);
 	return (ret);

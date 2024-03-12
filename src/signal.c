@@ -44,8 +44,11 @@ static void	ft_handler(int sig)
  */
 static void	ft_ignore_signal(int sig)
 {
+	ft_printf("\nhere\n");
 	if (sig == SIGQUIT)
 	{
+		ft_printf("");
+
 		// rl_redisplay();
 		// exit_shell(shell);
 	}

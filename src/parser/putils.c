@@ -57,35 +57,32 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 // checks if quotes are all balanced, if not will return 0
 int	balance_quotes(char *str)
 {
-	int	sq_tok;
-	int	dq_tok;
+	int	*in_quotes;
 	int	i;
+	int	ret;
 
 	i = 0;
-	sq_tok = 0;
-	dq_tok = 0;
+	ret = 0;
+	in_quotes = parse_quotes(str);
 	while (str[i] != '\0')
 	{
-		if (ft_issym(str[i]) == SQ && dq_tok % 2 == 0)
-			sq_tok++;
-		if (ft_issym(str[i]) == DQ && sq_tok % 2 == 0)
-			dq_tok++;
+		if (in_quotes[i] == 3)
+			ret++;
 		i++;
 	}
-	if (sq_tok % 2 == 0 && dq_tok % 2 == 0)
+	free (in_quotes);
+	if (ret % 2 == 0)
 		return (1);
 	return (0);
 }
 
 // checks if parenthesis are all balanced, if not will return 0
-int	balance_para(char *str)
+int	balance_para(char *str, int *in_quotes)
 {
 	int	op;
 	int	cp;
 	int	i;
-	int	*in_quotes;
 
-	in_quotes = parse_quotes(str);
 	i = 0;
 	op = 0;
 	cp = 0;
@@ -102,4 +99,22 @@ int	balance_para(char *str)
 	if (op != cp)
 		return (-1);
 	return (op);
+}
+
+// check balance of () and quotes
+int	balance_pandq(char *str)
+{
+	int	ret;
+	int	*in_quotes;
+
+	in_quotes = parse_quotes(str);
+	ret = 1;
+	if (balance_quotes(str) == 0)
+		ret = 0;
+	if (balance_para(str, in_quotes) == -1)
+		ret = 0;
+	if (ret == 0)
+		ft_printf("Parsing error! Check your quotes and/or parentheses!\n");
+	free (in_quotes);
+	return (ret);
 }

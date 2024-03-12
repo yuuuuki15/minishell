@@ -12,63 +12,62 @@
 
 #include "minishell.h"
 
-// clean content of a pipe
-void	clean_list(t_cmd *cmd)
+// check for NULL command
+int	check_cmd(t_cmd *cmd)
+{
+	t_execcmd	*out;
+	int			ret;
+
+	ret = 0;
+	out = (t_execcmd *)cmd;
+	if (out->argv[0] == NULL)
+		ret = 1;
+	return (ret);
+}
+
+// check content of a list
+void	check_list2(t_cmd *cmd, t_shell *shell)
 {
 	t_listcmd	*lcmd;
 
 	lcmd = (t_listcmd *)cmd;
-	clean_tree(lcmd->left);
-	clean_tree(lcmd->right);
+	check_tree(lcmd->left, shell);
+	check_tree(lcmd->right, shell);
 }
 
-// clean content of a redirect
-void	clean_redir(t_cmd *cmd)
+// check content of a redirect
+void	check_redir(t_cmd *cmd, t_shell *shell)
 {
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	free (rcmd->file);
-	clean_tree(rcmd->cmd);
+	check_tree(rcmd->cmd, shell);
 }
 
-// clean content of an exec
-void	clean_exec(t_cmd *cmd)
-{
-	t_execcmd	*ecmd;
-	int			i;
-
-	ecmd = (t_execcmd *)cmd;
-	i = 0;
-	while (ecmd->argv[i] != NULL)
-	{
-		free (ecmd->argv[i]);
-		i++;
-	}
-	free (ecmd->argv);
-}
-
-// clean content of a back
-void	clean_back(t_cmd *cmd)
+// print out structure of tree following parsing
+int	check_tree(t_cmd *cmd, t_shell *shell)
 {
 	t_backcmd	*bcmd;
+	int			ret;
 
-	bcmd = (t_backcmd *)cmd;
-	clean_tree(bcmd->cmd);
-}
-
-// clean tree
-void	clean_tree(t_cmd *cmd)
-{
+	ret = 0;
 	if (cmd->type == EXEC)
 	{
-		clean_exec(cmd);
-		free (cmd);
+		ret = check_cmd(cmd);
+		if (ret == 1)
+		{
+			shell->exit_status = 2;
+			return (ret);
+		}
 	}
 	if (cmd->type == BACK)
-		clean_back(cmd);
+	{
+		bcmd = (t_backcmd *)cmd;
+		check_tree(bcmd->cmd, shell);
+	}
 	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
-		clean_list(cmd);
+		check_list2(cmd, shell);
 	if (cmd->type == REDIR)
-		clean_redir(cmd);
+		check_list2(cmd, shell);
+	return (0);
 }

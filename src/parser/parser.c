@@ -36,69 +36,6 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	return (ret);
 }
 
-// extracts file name from string
-void	get_file_name(t_tok *tok, int i, int size, char *str)
-{
-	i++;
-	tok->len = 0;
-	if (str[i] == '<' || str[i] == '>')
-		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
-	while (str[i] != '\0' && ft_isspace(str[i]))
-	{
-		tok->len++;
-		i++;
-	}
-	while (str[i] != '\0' && ft_isspace(str[i]) == 0)
-	{
-		tok->len++;
-		i++;
-	}
-	tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
-	tok->size = tok->len + size - 1;
-	tok->cut = i;
-}
-
-// get information for redirection tokens
-void	get_redir_token(t_tok *tok, int i, char *str)
-{
-	int	size;
-
-	size = 1;
-	if (ft_istok(str[i]) == RIN && ft_istok(str[i + 1]) == RIN)
-	{
-		i++;
-		tok->tok = RHERE;
-		size++;
-	}
-	else if (ft_istok(str[i]) == RIN && ft_istok(str[i + 1]) != RIN)
-		tok->tok = RIN;
-	else if (ft_istok(str[i]) == ROUT && ft_istok(str[i + 1]) != ROUT)
-		tok->tok = ROUT;
-	else if (ft_istok(str[i]) == ROUT && ft_istok(str[i + 1]) == ROUT)
-	{
-		tok->tok = ROUTA;
-		i++;
-		size++;
-	}
-	get_file_name(tok, i, size, str);
-}
-
-// extracts para phrase from string
-void	get_para_tok(t_tok *tok, int i, char *str, int *p_check)
-{
-	i++;
-	tok->len = 0;
-	while (p_check[i] == 1)
-	{
-		tok->len++;
-		i++;
-	}
-	tok->str = ft_substr(str, tok->s_loc + 1, tok->len);
-	tok->size = tok->len;
-	tok->cut = i;
-	ft_printf("in parentheses: %s\n", tok->str);
-}
-
 // identifies and returns the first token in a string that is not in quotes
 void	get_token(t_tok *tok, char *str)
 {
@@ -127,19 +64,29 @@ void	get_token(t_tok *tok, char *str)
 	free (p_check);
 }
 
-// check balance of () and quotes
-int	balance_pandq(char *str)
+// removes parentheses or flags error if there is more stuff in the line
+t_cmd	*parse_paren(char *str, t_shell *shell)
 {
-	int	ret;
+	t_cmd		*cmd;
+	int			i;
 
-	ret = 1;
-	if (balance_quotes(str) == 0)
-		ret = 0;
-	if (balance_para(str) == -1)
-		ret = 0;
-	if (ret == 0)
-		ft_printf("Parsing error! Check your quotes and parentheses!\n");
-	return (ret);
+	if (str[ft_strlen(str) - 1] == ')')
+	{
+		str = ft_strtrim(str, "()");
+		cmd = lexer(str, shell);
+	}
+	else
+	{
+		i = 0;
+		while (str[i] != ')' && str[i] != '\0')
+			i++;
+		i++;
+		while (ft_isspace(str[i]) == 1)
+			i++;
+		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
+		cmd = NULL;
+	}
+	return (cmd);
 }
 
 // checks if input is NULL
@@ -157,10 +104,13 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		return (NULL);
 	if (has_first_level(str, &tok) == 1)
 		cmd = parse_ifthen(str, &tok, shell);
+	else if (is_pipe(str, &tok) == 1)
+		cmd = parse_pipe(str, &tok, shell);
 	else
 	{
-		if (is_pipe(str, &tok) == 1)
-			cmd = parse_pipe(str, &tok, shell);
+		str = ft_strtrim(str, " ");
+		if (str[0] == '(')
+			cmd = parse_paren(str, shell);
 		else
 		{
 			get_token(&tok, str);

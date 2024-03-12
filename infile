@@ -1,10 +1,9 @@
-total 52
-drwxr-xr-x  6 mevonuk 2023_paris   104 Mar  4 10:06 .
-drwx------ 28 mevonuk 2023_paris  4096 Mar  4 09:47 ..
-drwxr-xr-x  2 mevonuk 2023_paris    42 Mar  4 08:46 includes
--rw-r--r--  1 mevonuk 2023_paris     0 Mar  4 10:06 infile
-drwxr-xr-x  3 mevonuk 2023_paris  4096 Mar  4 09:44 libft
--rw-r--r--  1 mevonuk 2023_paris  2247 Mar  4 09:48 Makefile
--rwxr-xr-x  1 mevonuk 2023_paris 37616 Mar  4 10:05 minishell
-drwxr-xr-x  7 mevonuk 2023_paris   146 Mar  4 09:54 obj
-drwxr-xr-x  7 mevonuk 2023_paris   146 Mar  4 09:46 src
+includes
+infile
+libft
+Makefile
+minishell
+obj
+out
+src
+test.c
