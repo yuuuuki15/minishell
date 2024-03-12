@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 17:25:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:36:30 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,11 @@ void	ft_signal_manager(int option)
 {
 	if (option == 1)
 	{
-		ft_printf("signal for interactive mode\n");
 		signal(SIGINT, &reset_prompt);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (option == 2)
 	{
-		ft_printf("signal for execution mode\n");
 		signal(SIGINT, &ft_sig_c);
 		signal(SIGQUIT, &ft_sig_backslash);
 	}
