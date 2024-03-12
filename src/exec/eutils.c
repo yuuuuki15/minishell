@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 19:05:56 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:26:34 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	reset_descriptors(t_shell *shell)
 			close(shell->in_fd);
 		close(STDIN_FILENO);
 		dup2(shell->stdin, STDIN_FILENO);
+		shell->in_fd = STDIN_FILENO;
 	}
 	if (shell->out_fd != STDOUT_FILENO)
 	{
@@ -92,6 +93,7 @@ void	reset_descriptors(t_shell *shell)
 			close(shell->out_fd);
 		close(STDOUT_FILENO);
 		dup2(shell->stdout, STDOUT_FILENO);
+		shell->out_fd = STDOUT_FILENO;
 	}
 }
 
