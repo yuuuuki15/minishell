@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:32:26 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_env	*ft_get_env(char *name, t_shell *shell)
  * This function will take key and value and update the environment
  * with the sam key name env.
 */
-void	ft_update_env(char *key, char *value, t_shell *shell)
+static int	ft_update_env(char *key, char *value, t_shell *shell)
 {
 	t_env	*curr;
 
@@ -81,36 +81,14 @@ void	ft_update_env(char *key, char *value, t_shell *shell)
 	}
 	free(curr->value);
 	curr->value = value;
+	return (0);
 }
 
-int	first_check(char *key, char *value, t_shell *shell)
-{
-	if (key == NULL || ft_is_valid_identifier(key) == 0)
-		return (1);
-	if (ft_get_env(key, shell) != NULL)
-	{
-		ft_update_env(key, value, shell);
-		return (0);
-	}
-	return (2);
-}
-
-/**
- * @param char* key
- * @param char* value
- * @return int
- *
- * take key and value, then register to environment.
- * return 0 on success. return 1 on error.
- * Attention: parameters, key and value should be dynamically allocated string.
-*/
-int	ft_add_env(char *key, char *value, t_shell *shell)
+static int	ft_create_env(char *key, char *value, t_shell *shell)
 {
 	t_env	*new;
 	t_env	*curr;
 
-	if (first_check(key, value, shell) != 2)
-		return (first_check(key, value, shell));
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
 		return (1);
@@ -127,4 +105,22 @@ int	ft_add_env(char *key, char *value, t_shell *shell)
 		curr = curr->next;
 	curr->next = new;
 	return (0);
+}
+
+/**
+ * @param char* key
+ * @param char* value
+ * @return int
+ *
+ * take key and value, then register to environment.
+ * return 0 on success. return 1 on error.
+ * Attention: parameters, key and value should be dynamically allocated string.
+*/
+int	ft_add_env(char *key, char *value, t_shell *shell)
+{
+	if (ft_is_valid_identifier(key) == 0)
+		return (1);
+	if (ft_get_env(key, shell) != NULL)
+		return (ft_update_env(key, value, shell));
+	return (ft_create_env(key, value, shell));
 }

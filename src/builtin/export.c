@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 19:28:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:08:46 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int	handle_no_equal(char *arg, t_shell *shell)
 	{
 		if (ft_get_env(arg, shell) != NULL)
 			return (0);
-		ft_add_env(ft_strdup(arg), ft_strdup(""), shell);
-		return (0);
+		return (ft_add_env(ft_strdup(arg), ft_strdup(""), shell));
 	}
 	print_invalid_identifier(arg);
 	return (1);
@@ -57,6 +56,12 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 	char	*value;
 
 	key = ft_substr(arg, 0, equal_pos);
+	if (ft_is_valid_identifier(key) == 0)
+	{
+		print_invalid_identifier(key);
+		free(key);
+		return (1);
+	}
 	value = ft_strdup(arg + equal_pos + 1);
 	if (!key || !value)
 	{
@@ -64,8 +69,9 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 		free(value);
 		return (1);
 	}
-	ft_add_env(key, value, shell);
-	return (0);
+	ft_printf("key: %s\n", key);
+	ft_printf("value: %s\n", value);
+	return (ft_add_env(key, value, shell));
 }
 
 /**
