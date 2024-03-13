@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/11 16:39:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 14:26:12 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *
  * this function will check flags for builtin command "echo".
 */
-static void	ft_check_flag_echo(char *str, int *n_flg, int *i)
+static int	ft_check_flag_echo(char *str, int *n_flg, int *i)
 {
 	int	j;
 
@@ -28,16 +28,13 @@ static void	ft_check_flag_echo(char *str, int *n_flg, int *i)
 	{
 		while (str[++j] != '\0')
 		{
-			if (str[j] == 'n')
-				*n_flg = 1;
-			else
-			{
-				*n_flg = 0;
-				return ;
-			}
+			if (str[j] != 'n')
+				return (1);
 		}
 		(*i)++;
 	}
+	*n_flg = 1;
+	return (0);
 }
 
 /**
@@ -52,14 +49,18 @@ int	ft_echo(t_execcmd *cmd)
 	int	i;
 
 	n_flg = 0;
-	i = 0;
-	if (cmd->argv[1] != NULL && cmd->argv[1][0] == '-')
-		ft_check_flag_echo(cmd->argv[1], &n_flg, &i);
-	while (cmd->argv[++i] != NULL)
+	i = 1;
+	while (cmd->argv[i] != NULL && cmd->argv[i][0] == '-')
+	{
+		if (ft_check_flag_echo(cmd->argv[i], &n_flg, &i))
+			break ;
+	}
+	while (cmd->argv[i] != NULL)
 	{
 		ft_printf("%s", cmd->argv[i]);
 		if (cmd->argv[i + 1] != NULL)
 			ft_printf(" ");
+		i++;
 	}
 	if (!n_flg)
 		ft_printf("\n");
