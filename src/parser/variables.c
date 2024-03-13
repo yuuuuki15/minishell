@@ -114,22 +114,20 @@ char	*expand_var(char *str, t_shell *shell)
 
 	if (find_var(str) != 0)
 	{
-		//ft_printf("%d\n", find_var(str));
 		get_var(&tok, str);
-		//ft_printf("%s\n", tok.str);
 		if (ft_strcmp(tok.str, "?") == 0)
 			expansion = ft_itoa(shell->exit_status);
 		else
 		{
 			if (ft_get_env(tok.str, shell) == NULL)
-				return (NULL);
+				return (" ");
 			else
 				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
 		}
 		frank = frankenstein(str, &tok, expansion);
 		free(expansion);
-		//if (tok.str)
-		//	free (tok.str);
+		if (tok.str)
+			free (tok.str);
 		if (find_var(frank))
 			frank = expand_var(frank, shell);
 		return (frank);

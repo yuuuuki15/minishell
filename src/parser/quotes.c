@@ -12,24 +12,44 @@
 
 #include "minishell.h"
 
+void	print_table(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ft_printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
 // check for extra < and >
 char	**redirect_syntax_check(char **tab)
 {
 	int		i;
 	int		len;
 
+	if (tab == NULL)
+		return (NULL);
 	i = 0;
+	ft_printf("start of redirect syntax check\n");
+	print_table(tab);
+	ft_printf("about to start while loop\n");
 	while (tab[i] != NULL)
 	{
 		len = (int)ft_strlen(tab[i]);
-		if (ft_strcmp(tab[i], "<<<") == 0)
+		ft_printf("%d\n", len);
+		if (len >= 3 && ft_strcmp(tab[i], "<<<") == 0)
 		{
+			ft_printf("in if\n");
 			ft_printf("here string syntax is not supported\n");
 			tab[0] = NULL;
 		}
-		else if (ft_strncmp(tab[i], "<<<", 3) == 0
+		else if (len > 3 && ft_strncmp(tab[i], "<<<", 3) == 0
 			&& (tab[i][3] == '<' || tab[i][3] == '>'))
 		{
+			ft_printf("in else if\n");
 			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);
 			tab[0] = NULL;
 		}
@@ -43,8 +63,11 @@ char	**clean_quotes(char **tab, t_shell *shell)
 {
 	int		i;
 
+	if (tab == NULL)
+		return (NULL);
 	tab = redirect_syntax_check(tab);
 	i = 0;
+	ft_printf("back in clean quotes\n");
 	while (tab[i] != NULL)
 	{
 		if (i > 0 && tab[i][0] == '(')

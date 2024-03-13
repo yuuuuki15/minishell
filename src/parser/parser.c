@@ -38,6 +38,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	t_tok		tok2;
 
 	ret = NULL;
+	//substr = NULL;
 	if (tok->tok == -1)
 	{
 		ret = make_execcmd();
@@ -46,7 +47,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 		{
 			substr = expand_var(str, shell);
 			cmd->argv = clean_quotes(p_spliter(substr), shell);
-			free (substr);
+			//free (substr);
 		}
 		else
 			cmd->argv = clean_quotes(p_spliter(str), shell);
@@ -56,8 +57,10 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
 		get_token(&tok2, substr);
 		ret = make_redircmd(parsecmd(substr, &tok2, shell), tok->str, tok->tok);
-		free (substr);
+		//free (substr);
 	}
+	//if (substr)
+	//	free (substr);
 	return (ret);
 }
 
