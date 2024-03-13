@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 13:08:46 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:34:11 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 		free(value);
 		return (1);
 	}
-	ft_printf("key: %s\n", key);
-	ft_printf("value: %s\n", value);
 	return (ft_add_env(key, value, shell));
 }
 
