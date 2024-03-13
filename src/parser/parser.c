@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+// check if there is a var before quotes
+int	var_quote_check(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '$')
+			return (1);
+		if (str[i] == '"')
+			return (2);
+		i++;
+	}
+	return (0);
+}
+
 // stores all commands in command structures in a tree
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 {
@@ -25,7 +42,15 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	{
 		ret = make_execcmd();
 		cmd = (t_execcmd *)ret;
-		cmd->argv = clean_quotes(p_spliter(str), shell);
+		if (var_quote_check(str) == 1)
+		{
+			substr = expand_var(str, shell);
+			ft_printf("sub %s\n", substr);
+			cmd->argv = clean_quotes(p_spliter(substr), shell);
+			free (substr);
+		}
+		else
+			cmd->argv = clean_quotes(p_spliter(str), shell);
 	}
 	if (ft_tofile(tok->tok) == 1)
 	{

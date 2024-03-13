@@ -21,12 +21,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	tok->len = 0;
 	if (str[i] == '<' || str[i] == '>')
 		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
-	while (str[i] != '\0' && ft_isspace(str[i]))
-	{
-		tok->len++;
-		i++;
-	}
-	while (str[i] != '\0' && ft_isspace(str[i]) == 0)
+	while (str[i] != '\0' && ft_isspace(str[i]) == 0 && ft_issym(str[i]) == -1)
 	{
 		tok->len++;
 		i++;
