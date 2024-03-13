@@ -20,6 +20,7 @@ void	clean_list(t_cmd *cmd)
 	lcmd = (t_listcmd *)cmd;
 	clean_tree(lcmd->left);
 	clean_tree(lcmd->right);
+	free (lcmd);
 }
 
 // clean content of a redirect
@@ -30,6 +31,7 @@ void	clean_redir(t_cmd *cmd)
 	rcmd = (t_redircmd *)cmd;
 	free (rcmd->file);
 	clean_tree(rcmd->cmd);
+	free (rcmd);
 }
 
 // clean content of an exec
@@ -46,6 +48,7 @@ void	clean_exec(t_cmd *cmd)
 		i++;
 	}
 	free (ecmd->argv);
+	free (ecmd);
 }
 
 // clean content of a back
@@ -55,20 +58,18 @@ void	clean_back(t_cmd *cmd)
 
 	bcmd = (t_backcmd *)cmd;
 	clean_tree(bcmd->cmd);
+	free (bcmd);
 }
 
 // clean tree
 void	clean_tree(t_cmd *cmd)
 {
 	if (cmd->type == EXEC)
-	{
 		clean_exec(cmd);
-		free (cmd);
-	}
-	if (cmd->type == BACK)
+	else if (cmd->type == BACK)
 		clean_back(cmd);
-	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
+	else if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
 		clean_list(cmd);
-	if (cmd->type == REDIR)
+	else if (cmd->type == REDIR)
 		clean_redir(cmd);
 }

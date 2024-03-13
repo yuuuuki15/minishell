@@ -124,6 +124,7 @@ typedef struct s_shell
 	int		pid;
 	int		exit_status;
 	int		is_inside_pipe;
+	t_cmd	*head_cmd;
 	t_env	*env;
 }			t_shell;
 
@@ -222,6 +223,7 @@ void	printcmd(t_cmd *cmd);
 
 // clean
 void	clean_tree(t_cmd *cmd);
+void	clean_exit(t_shell *shell);
 
 // error handling
 void	ft_error(char *error_message);

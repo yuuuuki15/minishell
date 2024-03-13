@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-// exiting shell, free global variable
-// should also free tree! Add this.
-void	exit_shell(t_shell *shell)
+void	clean_exit(t_shell *shell)
 {
 	close(shell->stdin);
 	close(shell->stdout);
@@ -22,6 +20,14 @@ void	exit_shell(t_shell *shell)
 		free (shell->user_input);
 	rl_clear_history();
 	ft_clean_env(shell);
+	if (shell->head_cmd)
+		clean_tree(shell->head_cmd);
+}
+
+// exiting shell, free global variable
+void	exit_shell(t_shell *shell)
+{
+	clean_exit(shell);
 	ft_printf("%s", "Exiting shell\n");
 	exit(0);
 }

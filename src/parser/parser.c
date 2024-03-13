@@ -20,6 +20,7 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	char		*substr;
 	t_tok		tok2;
 
+	ret = NULL;
 	if (tok->tok == -1)
 	{
 		ret = make_execcmd();
@@ -64,6 +65,36 @@ void	get_token(t_tok *tok, char *str)
 	free (p_check);
 }
 
+// trim off first set of parentheses
+char	*trim_para(char *str)
+{
+	int	i;
+	int	j;
+	int	*q_check;
+	int	len;
+	int	done;
+
+	len = (int)ft_strlen(str);
+	q_check = parse_quotes(str);
+	i = 0;
+	j = 1;
+	done = 0;
+	while (j < len)
+	{
+		if (done == 0 && str[j] == ')' && q_check[j] == 0)
+		{
+			done = 1;
+			j++;
+		}
+		str[i] = str[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	free (q_check);
+	return (str);
+}
+
 // removes parentheses or flags error if there is more stuff in the line
 t_cmd	*parse_paren(char *str, t_shell *shell)
 {
@@ -72,7 +103,7 @@ t_cmd	*parse_paren(char *str, t_shell *shell)
 
 	if (str[ft_strlen(str) - 1] == ')')
 	{
-		str = ft_strtrim(str, "()");
+		str = trim_para(str);
 		cmd = lexer(str, shell);
 	}
 	else
@@ -97,6 +128,7 @@ t_cmd	*lexer(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
 	t_tok		tok;
+	char		*strim;
 
 	if (str == NULL)
 		return (NULL);
@@ -108,14 +140,15 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		cmd = parse_pipe(str, &tok, shell);
 	else
 	{
-		str = ft_strtrim(str, " ");
-		if (str[0] == '(')
-			cmd = parse_paren(str, shell);
+		strim = ft_strtrim(str, " ");
+		if (strim[0] == '(')
+			cmd = parse_paren(strim, shell);
 		else
 		{
-			get_token(&tok, str);
-			cmd = parsecmd(str, &tok, shell);
+			get_token(&tok, strim);
+			cmd = parsecmd(strim, &tok, shell);
 		}
+		free (strim);
 	}
 	return (cmd);
 }

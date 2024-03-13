@@ -30,7 +30,7 @@ size_t	ft_numlen(int n)
 	return (i);
 }
 
-// retruns the absolute value of a number
+// returns the absolute value of a number
 int	ft_abs(int n)
 {
 	if (n < 0)

@@ -24,16 +24,17 @@ void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	char	*pathname;
 	int		res;
 
+	res = 0;
 	pathname = ft_get_path(cmd->argv[0], shell);
-	res = execve(pathname, cmd->argv, env);
-	if (res < 0)
+	if (pathname != NULL)
+		res = execve(pathname, cmd->argv, env);
+	if (res < 0 || pathname == NULL)
 	{
 		if (pathname != NULL)
 			free(pathname);
 		ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
 		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
-		ft_free_tab(cmd->argv);
-		free (cmd);
+		clean_exit(shell);
 		exit(127);
 	}
 }
@@ -77,7 +78,7 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 	}
 }
 
-// directs the execution of the cammand tree
+// directs the execution of the command tree
 void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 {
 	if (cmd->type == REDIR)

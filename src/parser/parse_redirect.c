@@ -15,6 +15,8 @@
 // extracts file name from string
 void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
+	char	*sub;
+
 	i++;
 	tok->len = 0;
 	if (str[i] == '<' || str[i] == '>')
@@ -29,9 +31,11 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 		tok->len++;
 		i++;
 	}
-	tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
+	sub = ft_substr(str, tok->s_loc + size, tok->len);
+	tok->str = ft_strtrim(sub, " ");
 	tok->size = tok->len + size - 1;
 	tok->cut = i;
+	free (sub);
 }
 
 // get information for redirection tokens
