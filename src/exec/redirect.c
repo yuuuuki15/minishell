@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:25:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	char	*line;
 
 	pipe(pipefd);
-	ft_printf("%s\n", rcmd->file);
 	while (1)
 	{
+		ft_signal_manager(2);
 		ft_printf("heredoc> ");
 		line = ft_get_next_line(STDIN_FILENO);
 		if (ft_strncmp(line, rcmd->file, ft_strlen(rcmd->file)) == 0)

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 16:22:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:29:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 		handle_builtin(ecmd, shell);
 		return ;
 	}
-	ft_signal_manager(2);
 	dup_descriptors(shell);
 	shell->pid = fork_child(shell);
 	if (shell->pid == 0)
@@ -78,6 +77,7 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 // directs the execution of the command tree
 void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 {
+	ft_signal_manager(2);
 	if (cmd->type == REDIR)
 		manage_redir(cmd, env, shell);
 	if (cmd->type == EXEC)
