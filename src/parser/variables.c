@@ -32,6 +32,17 @@ int	find_var(char *str)
 	return (nd);
 }
 
+int	ft_isallowed(char c)
+{
+	if (ft_isalnum(c) == 1)
+		return (1);
+	if (c == '/')
+		return (0);
+	if (c == '_')
+		return (1);
+	return (0);
+}
+
 // extracts var name from string noting location and length
 void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
@@ -39,15 +50,18 @@ void	get_var_name(t_tok *tok, int i, int size, char *str)
 
 	i++;
 	tok->len = 0;
-	while (str[i] != '\0' && ft_isspace(str[i]))
+	if (str[i] == '?')
 	{
 		tok->len++;
 		i++;
 	}
-	while (str[i] != '\0' && ft_isalnum(str[i]) != 0 && str[i] != '/')
+	else
 	{
-		tok->len++;
-		i++;
+		while (str[i] != '\0' && ft_isallowed(str[i]) == 1)
+		{
+			tok->len++;
+			i++;
+		}
 	}
 	sub = ft_substr(str, tok->s_loc + size, tok->len);
 	tok->str = ft_strtrim(sub, " ");
