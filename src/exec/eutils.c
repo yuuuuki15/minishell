@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/12 15:26:34 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:19:13 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 	if (ft_get_env("PATH", shell))
 		env_path = ft_split(ft_get_env("PATH", shell)->value, ':');
 	if (env_path == NULL)
-		exit(1);
+		return (NULL);
 	full_path = validate_path(env_path, cmd);
 	ft_free_tab(env_path);
 	return (full_path);

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 17:14:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:22:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,12 @@ void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	pathname = ft_get_path(cmd->argv[0], shell);
 	if (pathname != NULL)
 		res = execve(pathname, cmd->argv, env);
-	if (res < 0 || pathname == NULL)
-	{
-		if (pathname != NULL)
-			free(pathname);
-		ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
-		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
-		clean_exit(shell);
-		exit(127);
-	}
+	if (res < 0 || pathname != NULL)
+		free(pathname);
+	ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
+	ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+	clean_exit(shell);
+	exit(127);
 }
 
 static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
