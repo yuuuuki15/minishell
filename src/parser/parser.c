@@ -172,9 +172,10 @@ t_cmd	*lexer(char *str, t_shell *shell)
 			get_token(&tok, strim);
 			cmd = parsecmd(strim, &tok, shell);
 		}
-		free (strim);
+		if (strim)
+			free (strim);
 	}
-	if (tok.str)
-		free (tok.str);
+	//if (tok.str)
+	//	free (tok.str);
 	return (cmd);
 }
