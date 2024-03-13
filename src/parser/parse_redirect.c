@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:07:26 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/12 14:07:39 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:50:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	tok->len = 0;
 	if (str[i] == '<' || str[i] == '>')
 		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
+	while (str[i] != '\0' && ft_isspace(str[i]))
+	{
+		tok->len++;
+		i++;
+	}
 	while (str[i] != '\0' && ft_isspace(str[i]) == 0 && ft_issym(str[i]) == -1)
 	{
 		tok->len++;
