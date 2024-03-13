@@ -18,7 +18,8 @@ t_cmd	*make_execcmd(void)
 	t_execcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	if (cmd == NULL)
+		return (NULL);
 	cmd->type = EXEC;
 	return ((t_cmd *)cmd);
 }
@@ -29,7 +30,8 @@ t_cmd	*make_backcmd(t_cmd *subcmd)
 	t_backcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	if (cmd == NULL)
+		return (NULL);
 	cmd->type = BACK;
 	cmd->cmd = subcmd;
 	return ((t_cmd *)cmd);
@@ -41,7 +43,8 @@ t_cmd	*make_listcmd(t_cmd *left, t_cmd *right, int type)
 	t_listcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
+	if (cmd == NULL)
+		return (NULL);
 	cmd->type = type;
 	cmd->left = left;
 	cmd->right = right;
@@ -54,7 +57,8 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode)
 	t_redircmd	*rcmd;
 
 	rcmd = malloc(sizeof(*rcmd));
-	ft_memset(rcmd, 0, sizeof(*rcmd));
+	if (rcmd == NULL)
+		return (NULL);
 	rcmd->type = REDIR;
 	rcmd->cmd = subcmd;
 	rcmd->file = file;

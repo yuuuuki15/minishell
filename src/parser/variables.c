@@ -35,6 +35,8 @@ int	find_var(char *str)
 // extracts var name from string noting location and length
 void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
+	char	*sub;
+
 	i++;
 	tok->len = 0;
 	while (str[i] != '\0' && ft_isspace(str[i]))
@@ -42,15 +44,16 @@ void	get_var_name(t_tok *tok, int i, int size, char *str)
 		tok->len++;
 		i++;
 	}
-	while (str[i] != '\0' && ft_isspace(str[i]) == 0
-		&& ft_issym(str[i]) == -1 && str[i] != '$')
+	while (str[i] != '\0' && ft_isalnum(str[i]) != 0 && str[i] != '/')
 	{
 		tok->len++;
 		i++;
 	}
-	tok->str = ft_strtrim(ft_substr(str, tok->s_loc + size, tok->len), " ");
+	sub = ft_substr(str, tok->s_loc + size, tok->len);
+	tok->str = ft_strtrim(sub, " ");
 	tok->size = tok->len + size - 1;
 	tok->cut = i;
+	free (sub);
 }
 
 // extracts the name of the variable and stores it in tok
@@ -103,7 +106,7 @@ char	*expand_var(char *str, t_shell *shell)
 		else
 		{
 			if (ft_get_env(tok.str, shell) == NULL)
-				return (str);
+				return (NULL);
 			else
 				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
 		}

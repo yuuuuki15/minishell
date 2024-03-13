@@ -22,6 +22,7 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
 	shell->env = NULL;
+	shell->exit_status = 0;
 	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
 	ft_signal_manager();
@@ -55,6 +56,7 @@ int	main(int ac, char **av, char **env)
 			cmd = lexer(shell.user_input, &shell);
 			if (cmd != NULL)
 			{
+				shell.head_cmd = cmd;
 				if (check_tree(cmd, &shell) == 0)
 					run_exec(cmd, env, &shell);
 				clean_tree(cmd);
@@ -63,6 +65,6 @@ int	main(int ac, char **av, char **env)
 				exit(0);
 		}
 	}
-	rl_clear_history();
+	exit_shell(&shell);
 	return (0);
 }

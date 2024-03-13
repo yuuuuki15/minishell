@@ -101,7 +101,8 @@ void	ft_clean_env(t_shell *shell)
 			free(curr->value);
 		to_delete = curr;
 		curr = curr->next;
-		free(to_delete);
+		if (to_delete)
+			free(to_delete);
 	}
 	shell->env = NULL;
 }

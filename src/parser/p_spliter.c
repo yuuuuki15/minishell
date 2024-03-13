@@ -58,13 +58,13 @@ char	*p_ft_strndup(char *s, size_t n)
 }
 
 // determines the length of a word
-size_t	p_word_length(char *s, int *q_check)
+size_t	p_word_length(char *s, int *q_check, int i)
 {
 	size_t	len;
 
 	len = 0;
-	while ((q_check[len] != 0 || (q_check[len] == 0
-				&& s[len] != ' ')) && s[len] != '\0')
+	while (s[i + len] != '\0' && (q_check[i + len] != 0
+			|| (q_check[i + len] == 0 && s[i + len] != ' ')))
 		len++;
 	return (len);
 }
@@ -85,7 +85,7 @@ int	p_allocate(char **a, char *s, size_t words)
 		{
 			if (i == 0 || (i > 0 && (s[i - 1] == ' ' && q_check[i - 1] == 0)))
 			{
-				a[k] = p_ft_strndup(&s[i], p_word_length(&s[i], &q_check[i]));
+				a[k] = p_ft_strndup(&s[i], p_word_length(s, q_check, i));
 				if (a[k] == 0)
 					return (k);
 				k++;
