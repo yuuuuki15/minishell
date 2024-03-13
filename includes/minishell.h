@@ -26,7 +26,7 @@
 # include <signal.h>
 # include <fcntl.h>
 
-# define PROMPT "\x1b[0;32mmini\x1b[0;36mshell\x1b[0;32m> \x1B[0m"
+# define PROMPT "minishell> "
 
 // types of tokens
 # define RIN	1 // < redirect input

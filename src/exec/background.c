@@ -30,6 +30,6 @@ void	manage_andor(t_cmd *cmd, char **env, t_shell *shell)
 	run_exec(lcmd->left, env, shell);
 	if (shell->exit_status == 0 && cmd->type == IFTHEN)
 		run_exec(lcmd->right, env, shell);
-	else if (shell->exit_status == 1 && cmd->type == IFOR)
+	else if (shell->exit_status != 0 && cmd->type == IFOR)
 		run_exec(lcmd->right, env, shell);
 }
