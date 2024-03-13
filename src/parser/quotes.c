@@ -16,16 +16,18 @@
 char	**redirect_syntax_check(char **tab)
 {
 	int		i;
+	int		len;
 
 	i = 0;
 	while (tab[i] != NULL)
 	{
+		len = (int)ft_strlen(tab[i]);
 		if (ft_strcmp(tab[i], "<<<") == 0)
 		{
 			ft_printf("here string syntax is not supported\n");
 			tab[0] = NULL;
 		}
-		else if (ft_strncmp(tab[i], "<<<", 3) == 0
+		else if (len > 3 && ft_strncmp(tab[i], "<<<", 3) == 0
 			&& (tab[i][3] == '<' || tab[i][3] == '>'))
 		{
 			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);

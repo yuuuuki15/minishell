@@ -66,7 +66,6 @@ typedef struct s_tok
 	int		size;
 	int		cut;
 	char	*str;
-	char	*quote;
 }	t_tok;
 
 typedef struct s_cmd

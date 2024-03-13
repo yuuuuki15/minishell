@@ -45,7 +45,6 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 		if (var_quote_check(str) == 1)
 		{
 			substr = expand_var(str, shell);
-			ft_printf("sub %s\n", substr);
 			cmd->argv = clean_quotes(p_spliter(substr), shell);
 			free (substr);
 		}
@@ -175,5 +174,7 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		}
 		free (strim);
 	}
+	if (tok.str)
+		free (tok.str);
 	return (cmd);
 }

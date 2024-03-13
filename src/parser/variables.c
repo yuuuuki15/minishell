@@ -114,7 +114,9 @@ char	*expand_var(char *str, t_shell *shell)
 
 	if (find_var(str) != 0)
 	{
+		ft_printf("%d\n", find_var(str));
 		get_var(&tok, str);
+		ft_printf("%s\n", tok.str);
 		if (ft_strcmp(tok.str, "?") == 0)
 			expansion = ft_itoa(shell->exit_status);
 		else
@@ -130,5 +132,7 @@ char	*expand_var(char *str, t_shell *shell)
 			frank = expand_var(frank, shell);
 		return (frank);
 	}
+	if (tok.str)
+		free (tok.str);
 	return (str);
 }
