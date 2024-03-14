@@ -19,19 +19,6 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 
 	i++;
 	tok->len = 0;
-	/*
-	if (str[i] == '<' || str[i] == '>')
-	{
-		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
-		ft_printf("kdsjfhgldkfjgh\n");
-		tok->len = 1;
-		sub = ft_substr(str, tok->s_loc + size, tok->len);
-		tok->str = ft_strtrim(sub, " ");
-		tok->size = tok->len + size - 1;
-		tok->cut = i;
-		ft_printf("%s\n", tok->str); 
-	}
-	*/
 	while (str[i] != '\0' && ft_isspace(str[i]))
 	{
 		tok->len++;
@@ -46,7 +33,6 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	tok->str = ft_strtrim(sub, " ");
 	tok->size = tok->len + size - 1;
 	tok->cut = i;
-	ft_printf("in get file name: %s\n", tok->str);
 	free (sub);
 }
 

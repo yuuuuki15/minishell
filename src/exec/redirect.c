@@ -35,14 +35,6 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
-	ft_printf("redir helper: %s %d\n", rcmd->file, rcmd->fd);
-	if (rcmd->file != NULL && (rcmd->file[0] == '<' || rcmd->file[0] == '>'))
-	{
-		shell->exit_status = 2;
-		rcmd->fd = -1;
-		ft_printf("in redir helper\n");
-		return ;
-	}
 	if (rcmd->mode == RIN && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
@@ -72,10 +64,7 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	rcmd = (t_redircmd *)cmd;
 	ft_redir_helper(rcmd, shell);
 	if (rcmd->fd < 0)
-	{
-		if (rcmd->file[0] != '<' && rcmd->file[0] != '>')
 			ft_printf("open file error\n");
-	}
 	else
 		run_exec(rcmd->cmd, env, shell);
 }
