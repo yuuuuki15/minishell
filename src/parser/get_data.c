@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/12 17:15:10 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:58:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exit_shell(t_shell *shell)
 {
 	clean_exit(shell);
 	ft_printf("%s", "Exiting shell\n");
-	exit(0);
+	exit(shell->exit_prog);
 }
 
 // use readline to display prompt and read in user input

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 19:31:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 19:06:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	ft_builtin_manager(t_execcmd *cmd, t_shell *shell)
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 		result = ft_pwd(cmd, shell);
 	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
-		ft_exit(shell);
+		result = ft_exit(cmd, shell);
 	return (result);
 }

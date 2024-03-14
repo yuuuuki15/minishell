@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 17:12:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/13 19:06:52 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_shell
 	int		pid;
 	int		exit_status;
 	int		is_inside_pipe;
+	int		exit_prog;
 	t_cmd	*head_cmd;
 	t_env	*env;
 }			t_shell;
@@ -198,7 +199,7 @@ int		ft_env(t_execcmd *cmd, t_shell *shell);
 int		ft_export(t_execcmd *cmd, t_shell *shell);
 int		ft_unset(t_execcmd *cmd, t_shell *shell);
 int		ft_pwd(t_execcmd *cmd, t_shell *shell);
-void	ft_exit(t_shell *shell);
+int		ft_exit(t_execcmd *cmd, t_shell *shell);
 
 // exec
 void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell);
