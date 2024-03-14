@@ -35,6 +35,7 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
+	ft_printf("redir helper: %s %d\n", rcmd->file, rcmd->fd);
 	if (rcmd->file != NULL && (rcmd->file[0] == '<' || rcmd->file[0] == '>'))
 	{
 		shell->exit_status = 2;

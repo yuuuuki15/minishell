@@ -40,6 +40,7 @@
 # define DOL 	12 // $ env
 # define OP		13 // open parenthesis
 # define CP		14 // close parenthesis
+# define FERR	15 // file read error
 
 // types of cmds
 # define EXEC	1

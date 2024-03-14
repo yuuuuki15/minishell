@@ -29,7 +29,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 		tok->str = ft_strtrim(sub, " ");
 		tok->size = tok->len + size - 1;
 		tok->cut = i;
-		ft_printf("%s\n", tok->str);
+		ft_printf("%s\n", tok->str); 
 	}
 	*/
 	while (str[i] != '\0' && ft_isspace(str[i]))
@@ -46,7 +46,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	tok->str = ft_strtrim(sub, " ");
 	tok->size = tok->len + size - 1;
 	tok->cut = i;
-	ft_printf("%s\n", tok->str);
+	ft_printf("in get file name: %s\n", tok->str);
 	free (sub);
 }
 
@@ -72,5 +72,11 @@ void	get_redir_token(t_tok *tok, int i, char *str)
 		i++;
 		size++;
 	}
-	get_file_name(tok, i, size, str);
+	if (ft_istok(str[i + 1]) == -1)
+		get_file_name(tok, i, size, str);
+	else
+	{
+		ft_printf("syntax error near unexpected token \'%c\'\n", str[i + 1]);
+		tok->tok = FERR;
+	}
 }

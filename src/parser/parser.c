@@ -83,9 +83,8 @@ void	get_token(t_tok *tok, char *str)
 		tok->tok = ft_istok(str[i]);
 	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<')
 	{
-		str = ft_substr(str, 0, tok->s_loc);
-		str[tok->s_loc] = '\0';
-		tok->tok = -1;
+		ft_printf("here string not supported\n");
+		tok->tok = FERR;
 	}
 	else
 		get_redir_token(tok, i, str);
@@ -163,7 +162,7 @@ t_cmd	*parse_paren(char *str, t_shell *shell)
 		while (ft_isspace(str[i]) == 1)
 			i++;
 		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
-		cmd = NULL;
+		return (NULL);
 	}
 	return (cmd);
 }
@@ -194,6 +193,11 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		else
 		{
 			get_token(&tok, strim);
+			if (tok.tok == FERR)
+			{
+				free (strim);
+				return (NULL);
+			}
 			cmd = parsecmd(strim, &tok, shell);
 			if (cmd->type == REDIR && tok.str != NULL)
 				free (tok.str);
