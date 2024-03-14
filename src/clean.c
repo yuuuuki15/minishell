@@ -40,14 +40,24 @@ void	clean_exec(t_cmd *cmd)
 	t_execcmd	*ecmd;
 	int			i;
 
+	if (cmd == NULL)
+		return ;
 	ecmd = (t_execcmd *)cmd;
-	i = 0;
-	while (ecmd->argv[i] != NULL)
+	if (ecmd->argv == NULL)
 	{
-		free (ecmd->argv[i]);
-		i++;
+		free (ecmd);
+		return ;
 	}
-	free (ecmd->argv);
+	else
+	{
+		i = 0;
+		while (ecmd->argv[i] != NULL)
+		{
+			free (ecmd->argv[i]);
+			i++;
+		}
+		free (ecmd->argv);
+	}
 	free (ecmd);
 }
 

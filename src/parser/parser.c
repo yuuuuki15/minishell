@@ -38,7 +38,6 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	t_tok		tok2;
 
 	ret = NULL;
-	//substr = NULL;
 	if (tok->tok == -1)
 	{
 		ret = make_execcmd();
@@ -46,21 +45,23 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 		if (var_quote_check(str) == 1)
 		{
 			substr = expand_var(str, shell);
-			cmd->argv = clean_quotes(p_spliter(substr), shell);
-			//free (substr);
+			cmd->argv = p_spliter(substr);
+			clean_quotes(cmd->argv, shell);
+			free (substr);
 		}
 		else
-			cmd->argv = clean_quotes(p_spliter(str), shell);
+		{
+			cmd->argv = p_spliter(str);
+			clean_quotes(cmd->argv, shell);
+		}
 	}
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
 		get_token(&tok2, substr);
 		ret = make_redircmd(parsecmd(substr, &tok2, shell), tok->str, tok->tok);
-		//free (substr);
+		free (substr);
 	}
-	//if (substr)
-	//	free (substr);
 	return (ret);
 }
 
@@ -174,11 +175,11 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		{
 			get_token(&tok, strim);
 			cmd = parsecmd(strim, &tok, shell);
+			if (cmd->type == REDIR && tok.str != NULL)
+				free (tok.str);
 		}
 		if (strim)
 			free (strim);
 	}
-	//if (tok.str)
-	//	free (tok.str);
 	return (cmd);
 }

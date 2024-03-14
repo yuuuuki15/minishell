@@ -35,22 +35,22 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
-	if (rcmd->file[0] == '<' || rcmd->file[0] == '>')
+	if (rcmd->file != NULL && (rcmd->file[0] == '<' || rcmd->file[0] == '>'))
 	{
 		shell->exit_status = 2;
 		return ;
 	}
-	if (rcmd->mode == RIN)
+	if (rcmd->mode == RIN && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
 		shell->in_fd = rcmd->fd;
 	}
-	else if (rcmd->mode == ROUT)
+	else if (rcmd->mode == ROUT && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		shell->out_fd = rcmd->fd;
 	}
-	else if (rcmd->mode == ROUTA)
+	else if (rcmd->mode == ROUTA && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		shell->out_fd = rcmd->fd;

@@ -33,23 +33,18 @@ char	**redirect_syntax_check(char **tab)
 	if (tab == NULL)
 		return (NULL);
 	i = 0;
-	ft_printf("start of redirect syntax check\n");
 	print_table(tab);
-	ft_printf("about to start while loop\n");
 	while (tab[i] != NULL)
 	{
 		len = (int)ft_strlen(tab[i]);
-		ft_printf("%d\n", len);
 		if (len >= 3 && ft_strcmp(tab[i], "<<<") == 0)
 		{
-			ft_printf("in if\n");
 			ft_printf("here string syntax is not supported\n");
 			tab[0] = NULL;
 		}
 		else if (len > 3 && ft_strncmp(tab[i], "<<<", 3) == 0
 			&& (tab[i][3] == '<' || tab[i][3] == '>'))
 		{
-			ft_printf("in else if\n");
 			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);
 			tab[0] = NULL;
 		}
@@ -59,33 +54,35 @@ char	**redirect_syntax_check(char **tab)
 }
 
 // removes quotes from arguments after expanding variables not in single quotes
-char	**clean_quotes(char **tab, t_shell *shell)
+void	clean_quotes(char **tab, t_shell *shell)
 {
 	int		i;
+	char	*exp;
 
 	if (tab == NULL)
-		return (NULL);
-	tab = redirect_syntax_check(tab);
+		return ;
+	//tab = redirect_syntax_check(tab);
 	i = 0;
-	ft_printf("back in clean quotes\n");
 	while (tab[i] != NULL)
 	{
 		if (i > 0 && tab[i][0] == '(')
 		{
-			ft_printf("syntax error near unexpected token \'%s\'\n",
-				ft_strtrim(tab[i], "()"));
-			tab[0] = NULL;
+			//ft_printf("syntax error near unexpected token \'%s\'\n",
+			//	ft_strtrim(tab[i], "()"));
+			free (tab[i]);
+			tab[0] = ft_strdup(" ");
 		}
 		i++;
 	}
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		tab[i] = expand_var(tab[i], shell);
+		exp = expand_var(tab[i], shell);
+		free (tab[i]);
+		tab[i] = exp;
 		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}
-	return (tab);
 }
 
 // trims paired quotes from string

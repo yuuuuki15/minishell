@@ -182,7 +182,8 @@ char	*expand_var(char *str, t_shell *shell);
 int		*parse_quotes(char *str);
 int		balance_quotes(char *str);
 char	*remove_quotes(char *str);
-char	**clean_quotes(char **tab, t_shell *shell);
+//char	**clean_quotes(char **tab, t_shell *shell);
+void	clean_quotes(char **tab, t_shell *shell);
 
 // cmd tree
 t_cmd	*make_execcmd(void);

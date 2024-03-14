@@ -120,7 +120,7 @@ char	*expand_var(char *str, t_shell *shell)
 		else
 		{
 			if (ft_get_env(tok.str, shell) == NULL)
-				return (" ");
+				return (ft_strdup(" "));
 			else
 				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
 		}
@@ -132,5 +132,5 @@ char	*expand_var(char *str, t_shell *shell)
 			frank = expand_var(frank, shell);
 		return (frank);
 	}
-	return (str);
+	return (ft_strdup(str));
 }
