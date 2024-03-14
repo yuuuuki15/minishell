@@ -1,12 +1,22 @@
-total 84
-drwxr-xr-x 2 mevonuk 2023_paris    42 Mar 14 09:39 includes
--rwxr-xr-x 1 mevonuk 2023_paris    60 Mar 12 15:56 infile
-drwxr-xr-x 2 mevonuk 2023_paris  4096 Mar 14 09:46 libft
--rwxr-xr-x 1 mevonuk 2023_paris  2524 Mar 12 15:56 Makefile
--rwxr-xr-x 1 mevonuk 2023_paris 57608 Mar 14 11:39 minishell
-drwxr-xr-x 7 mevonuk 2023_paris   196 Mar 14 11:39 obj
--rw-r--r-- 1 mevonuk 2023_paris     0 Mar 14 11:39 out
--rwxr-xr-x 1 mevonuk 2023_paris   372 Mar 13 11:04 run.sh
-drwxr-xr-x 7 mevonuk 2023_paris   196 Mar 14 09:39 src
--rwxr-xr-x 1 mevonuk 2023_paris   404 Mar 12 15:56 test.c
--rw-r--r-- 1 mevonuk 2023_paris   246 Mar 13 11:04 valgrind-readline.supp
+includes
+infile
+libft
+Makefile
+minishell
+obj
+out
+run.sh
+src
+test.c
+valgrind-readline.supp
+includes
+infile
+libft
+Makefile
+minishell
+obj
+out
+run.sh
+src
+test.c
+valgrind-readline.supp

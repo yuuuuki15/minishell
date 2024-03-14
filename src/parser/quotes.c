@@ -25,13 +25,13 @@ void	print_table(char **tab)
 }
 
 // check for extra < and >
-char	**redirect_syntax_check(char **tab)
+void	redirect_syntax_check(char **tab)
 {
 	int		i;
 	int		len;
 
 	if (tab == NULL)
-		return (NULL);
+		return ;
 	i = 0;
 	print_table(tab);
 	while (tab[i] != NULL)
@@ -40,17 +40,18 @@ char	**redirect_syntax_check(char **tab)
 		if (len >= 3 && ft_strcmp(tab[i], "<<<") == 0)
 		{
 			ft_printf("here string syntax is not supported\n");
-			tab[0] = NULL;
+			free (tab[0]);
+			tab[0] = ft_strdup(" ");
 		}
 		else if (len > 3 && ft_strncmp(tab[i], "<<<", 3) == 0
 			&& (tab[i][3] == '<' || tab[i][3] == '>'))
 		{
 			ft_printf("syntax error near unexpected token \'%c\'\n", tab[i][3]);
-			tab[0] = NULL;
+			free (tab[0]);
+			tab[0] = ft_strdup(" ");
 		}
 		i++;
 	}
-	return (tab);
 }
 
 // removes quotes from arguments after expanding variables not in single quotes
@@ -61,7 +62,7 @@ void	clean_quotes(char **tab, t_shell *shell)
 
 	if (tab == NULL)
 		return ;
-	//tab = redirect_syntax_check(tab);
+	//redirect_syntax_check(tab);
 	i = 0;
 	while (tab[i] != NULL)
 	{

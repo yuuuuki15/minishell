@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// check for NULL command
+// check for empty command
 int	check_cmd(t_cmd *cmd)
 {
 	t_execcmd	*out;
@@ -20,7 +20,7 @@ int	check_cmd(t_cmd *cmd)
 
 	ret = 0;
 	out = (t_execcmd *)cmd;
-	if (out->argv[0] == NULL)
+	if (out->argv[0] == NULL || ft_strcmp(out->argv[0], " ") == 0)
 		ret = 1;
 	return (ret);
 }

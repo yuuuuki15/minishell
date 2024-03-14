@@ -38,6 +38,7 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	if (rcmd->file != NULL && (rcmd->file[0] == '<' || rcmd->file[0] == '>'))
 	{
 		shell->exit_status = 2;
+		rcmd->fd = -1;
 		return ;
 	}
 	if (rcmd->mode == RIN && rcmd->file != NULL)
