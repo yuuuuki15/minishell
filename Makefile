@@ -36,7 +36,7 @@ EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c background.c)
 DEBUG		=	$(addprefix debug/, print.c)
 BONUS		=	$(addprefix parser/, parse_andor.c parse_para.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c pwd.c exit.c)
-SRC			=	main.c signal.c clean.c check_tree.c \
+SRC			=	main.c clean.c check_tree.c \
 				utils.c env.c env2.c error.c\
 				$(PARSER) \
 				$(SIGNAL) \

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 09:24:11 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
+/*   Updated: 2024/03/12 17:36:30 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,50 @@
 
 // resets the prompt for readline
 // clears line, puts you on a nel line and redisplays prompt
-// void	reset_prompt(void)
-// {
-// 	write(2, "\n", 1);
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
+static void	reset_prompt(int sig)
+{
+	(void)sig;
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-// controls behavior of ctrl-c (SIGINT) and ctrl-backslash (SIGQUIT)
-// void	sig_test(int signum)
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		reset_prompt();
-// 	}
-// 	if (signum == SIGQUIT)
-// 	{
-// 		close(shell->stdin);
-// 		close(shell->stdout);
-// 	}
-// }
+/**
+ * @param sig The signal number.
+ *
+ * Handles the SIGINT signal by printing a newline and the prompt.
+ * Linux: Ctrl + C
+ */
+static void	ft_sig_c(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_printf("\n");
+	}
+}
 
-// void	set_signals(void)
-// {
-// 	struct sigaction	sa;
+static void	ft_sig_backslash(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
+	}
+}
 
-// 	sa.sa_handler = &sig_test;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &sa, NULL);
-// 	sigaction(SIGQUIT, &sa, NULL);
-// }
+/**
+ * Sets up signal handlers for SIGINT, SIGQUIT, and SIGKILL.
+ */
+void	ft_signal_manager(int option)
+{
+	if (option == 1)
+	{
+		signal(SIGINT, &reset_prompt);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (option == 2)
+	{
+		signal(SIGINT, &ft_sig_c);
+		signal(SIGQUIT, &ft_sig_backslash);
+	}
+}
