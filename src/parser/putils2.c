@@ -66,15 +66,14 @@ int	ft_issym(char c)
 	return (-1);
 }
 
-// set array to zero
-void	zero_array(int *in_quotes, int len)
+// characters allowed in a variable name
+int	ft_isallowed(char c)
 {
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		in_quotes[i] = 0;
-		i++;
-	}
+	if (ft_isalnum(c) == 1)
+		return (1);
+	if (c == '/')
+		return (0);
+	if (c == '_')
+		return (1);
+	return (0);
 }

@@ -150,6 +150,7 @@ int		ft_strisspace(char *line);
 int		ft_issym(char c);
 int		ft_istok(char c);
 int		ft_isspace(char c);
+int		ft_isallowed(char c);
 int		ft_tofile(int tok);
 char	*ft_delstr(char const *s, unsigned int start, unsigned int end);
 
@@ -172,9 +173,9 @@ int		has_first_level(char *str, t_tok *tok);
 int		balance_para(char *str, int *in_quotes);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
-int		has_para(char *str);
 int		check_tree(t_cmd *cmd, t_shell *shell);
 int		balance_pandq(char *str);
+t_cmd	*parse_paren(char *str, t_shell *shell);
 
 // variables
 char	*expand_var(char *str, t_shell *shell);

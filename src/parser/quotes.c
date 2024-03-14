@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-void	print_table(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		ft_printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
 // removes quotes from arguments after expanding variables not in single quotes
 void	clean_quotes(char **tab, t_shell *shell)
 {
@@ -37,8 +25,7 @@ void	clean_quotes(char **tab, t_shell *shell)
 	{
 		if (i > 0 && tab[i][0] == '(')
 		{
-			//ft_printf("syntax error near unexpected token \'%s\'\n",
-			//	ft_strtrim(tab[i], "()"));
+			ft_printf("syntax error near unexpected token \'(\'\n");
 			free (tab[i]);
 			tab[0] = ft_strdup(" ");
 		}
@@ -50,6 +37,7 @@ void	clean_quotes(char **tab, t_shell *shell)
 		exp = expand_var(tab[i], shell);
 		free (tab[i]);
 		tab[i] = exp;
+		ft_printf("in clean quotes: %s\n", tab[i]);
 		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}

@@ -64,7 +64,7 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	rcmd = (t_redircmd *)cmd;
 	ft_redir_helper(rcmd, shell);
 	if (rcmd->fd < 0)
-			ft_printf("open file error\n");
+		ft_printf("open file error\n");
 	else
 		run_exec(rcmd->cmd, env, shell);
 }

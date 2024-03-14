@@ -67,3 +67,16 @@ char	*ft_get_value(char *str)
 		return (NULL);
 	return (ret);
 }
+
+// set array to zero
+void	zero_array(int *in_quotes, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		in_quotes[i] = 0;
+		i++;
+	}
+}

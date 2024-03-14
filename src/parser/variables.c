@@ -32,17 +32,6 @@ int	find_var(char *str)
 	return (nd);
 }
 
-int	ft_isallowed(char c)
-{
-	if (ft_isalnum(c) == 1)
-		return (1);
-	if (c == '/')
-		return (0);
-	if (c == '_')
-		return (1);
-	return (0);
-}
-
 // extracts var name from string noting location and length
 void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
@@ -120,7 +109,7 @@ char	*expand_var(char *str, t_shell *shell)
 		else
 		{
 			if (ft_get_env(tok.str, shell) == NULL)
-				return (ft_strdup(" "));
+				expansion = ft_strdup("");
 			else
 				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
 		}
@@ -128,8 +117,6 @@ char	*expand_var(char *str, t_shell *shell)
 		free(expansion);
 		if (tok.str)
 			free (tok.str);
-		if (find_var(frank))
-			frank = expand_var(frank, shell);
 		return (frank);
 	}
 	return (ft_strdup(str));
