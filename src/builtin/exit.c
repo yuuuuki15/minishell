@@ -18,8 +18,6 @@ int	ft_exit(t_execcmd *cmd, t_shell *shell)
 	int	j;
 
 	i = -1;
-	if (cmd != NULL)
-		printcmd((t_cmd *)cmd);
 	j = 0;
 	while (cmd->argv[j] != NULL)
 	{

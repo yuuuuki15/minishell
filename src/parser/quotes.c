@@ -37,7 +37,6 @@ void	clean_quotes(char **tab, t_shell *shell)
 		exp = expand_var(tab[i], shell);
 		free (tab[i]);
 		tab[i] = exp;
-		ft_printf("in clean quotes: %s\n", tab[i]);
 		tab[i] = remove_quotes(tab[i]);
 		i++;
 	}

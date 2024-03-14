@@ -36,6 +36,18 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	free (sub);
 }
 
+// return redirect error if too many redirect tokens
+void	redir_err(t_tok *tok, int i, int size, char *str)
+{
+	if (ft_istok(str[i + 1]) == -1)
+		get_file_name(tok, i, size, str);
+	else
+	{
+		ft_printf("syntax error near unexpected token \'%c\'\n", str[i + 1]);
+		tok->tok = FERR;
+	}
+}
+
 // get information for redirection tokens
 void	get_redir_token(t_tok *tok, int i, char *str)
 {
@@ -58,11 +70,5 @@ void	get_redir_token(t_tok *tok, int i, char *str)
 		i++;
 		size++;
 	}
-	if (ft_istok(str[i + 1]) == -1)
-		get_file_name(tok, i, size, str);
-	else
-	{
-		ft_printf("syntax error near unexpected token \'%c\'\n", str[i + 1]);
-		tok->tok = FERR;
-	}
+	redir_err(tok, i, size, str);
 }

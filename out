@@ -7,16 +7,4 @@ obj
 out
 run.sh
 src
-test.c
-valgrind-readline.supp
-includes
-infile
-libft
-Makefile
-minishell
-obj
-out
-run.sh
-src
-test.c
 valgrind-readline.supp
