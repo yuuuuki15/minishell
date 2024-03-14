@@ -46,7 +46,7 @@ int	get_data(t_shell *shell)
 	shell->user_input = readline(PROMPT);
 	if (!shell->user_input)
 	{
-		ft_printf("NULL input %d\n", shell->pid);
+		shell->head_cmd = NULL;
 		exit_shell(shell);
 	}
 	if (ft_strlen(shell->user_input) > 0)

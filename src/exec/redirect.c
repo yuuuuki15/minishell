@@ -39,6 +39,7 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	{
 		shell->exit_status = 2;
 		rcmd->fd = -1;
+		ft_printf("in redir helper\n");
 		return ;
 	}
 	if (rcmd->mode == RIN && rcmd->file != NULL)

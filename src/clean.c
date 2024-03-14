@@ -74,6 +74,8 @@ void	clean_back(t_cmd *cmd)
 // clean tree
 void	clean_tree(t_cmd *cmd)
 {
+	if (cmd == NULL)
+		return ;
 	if (cmd->type == EXEC)
 		clean_exec(cmd);
 	else if (cmd->type == BACK)

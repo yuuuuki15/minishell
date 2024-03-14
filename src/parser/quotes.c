@@ -149,6 +149,8 @@ int	*parse_quotes(char *str)
 	int	*in_quotes;
 	int	len;
 
+	if (str == NULL)
+		return (NULL);
 	len = ft_strlen(str);
 	in_quotes = (int *) malloc (len * sizeof(int));
 	if (in_quotes == 0)

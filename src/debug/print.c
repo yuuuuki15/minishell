@@ -72,19 +72,21 @@ void	print_tree(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
 
+	if (cmd == NULL)
+		return ;
 	if (cmd->type == EXEC)
 	{
 		ft_printf("type: EXEC\n");
 		printcmd(cmd);
 	}
-	if (cmd->type == BACK)
+	else if (cmd->type == BACK)
 	{
 		bcmd = (t_backcmd *)cmd;
 		ft_printf("type: BACK\n");
 		print_tree(bcmd->cmd);
 	}
-	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
+	else if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
 		print_list(cmd);
-	if (cmd->type == REDIR)
+	else if (cmd->type == REDIR)
 		print_redir(cmd);
 }

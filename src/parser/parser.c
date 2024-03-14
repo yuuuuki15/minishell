@@ -123,13 +123,33 @@ char	*trim_para(char *str)
 	return (str);
 }
 
+// count number of lowest level parentheses
+int	count_p(char *str)
+{
+	int	i;
+	int	cc;
+	int	*p_check;
+
+	p_check = parse_para(str);
+	i = 0;
+	cc = 0;
+	while (str[i] != '\0')
+	{
+		if (p_check[i] == 2)
+			cc++;
+		i++;
+	}
+	free (p_check);
+	return (cc);
+}
+
 // removes parentheses or flags error if there is more stuff in the line
 t_cmd	*parse_paren(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
 	int			i;
 
-	if (str[ft_strlen(str) - 1] == ')')
+	if (count_p(str) == 2 && str[ft_strlen(str) - 1] == ')')
 	{
 		str = trim_para(str);
 		cmd = lexer(str, shell);

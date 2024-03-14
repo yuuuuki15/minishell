@@ -24,6 +24,7 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->env = NULL;
 	shell->exit_status = 0;
 	shell->exit_prog = 0;
+	shell->head_cmd = NULL;
 	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
 	if (ft_init_env(env, shell) == 1)
@@ -59,8 +60,8 @@ int	main(int ac, char **av, char **env)
 				shell.head_cmd = cmd;
 				if (check_tree(cmd, &shell) == 0)
 					run_exec(cmd, env, &shell);
-				clean_tree(cmd);
 			}
+			clean_tree(cmd);
 			if (shell.is_inside_pipe == 1)
 				exit(0);
 		}
