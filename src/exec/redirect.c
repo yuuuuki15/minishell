@@ -6,13 +6,21 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/13 18:33:17 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/17 22:19:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
+static void	ft_sig_here(int sig)
+{
+	if (sig == SIGINT)
+	{
+		exit(130);
+	}
+}
+
+static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
 	int		pipefd[2];
 	char	*line;
@@ -20,9 +28,8 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	pipe(pipefd);
 	while (1)
 	{
-		ft_signal_manager(2);
-		ft_printf("heredoc> ");
-		line = ft_get_next_line(STDIN_FILENO);
+		signal(SIGINT, &ft_sig_here);
+		line = readline("heredoc> ");
 		if (ft_strncmp(line, rcmd->file, ft_strlen(line) - 1) == 0)
 			break ;
 		ft_putendl_fd(line, pipefd[1]);
@@ -31,6 +38,27 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	}
 	close(pipefd[1]);
 	shell->in_fd = pipefd[0];
+	exit(0);
+}
+
+static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
+{
+	int	pid;
+	int	status;
+
+	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
+		ft_here(rcmd, shell);
+	waitpid(pid, &status, 0);
+	ft_signal_manager(2);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		shell->exit_status = 130;
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		shell->exit_status = 131;
+	else
+		shell->exit_status = WEXITSTATUS(status);
+	reset_descriptors(shell);
 }
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
@@ -63,6 +91,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 
 	rcmd = (t_redircmd *)cmd;
 	ft_redir_helper(rcmd, shell);
+	if (shell->exit_status == 130)
+		return ;
 	if (rcmd->fd < 0)
 		ft_printf("open file error\n");
 	else
