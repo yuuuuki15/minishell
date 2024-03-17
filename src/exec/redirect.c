@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/17 22:19:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/17 23:16:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,20 @@ static void	ft_sig_here(int sig)
 
 static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
-	int		pipefd[2];
 	char	*line;
 
-	pipe(pipefd);
 	while (1)
 	{
 		signal(SIGINT, &ft_sig_here);
 		line = readline("heredoc> ");
 		if (ft_strncmp(line, rcmd->file, ft_strlen(line) - 1) == 0)
 			break ;
-		ft_putendl_fd(line, pipefd[1]);
+		ft_putendl_fd(line, rcmd->fd);
 		if (line)
 			free(line);
 	}
-	close(pipefd[1]);
-	shell->in_fd = pipefd[0];
+	(void)shell;
+	// shell->in_fd = rcmd->fd;
 	exit(0);
 }
 
@@ -58,7 +56,7 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 		shell->exit_status = 131;
 	else
 		shell->exit_status = WEXITSTATUS(status);
-	reset_descriptors(shell);
+	// reset_descriptors(shell);
 }
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
@@ -80,7 +78,9 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	}
 	else if (rcmd->mode == RHERE)
 	{
-		rcmd->fd = STDIN_FILENO;
+		rcmd->fd = open("/tmp/file1", O_RDWR | O_CREAT | O_TRUNC, 0644);
+		shell->in_fd = rcmd->fd;
+		ft_printf("in fd: %d\n", shell->in_fd);
 		ft_here_doc(rcmd, shell);
 	}
 }
@@ -91,6 +91,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 
 	rcmd = (t_redircmd *)cmd;
 	ft_redir_helper(rcmd, shell);
+	ft_printf("statis: %d\n", shell->exit_status);
+	ft_printf("in fd: %d\n", shell->in_fd);
 	if (shell->exit_status == 130)
 		return ;
 	if (rcmd->fd < 0)
