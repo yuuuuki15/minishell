@@ -68,6 +68,6 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
 		check_list2(cmd, shell);
 	if (cmd->type == REDIR)
-		check_list2(cmd, shell);
+		check_redir(cmd, shell);
 	return (0);
 }

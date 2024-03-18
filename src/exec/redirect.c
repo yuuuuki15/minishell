@@ -106,5 +106,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 		ft_printf("open file error\n");
 	}
 	else
-		run_exec(rcmd->cmd, env, shell);
+	{
+		if (check_tree(rcmd->cmd, shell) == 0)
+			run_exec(rcmd->cmd, env, shell);
+	}
 }

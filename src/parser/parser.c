@@ -66,6 +66,11 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
+		if (ft_strlen(substr) == 0)
+		{
+			free (substr);
+			substr = ft_strdup(" ");
+		}
 		get_token(&tok2, substr);
 		ret = make_redircmd(parsecmd(substr, &tok2, shell), tok->str, tok->tok);
 		free (substr);
