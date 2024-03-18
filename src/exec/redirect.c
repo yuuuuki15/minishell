@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/18 13:53:43 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:15:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_sig_here(int sig)
 	}
 }
 
-static void	ft_here(t_redircmd *rcmd)
+static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
 	char	*line;
 	int		fd;
@@ -57,7 +57,7 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
-		ft_here(rcmd);
+		ft_here(rcmd, shell);
 	waitpid(pid, &status, 0);
 	ft_signal_manager(2);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
