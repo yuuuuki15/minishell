@@ -28,7 +28,8 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	fd = open("/tmp/file1", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		ft_putendl_fd("minishell: un error occured while opening file", STDERR_FILENO);
+		ft_putendl_fd("minishell: error occured while opening file",
+			STDERR_FILENO);
 		exit(1);
 	}
 	while (1)
