@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/17 23:30:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:19:00 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,16 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	int		fd;
 
 	fd = open("/tmp/file1", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		ft_putendl_fd("minishell: un error occured while opening file", STDERR_FILENO);
+		exit(1);
+	}
 	while (1)
 	{
 		signal(SIGINT, &ft_sig_here);
 		line = readline("heredoc> ");
-		if (ft_strncmp(line, rcmd->file, ft_strlen(line) - 1) == 0)
+		if (ft_strcmp(line, rcmd->file) == 0)
 			break ;
 		ft_putendl_fd(line, fd);
 		if (line)
@@ -38,7 +43,6 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	}
 	(void)shell;
 	close(fd);
-	// shell->in_fd = rcmd->fd;
 	exit(0);
 }
 
@@ -47,6 +51,8 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	int	pid;
 	int	status;
 
+	if (shell->in_fd < 0)
+		return ;
 	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
@@ -55,11 +61,8 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	ft_signal_manager(2);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		shell->exit_status = 130;
-	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		shell->exit_status = 131;
 	else
 		shell->exit_status = WEXITSTATUS(status);
-	// reset_descriptors(shell);
 }
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
@@ -83,7 +86,6 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	{
 		rcmd->fd = open("/tmp/file1", O_RDONLY | O_CREAT | O_TRUNC, 0644);
 		shell->in_fd = rcmd->fd;
-		// ft_printf("in fd: %d\n", shell->in_fd);
 		ft_here_doc(rcmd, shell);
 	}
 }
@@ -94,12 +96,13 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 
 	rcmd = (t_redircmd *)cmd;
 	ft_redir_helper(rcmd, shell);
-	// ft_printf("statis: %d\n", shell->exit_status);
-	// ft_printf("in fd: %d\n", shell->in_fd);
-	if (shell->exit_status == 130)
+	if (shell->exit_status != 0)
 		return ;
 	if (rcmd->fd < 0)
+	{
+		shell->exit_status = 1;
 		ft_printf("open file error\n");
+	}
 	else
 		run_exec(rcmd->cmd, env, shell);
 }
