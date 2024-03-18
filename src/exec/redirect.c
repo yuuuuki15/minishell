@@ -42,6 +42,8 @@ static void	ft_here(t_redircmd *rcmd)
 			free(line);
 	}
 	close(fd);
+	ft_printf("finished child duties\n)");
+	clean_exit(shell);
 	exit(0);
 }
 
