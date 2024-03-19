@@ -36,7 +36,7 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	{
 		signal(SIGINT, &ft_sig_here);
 		line = readline("heredoc> ");
-		if (ft_strcmp(line, rcmd->file) == 0)
+		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
 			break ;
 		ft_putendl_fd(line, fd);
 		if (line)
