@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/18 15:15:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:08:21 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,31 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	if (rcmd->mode == RIN && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
+		if (shell->in_fd != STDIN_FILENO)
+		{
+			close(shell->in_fd);
+			// dup2(shell->stdin, STDIN_FILENO);
+		}
 		shell->in_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUT && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (shell->out_fd != STDOUT_FILENO)
+		{
+			close(shell->out_fd);
+			// dup2(shell->stdout, STDOUT_FILENO);
+		}
 		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUTA && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (shell->out_fd != STDOUT_FILENO)
+		{
+			close(shell->out_fd);
+			// dup2(shell->stdout, STDOUT_FILENO);
+		}
 		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == RHERE)
