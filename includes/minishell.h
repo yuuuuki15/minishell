@@ -164,6 +164,8 @@ t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell);
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell);
 void	get_file_name(t_tok *tok, int i, int size, char *str);
 void	get_redir_token(t_tok *tok, int i, char *str);
+void	get_var(t_tok *tok, char *str);
+int		find_var(char *str);
 
 // bonus parsing
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);

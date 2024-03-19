@@ -48,6 +48,16 @@ void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 	}
 }
 
+// expand var and remove quotes in file name
+void	expand_file_name(t_tok *tok, t_shell *shell)
+{
+	char	*sub;
+
+	sub = expand_var(tok->str, shell);
+	free (tok->str);
+	tok->str = remove_quotes(sub);
+}
+
 // stores all commands in command structures in a tree
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 {
@@ -66,12 +76,8 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	if (ft_tofile(tok->tok) == 1)
 	{
 		substr = ft_delstr(str, tok->s_loc, tok->cut);
-		if (ft_strlen(substr) == 0)
-		{
-			free (substr);
-			substr = ft_strdup(" ");
-		}
 		get_token(&tok2, substr);
+		expand_file_name(tok, shell);
 		ret = make_redircmd(parsecmd(substr, &tok2, shell), tok->str, tok->tok);
 		free (substr);
 	}
