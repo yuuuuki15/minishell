@@ -52,44 +52,6 @@ void	ft_show_env(t_shell *shell)
 }
 
 /**
- * @param char* key
- *
- * This function takes a key and finds the matching
- * environment variable and unset it
-*/
-void	ft_unset_env(char *key, t_shell *shell)
-{
-	t_env	*curr;
-	t_env	*to_delete;
-
-	curr = shell->env;
-	to_delete = NULL;
-	if (curr == NULL)
-		return ;
-	if (ft_strcmp(curr->key, key) == 0)
-	{
-		shell->env = curr->next;
-		free(curr->key);
-		free(curr->value);
-		free(curr);
-		return ;
-	}
-	while (curr->next != NULL)
-	{
-		if (ft_strcmp(curr->next->key, key) == 0)
-		{
-			to_delete = curr->next;
-			curr->next = curr->next->next;
-			free(to_delete->key);
-			free(to_delete->value);
-			free(to_delete);
-			return ;
-		}
-		curr = curr->next;
-	}
-}
-
-/**
  * clean all environment variable with free method.
 */
 void	ft_clean_env(t_shell *shell)
