@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/19 17:15:18 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 18:37:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	dup2(fd[0], STDIN_FILENO);
 	shell->is_inside_pipe = 1;
 	shell->in_fd = fd[0];
-	close(fd[0]);
+	if (pcmd->right->type == PIPE)
+		close(fd[0]);
 	run_exec(pcmd->right, env, shell);
 }
 
