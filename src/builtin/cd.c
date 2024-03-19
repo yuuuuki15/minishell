@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 19:28:32 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 09:11:02 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,15 @@ static int	ft_handle_oldpwd(t_shell *shell)
  */
 int	ft_cd(t_execcmd *cmd, t_shell *shell)
 {
+	if (cmd->argv[2] != NULL)
+	{
+		ft_putendl_fd(ERR_CD_TOO_MANY_ARGUMENT, STDERR_FILENO);
+		return (1);
+	}
 	if (cmd->argv[1] == NULL)
 		return (ft_handle_home_directory(shell));
 	else if (ft_strcmp(cmd->argv[1], "-") == 0)
 		return (ft_handle_oldpwd(shell));
 	else
-	{
-		if (cmd->argv[2] != NULL)
-		{
-			ft_putstr_fd(ERR_STRING_NOT_IN_PWD, STDERR_FILENO);
-			ft_putendl_fd(cmd->argv[1], STDERR_FILENO);
-			return (1);
-		}
 		return (ft_change_directory(cmd->argv[1], shell));
-	}
 }

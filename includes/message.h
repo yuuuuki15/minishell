@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 16:37:40 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 09:10:33 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ minishell: Command not found: "
 minishell: cd: HOME not set."
 # define ERR_OLD_PATH_NOT_FOUND "\
 minishell: cd: OLDPWD not set"
-# define ERR_STRING_NOT_IN_PWD "\
-minishell: cd: string not in pwd: "
+# define ERR_CD_TOO_MANY_ARGUMENT "\
+minishell: cd: too many arguments"
 # define ERR_NO_SUCH_FILE_OR_DIRECTORY "\
 minishell: cd: no such file or directory: "
 # define ERR_NO_PWD "\
