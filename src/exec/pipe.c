@@ -18,6 +18,7 @@ static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	dup2(fd[1], STDOUT_FILENO);
 	shell->is_inside_pipe = 1;
 	shell->out_fd = fd[1];
+	close(fd[1]);
 	run_exec(pcmd->left, env, shell);
 }
 
@@ -27,6 +28,7 @@ static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	dup2(fd[0], STDIN_FILENO);
 	shell->is_inside_pipe = 1;
 	shell->in_fd = fd[0];
+	close(fd[0]);
 	run_exec(pcmd->right, env, shell);
 }
 
@@ -41,6 +43,8 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 	if (fork_child(shell) == 0)
 	{
 		p_child(pcmd, env, fd, shell);
+		close(fd[1]);
+		close(fd[0]);
 		clean_exit(shell);
 		exit(0);
 	}
@@ -48,6 +52,8 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 	{
 		waitpid(shell->pid, NULL, 0);
 		p_parent(pcmd, env, fd, shell);
+		close(fd[1]);
+		close(fd[0]);
 		clean_exit(shell);
 		exit(0);
 	}
