@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:15:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 {
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
 	shell->is_inside_pipe = 1;
 	shell->out_fd = fd[1];
 	run_exec(pcmd->left, env, shell);
@@ -28,7 +27,6 @@ static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	dup2(fd[0], STDIN_FILENO);
 	shell->is_inside_pipe = 1;
 	shell->in_fd = fd[0];
-	close(fd[0]);
 	run_exec(pcmd->right, env, shell);
 }
 
