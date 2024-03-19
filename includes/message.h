@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 09:10:33 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 10:00:26 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,8 @@ minishell: option not supported"
 minishell: too many arguments"
 # define ERR_ARGUMENT_NOT_SUPPORTED "\
 minishell: argument not supported"
-
+#define ERR_EXIT_NUMERIC_REQUIRED "\
+minishell: exit: numeric argument required"
+#define ERR_EXIT_TOO_MANY_ARGUMENTS "\
+minishell: exit: too many arguments"
 #endif
