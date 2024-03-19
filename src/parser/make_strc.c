@@ -62,7 +62,6 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode)
 	rcmd->type = REDIR;
 	rcmd->cmd = subcmd;
 	rcmd->file = ft_strdup(file);
-	ft_printf("%s\n", rcmd->file);
 	rcmd->mode = mode;
 	rcmd->fd = -1;
 	return ((t_cmd *)rcmd);
