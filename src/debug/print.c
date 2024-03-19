@@ -19,9 +19,19 @@ void	printcmd(t_cmd *cmd)
 	t_execcmd	*out;
 
 	out = (t_execcmd *)cmd;
+	if (out->argv == NULL)
+	{
+		ft_printf("NULL argc\n");
+		return ;
+	}
+	if (out->argv[0] == NULL)
+	{
+		ft_printf("CMD: NULL\n");
+		return ;
+	}
 	ft_printf("CMD: %s\n", out->argv[0]);
 	i = 1;
-	while (out->argv[i] != NULL)
+	while (out->argv != NULL && out->argv[i] != NULL)
 	{
 		if (i == 1)
 			ft_printf("ARGS: ");

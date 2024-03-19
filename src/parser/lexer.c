@@ -32,8 +32,6 @@ t_cmd	*lexer_helper(char *str, t_shell *shell)
 			return (NULL);
 		}
 		cmd = parsecmd(strim, &tok, shell);
-		if (cmd->type == REDIR && tok.str != NULL)
-			free (tok.str);
 	}
 	if (strim)
 		free (strim);

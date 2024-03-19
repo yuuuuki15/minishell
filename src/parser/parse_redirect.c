@@ -40,9 +40,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 void	redir_err(t_tok *tok, int i, int size, char *str)
 {
 	if (ft_istok(str[i + 1]) == -1)
-	{
 		get_file_name(tok, i, size, str);
-	}
 	else
 	{
 		ft_printf("syntax error near unexpected token \'%c\'\n", str[i + 1]);

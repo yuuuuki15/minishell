@@ -97,6 +97,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
+	if (check_tree(rcmd->cmd, shell) != 0)
+		return ;
 	ft_redir_helper(rcmd, shell);
 	if (shell->exit_status != 0)
 		return ;

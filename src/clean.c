@@ -30,7 +30,8 @@ void	clean_redir(t_cmd *cmd)
 
 	rcmd = (t_redircmd *)cmd;
 	free (rcmd->file);
-	close(rcmd->fd);
+	if (rcmd->fd != -1)
+		close(rcmd->fd);
 	clean_tree(rcmd->cmd);
 	free (rcmd);
 }
