@@ -42,8 +42,8 @@ minishell: option not supported"
 minishell: too many arguments"
 # define ERR_ARGUMENT_NOT_SUPPORTED "\
 minishell: argument not supported"
-#define ERR_EXIT_NUMERIC_REQUIRED "\
+# define ERR_EXIT_NUMERIC_REQUIRED "\
 minishell: exit: numeric argument required"
-#define ERR_EXIT_TOO_MANY_ARGUMENTS "\
+# define ERR_EXIT_TOO_MANY_ARGUMENTS "\
 minishell: exit: too many arguments"
 #endif
