@@ -35,21 +35,22 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 	unsigned int	j;
 
 	if (s == NULL)
-		return (NULL);
+		return (" ");
 	if (start >= ft_strlen(s) || end > ft_strlen(s))
-		return (NULL);
+		return (" ");
 	len = end - start - 1;
 	if (s[end] != '\0')
 		len = len - 1;
 	sub = (char *) malloc ((ft_strlen(s) - len + 1) * sizeof(char));
 	if (sub == 0)
-		return (NULL);
+		return (" ");
 	i = -1;
 	while (++i < start)
 		sub[i] = s[i];
 	j = 0;
 	while (s[j + end] != '\0')
 		sub[i++] = s[j++ + end];
+	sub[i++] = ' ';
 	sub[i] = '\0';
 	return (sub);
 }

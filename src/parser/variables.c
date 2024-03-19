@@ -12,68 +12,6 @@
 
 #include "minishell.h"
 
-// return number of $ in str that are not in sigle quotes
-int	find_var(char *str)
-{
-	int	i;
-	int	nd;
-	int	*in_quotes;
-
-	in_quotes = parse_quotes(str);
-	i = 0;
-	nd = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '$' && in_quotes[i] != 1)
-			nd++;
-		i++;
-	}
-	free (in_quotes);
-	return (nd);
-}
-
-// extracts var name from string noting location and length
-void	get_var_name(t_tok *tok, int i, int size, char *str)
-{
-	char	*sub;
-
-	i++;
-	tok->len = 0;
-	if (str[i] == '?')
-	{
-		tok->len++;
-		i++;
-	}
-	else
-	{
-		while (str[i] != '\0' && ft_isallowed(str[i]) == 1)
-		{
-			tok->len++;
-			i++;
-		}
-	}
-	sub = ft_substr(str, tok->s_loc + size, tok->len);
-	tok->str = ft_strtrim(sub, " ");
-	tok->size = tok->len + size - 1;
-	tok->cut = i;
-	free (sub);
-}
-
-// extracts the name of the variable and stores it in tok
-void	get_var(t_tok *tok, char *str)
-{
-	int	i;
-	int	*in_quotes;
-
-	in_quotes = parse_quotes(str);
-	i = 0;
-	while (str[i] != '\0' && (str[i] != '$' || in_quotes[i] == 1))
-		i++;
-	tok->s_loc = i;
-	get_var_name(tok, i, 1, str);
-	free (in_quotes);
-}
-
 // removes variable then pastes in expansion
 char	*frankenstein(char *str, t_tok *tok, char *exp)
 {
@@ -94,29 +32,46 @@ char	*frankenstein(char *str, t_tok *tok, char *exp)
 	return (frank);
 }
 
+// expand variable
+char	*get_expansion(t_tok *tok, t_shell *shell)
+{
+	char	*expansion;
+
+	if (ft_strcmp(tok->str, "?") == 0)
+		expansion = ft_itoa(shell->exit_status);
+	else
+	{
+		if (ft_get_env(tok->str, shell) == NULL)
+			expansion = ft_strdup("");
+		else
+			expansion = ft_strdup(ft_get_env(tok->str, shell)->value);
+	}
+	return (expansion);
+}
+
 // locate $var then expand it, recursively if necessary
 char	*expand_var(char *str, t_shell *shell)
 {
 	t_tok	tok;
 	char	*expansion;
 	char	*frank;
+	char	*subfrank;
 
 	if (find_var(str) != 0)
 	{
 		get_var(&tok, str);
-		if (ft_strcmp(tok.str, "?") == 0)
-			expansion = ft_itoa(shell->exit_status);
-		else
-		{
-			if (ft_get_env(tok.str, shell) == NULL)
-				expansion = ft_strdup("");
-			else
-				expansion = ft_strdup(ft_get_env(tok.str, shell)->value);
-		}
+		expansion = get_expansion(&tok, shell);
 		frank = frankenstein(str, &tok, expansion);
 		free(expansion);
 		if (tok.str)
 			free (tok.str);
+		if (find_var(frank) != 0)
+		{
+			subfrank = ft_strdup(frank);
+			free (frank);
+			frank = expand_var(subfrank, shell);
+			free (subfrank);
+		}
 		return (frank);
 	}
 	return (ft_strdup(str));
