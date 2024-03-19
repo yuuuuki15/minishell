@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:31:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,14 @@ void	ft_unset_env(char *key, t_shell *shell)
 	t_env	*to_delete;
 
 	curr = shell->env;
+	to_delete = NULL;
 	if (curr == NULL)
 		return ;
 	if (ft_strcmp(curr->key, key) == 0)
 	{
 		shell->env = curr->next;
+		free(to_delete->key);
+		free(to_delete->value);
 		free(curr);
 		return ;
 	}
@@ -77,6 +80,8 @@ void	ft_unset_env(char *key, t_shell *shell)
 		{
 			to_delete = curr->next;
 			curr->next = curr->next->next;
+			free(to_delete->key);
+			free(to_delete->value);
 			free(to_delete);
 			return ;
 		}
