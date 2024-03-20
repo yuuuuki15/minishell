@@ -64,11 +64,11 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 
 	env_path = NULL;
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	if (ft_get_env("PATH", shell))
 		env_path = ft_split(ft_get_env("PATH", shell)->value, ':');
 	if (env_path == NULL)
-		return (NULL);
+		return (ft_strdup(" "));
 	full_path = validate_path(env_path, cmd);
 	ft_free_tab(env_path);
 	return (full_path);

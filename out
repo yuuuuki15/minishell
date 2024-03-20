@@ -1,0 +1,11 @@
+includes
+infile
+libft
+Makefile
+minishell
+obj
+out
+outfile
+run.sh
+src
+valgrind-readline.supp
