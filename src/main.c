@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:44 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:30:28 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 				if (check_tree(cmd, &shell) == 0)
 					run_exec(cmd, env, &shell);
 			}
-			clean_tree(shell.head_cmd);
+			clean_tree(cmd);
 			if (shell.is_inside_pipe == 1)
 				exit(0);
 		}
