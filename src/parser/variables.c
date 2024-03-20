@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:27:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:14:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // removes variable then pastes in expansion
-char	*frankenstein(char *str, t_tok *tok, char *exp)
+static char	*frankenstein(char *str, t_tok *tok, char *exp)
 {
 	char	*frank;
 	char	*s1;
@@ -33,7 +33,7 @@ char	*frankenstein(char *str, t_tok *tok, char *exp)
 }
 
 // expand variable
-char	*get_expansion(t_tok *tok, t_shell *shell)
+static char	*get_expansion(t_tok *tok, t_shell *shell)
 {
 	char	*expansion;
 

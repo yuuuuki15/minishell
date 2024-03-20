@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 19:06:52 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:16:52 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ char	*ft_get_value(char *str);
 
 // parsing utiles
 int		ft_strisspace(char *line);
-int		ft_issym(char c);
 int		ft_istok(char c);
 int		ft_isspace(char c);
 int		ft_isallowed(char c);
@@ -172,7 +171,6 @@ t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);
 int		is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check);
 int		is_ifor(char *str, t_tok *tok, int *q_check, int *p_check);
 int		has_first_level(char *str, t_tok *tok);
-int		balance_para(char *str, int *in_quotes);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
 int		check_tree(t_cmd *cmd, t_shell *shell);
@@ -184,7 +182,6 @@ char	*expand_var(char *str, t_shell *shell);
 
 // quotes
 int		*parse_quotes(char *str);
-int		balance_quotes(char *str);
 char	*remove_quotes(char *str);
 void	clean_quotes(char **tab, t_shell *shell);
 

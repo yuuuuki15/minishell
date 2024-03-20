@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 12:57:00 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:12:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // clean content of a pipe
-void	clean_list(t_cmd *cmd)
+static void	clean_list(t_cmd *cmd)
 {
 	t_listcmd	*lcmd;
 
@@ -24,7 +24,7 @@ void	clean_list(t_cmd *cmd)
 }
 
 // clean content of a redirect
-void	clean_redir(t_cmd *cmd)
+static void	clean_redir(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
 
@@ -37,7 +37,7 @@ void	clean_redir(t_cmd *cmd)
 }
 
 // clean content of an exec
-void	clean_exec(t_cmd *cmd)
+static void	clean_exec(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
 	int			i;
@@ -64,7 +64,7 @@ void	clean_exec(t_cmd *cmd)
 }
 
 // clean content of a back
-void	clean_back(t_cmd *cmd)
+static void	clean_back(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
 

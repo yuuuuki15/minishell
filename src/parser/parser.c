@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:52:29 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:18:00 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // check if there is a var before quotes
-int	var_quote_check(char *str)
+static int	var_quote_check(char *str)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	var_quote_check(char *str)
 }
 
 // stores all commands in command structures in a tree
-void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
+static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 {
 	char		*substr;
 
@@ -50,7 +50,7 @@ void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 }
 
 // expand var and remove quotes in file name
-void	expand_file_name(t_tok *tok, t_shell *shell)
+static void	expand_file_name(t_tok *tok, t_shell *shell)
 {
 	char	*sub;
 

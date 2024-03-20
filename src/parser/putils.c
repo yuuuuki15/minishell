@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:50:47 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:16:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 }
 
 // checks if quotes are all balanced, if not will return 0
-int	balance_quotes(char *str)
+static int	balance_quotes(char *str)
 {
 	int	*in_quotes;
 	int	i;
@@ -78,7 +78,7 @@ int	balance_quotes(char *str)
 }
 
 // checks if parenthesis are all balanced, if not will return 0
-int	balance_para(char *str, int *in_quotes)
+static int	balance_para(char *str, int *in_quotes)
 {
 	int	op;
 	int	cp;

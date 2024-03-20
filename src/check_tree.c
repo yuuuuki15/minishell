@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   check_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/07 12:57:00 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:12:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // check for empty command
-int	check_cmd(t_cmd *cmd)
+static int	check_cmd(t_cmd *cmd)
 {
 	t_execcmd	*out;
 	int			ret;
@@ -26,7 +26,7 @@ int	check_cmd(t_cmd *cmd)
 }
 
 // check content of a list
-void	check_list2(t_cmd *cmd, t_shell *shell)
+static void	check_list2(t_cmd *cmd, t_shell *shell)
 {
 	t_listcmd	*lcmd;
 
@@ -36,7 +36,7 @@ void	check_list2(t_cmd *cmd, t_shell *shell)
 }
 
 // check content of a redirect
-void	check_redir(t_cmd *cmd, t_shell *shell)
+static void	check_redir(t_cmd *cmd, t_shell *shell)
 {
 	t_redircmd	*rcmd;
 
@@ -55,10 +55,7 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	{
 		ret = check_cmd(cmd);
 		if (ret == 1)
-		{
-			shell->exit_status = 2;
 			return (ret);
-		}
 	}
 	if (cmd->type == BACK)
 	{

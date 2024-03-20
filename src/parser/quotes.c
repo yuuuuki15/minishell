@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:50:35 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:14:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*remove_quotes(char *str)
 }
 
 // sets values to 3 if quote, 2 in inside "", 1 if inside ''
-void	set_quote_values(int *in_quotes, char *str)
+static void	set_quote_values(int *in_quotes, char *str)
 {
 	int	i;
 	int	sq_tok;

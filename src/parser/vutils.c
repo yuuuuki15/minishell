@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vutil.c                                            :+:      :+:    :+:   */
+/*   vutils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 09:17:03 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/19 09:17:23 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:13:58 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	find_var(char *str)
 }
 
 // extracts var name from string noting location and length
-void	get_var_name(t_tok *tok, int i, int size, char *str)
+static void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
 
