@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 09:06:40 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:49:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 
 static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 {
-	int	pid;
 	int	status;
 
 	rcmd->fd = open(".file1.tmp", O_RDONLY | O_CREAT | O_TRUNC, 0644);
@@ -61,10 +60,9 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	if (shell->in_fd < 0)
 		return ;
 	signal(SIGQUIT, SIG_IGN);
-	pid = fork();
-	if (pid == 0)
+	if (fork_child(shell) == 0)
 		ft_here(rcmd, shell);
-	waitpid(pid, &status, 0);
+	waitpid(shell->pid, &status, 0);
 	ft_signal_manager(2);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		shell->exit_status = 130;
@@ -107,8 +105,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	if (check_file(rcmd->file, shell) == 1)
 		return ;
 	ft_redir_helper(rcmd, shell);
-	if (shell->exit_status != 0)
-		return ;
+	// if (shell->exit_status != 0)
+	// 	return ;
 	if (rcmd->fd < 0)
 	{
 		shell->exit_status = 1;
