@@ -32,7 +32,7 @@ void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 		free(pathname);
 	ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
 	if (cmd->argv != NULL && cmd->argv[0] != NULL)
-	 	ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
 	clean_exit(shell);
 	exit(127);
 }

@@ -16,15 +16,19 @@
 void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
+	int		*q_check;
 
+	q_check = parse_quotes(str);
 	i++;
 	tok->len = 0;
-	while (str[i] != '\0' && ft_isspace(str[i]))
+	while (str[i] != '\0' && ft_isspace(str[i]) && q_check[i] == 0)
 	{
 		tok->len++;
 		i++;
 	}
-	while (str[i] != '\0' && ft_isspace(str[i]) == 0 && ft_istok(str[i]) == -1)
+	while (str[i] != '\0'
+		&& ((ft_isspace(str[i]) == 0 && ft_istok(str[i]) == -1)
+			|| q_check[i] != 0))
 	{
 		tok->len++;
 		i++;
@@ -34,6 +38,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 	tok->size = tok->len + size - 1;
 	tok->cut = i;
 	free (sub);
+	free (q_check);
 }
 
 // return redirect error if too many redirect tokens

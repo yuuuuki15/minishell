@@ -112,7 +112,6 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	{
 		shell->exit_status = 1;
 		ft_putendl_fd("open file error", STDERR_FILENO);
-		// ft_printf("open file error\n");
 	}
 	else
 	{
