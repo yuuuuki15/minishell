@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/13 16:19:13 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:14:46 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	reset_descriptors(t_shell *shell)
 {
 	if (shell->in_fd != STDIN_FILENO)
 	{
-		if (!shell->is_inside_pipe)
+		if (shell->in_fd >= 0 && !shell->is_inside_pipe)
 			close(shell->in_fd);
 		close(STDIN_FILENO);
 		dup2(shell->stdin, STDIN_FILENO);
@@ -89,7 +89,7 @@ void	reset_descriptors(t_shell *shell)
 	}
 	if (shell->out_fd != STDOUT_FILENO)
 	{
-		if (!shell->is_inside_pipe)
+		if (shell->out_fd >= 0 && !shell->is_inside_pipe)
 			close(shell->out_fd);
 		close(STDOUT_FILENO);
 		dup2(shell->stdout, STDOUT_FILENO);
@@ -103,12 +103,12 @@ void	reset_descriptors(t_shell *shell)
  */
 void	dup_descriptors(t_shell *shell)
 {
-	if (shell->in_fd != STDIN_FILENO)
+	if (shell->in_fd >= 0 && shell->in_fd != STDIN_FILENO)
 	{
 		dup2(shell->in_fd, STDIN_FILENO);
 		close(shell->in_fd);
 	}
-	if (shell->out_fd != STDOUT_FILENO)
+	if (shell->out_fd >= 0 && shell->out_fd != STDOUT_FILENO)
 	{
 		dup2(shell->out_fd, STDOUT_FILENO);
 		close(shell->out_fd);

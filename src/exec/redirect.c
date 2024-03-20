@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 08:32:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:06:40 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	if (rcmd->fd < 0)
 	{
 		shell->exit_status = 1;
-		ft_printf("open file error\n");
+		ft_putendl_fd("open file error", STDERR_FILENO);
+		// ft_printf("open file error\n");
 	}
 	else
 	{

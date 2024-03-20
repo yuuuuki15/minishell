@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 08:26:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:04:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 		p_child(pcmd, env, fd, shell);
 		close(fd[1]);
 		clean_exit(shell);
-		exit(0);
+		exit(shell->exit_status);
 	}
 	else
 	{
@@ -51,6 +51,6 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 		p_parent(pcmd, env, fd, shell);
 		close(fd[0]);
 		clean_exit(shell);
-		exit(0);
+		exit(shell->exit_status);
 	}
 }

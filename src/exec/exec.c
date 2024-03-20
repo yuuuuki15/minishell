@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 16:29:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:27:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	if (res < 0 || pathname != NULL)
 		free(pathname);
 	ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
-	ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+	// if (cmd->argv != NULL && cmd->argv[0] != NULL)
+	// 	ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
 	clean_exit(shell);
 	exit(127);
 }
@@ -87,7 +88,10 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 		if (fork_child(shell) == 0)
 			manage_pipe(cmd, env, shell);
 		else
-			waitpid(shell->pid, NULL, 0);
+		{
+			waitpid(shell->pid, &(shell->exit_status), 0);
+			shell->exit_status = WEXITSTATUS(shell->exit_status);
+		}
 	}
 	if (cmd->type == IFTHEN || cmd->type == IFOR)
 		manage_andor(cmd, env, shell);
