@@ -39,7 +39,8 @@ void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 		substr = expand_var(str, shell);
 		cmd->argv = p_spliter(substr);
 		clean_quotes(cmd->argv, shell);
-		free (substr);
+		if (substr)
+			free (substr);
 	}
 	else
 	{

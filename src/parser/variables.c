@@ -42,7 +42,7 @@ char	*get_expansion(t_tok *tok, t_shell *shell)
 	else
 	{
 		if (ft_get_env(tok->str, shell) == NULL)
-			expansion = ft_strdup("");
+			expansion = ft_strdup(" ");
 		else
 			expansion = ft_strdup(ft_get_env(tok->str, shell)->value);
 	}
