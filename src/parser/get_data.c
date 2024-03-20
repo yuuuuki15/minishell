@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/13 18:58:54 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:59:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	clean_exit(t_shell *shell)
 void	exit_shell(t_shell *shell)
 {
 	clean_exit(shell);
-	ft_printf("%s", "Exiting shell\n");
 	exit(shell->exit_prog);
 }
 

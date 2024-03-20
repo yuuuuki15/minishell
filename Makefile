@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/11 18:03:56 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/20 15:50:38 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "Compiling minishell..."
 	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LINKERS) -o $(NAME)
 	@echo "Minishell ready."
+
+bonus: $(NAME)
 
 clean:
 	clear

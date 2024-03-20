@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:14:38 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:59:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,20 @@ static char	*validate_path(char **env_path, char *cmd)
  */
 char	*ft_get_path(char *cmd, t_shell *shell)
 {
-	char	**env_path;
-	char	*full_path;
+	char		**env_path;
+	char		*full_path;
+	struct stat	path_stat;
 
 	env_path = NULL;
+	if (stat(cmd, &path_stat) != -1)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			ft_putendl_fd("Is a directory", STDERR_FILENO);
+			clean_exit(shell);
+			exit(126);
+		}
+	}
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	if (ft_get_env("PATH", shell))
