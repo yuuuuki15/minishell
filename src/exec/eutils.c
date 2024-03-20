@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 09:14:46 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:14:38 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	fork_child(t_shell *shell)
 	if (shell->pid == -1)
 	{
 		ft_putstr_fd(ERR_FORK, STDERR_FILENO);
+		clean_exit(shell);
 		exit(1);
 	}
 	return (shell->pid);

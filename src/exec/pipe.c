@@ -6,11 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 09:04:47 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:15:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_pipe_cleaner(t_shell *shell)
+{
+	clean_exit(shell);
+	exit(1);
+}
 
 static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 {
@@ -37,7 +43,7 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 
 	pcmd = (t_listcmd *)cmd;
 	if (pipe(fd) < 0)
-		exit(1);
+		ft_pipe_cleaner(shell);
 	if (fork_child(shell) == 0)
 	{
 		p_child(pcmd, env, fd, shell);
