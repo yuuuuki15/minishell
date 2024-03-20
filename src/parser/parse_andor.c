@@ -39,6 +39,23 @@ int	get_type(char *str, t_tok *tok)
 	return (type);
 }
 
+// check for dangling tokens
+int	static	hanging_token(char *str)
+{
+	char	*temp;
+	int		ret;
+
+	ret = 0;
+	temp = ft_strtrim(str, " ");
+	if (ft_strlen(temp) == 0)
+	{
+		ft_printf("Dangling token not supported!\n");
+		ret = 1;
+	}
+	free (temp);
+	return (ret);
+}
+
 // splits commands into list structure if && or || is between two commands
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell)
 {
@@ -51,7 +68,9 @@ t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell)
 	s_left = ft_substr(str, 0, tok->s_loc - 1);
 	s_right = after_token(str, tok);
 	type = get_type(str, tok);
-	if (has_first_level(s_right, &tok_right) == 1)
+	if (hanging_token(s_right) == 1)
+		ret = NULL;
+	else if (has_first_level(s_right, &tok_right) == 1)
 		ret = make_listcmd(lexer(s_left, shell),
 				parse_ifthen(s_right, &tok_right, shell), type);
 	else if (type == BACK)

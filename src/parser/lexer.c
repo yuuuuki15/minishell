@@ -38,6 +38,22 @@ t_cmd	*lexer_helper(char *str, t_shell *shell)
 	return (cmd);
 }
 
+// check for starting with pipe or and
+int static	bad_pipe_and(char *str)
+{
+	char	*temp;
+
+	temp = ft_strtrim(str, " ");
+	if (temp[0] == '|' || temp[0] == '&')
+	{
+		ft_printf("unexpected token at \'%c\'\n", temp[0]);
+		free (temp);
+		return (1);
+	}
+	free (temp);
+	return (0);
+}
+
 // checks if input is NULL
 // checks if parenthesis and quotes are balanced
 // parses command into simple "tree" based on tokens
@@ -50,6 +66,8 @@ t_cmd	*lexer(char *str, t_shell *shell)
 	if (str == NULL)
 		return (NULL);
 	if (balance_pandq(str) == 0)
+		return (NULL);
+	if (bad_pipe_and(str) != 0)
 		return (NULL);
 	if (has_first_level(str, &tok) == 1)
 		cmd = parse_ifthen(str, &tok, shell);

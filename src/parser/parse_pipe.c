@@ -52,16 +52,24 @@ t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell)
 	t_cmd		*ret;
 	char		*s_left;
 	char		*s_right;
+	char		*temp;
 
 	s_left = ft_substr(str, 0, tok->s_loc - 1);
 	s_right = after_pipe(str, tok);
+	temp = ft_strtrim(s_right, " ");
 	if (is_pipe(s_right, tok) == 1)
 		ret = make_listcmd(lexer(s_left, shell),
 				parse_pipe(s_right, tok, shell), PIPE);
+	else if (ft_strlen(temp) == 0)
+	{
+		ft_printf("Hanging pipe not supported\n");
+		ret = NULL;
+	}
 	else
 		ret = make_listcmd(lexer(s_left, shell),
 				lexer(s_right, shell), PIPE);
 	free (s_left);
 	free (s_right);
+	free (temp);
 	return (ret);
 }
