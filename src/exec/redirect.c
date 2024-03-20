@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/19 19:08:21 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 08:32:12 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	int	pid;
 	int	status;
 
+	rcmd->fd = open("/tmp/file1", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+	if (shell->in_fd != STDIN_FILENO)
+		close(shell->in_fd);
+	shell->in_fd = rcmd->fd;
 	if (shell->in_fd < 0)
 		return ;
 	signal(SIGQUIT, SIG_IGN);
@@ -73,38 +77,25 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
 		if (shell->in_fd != STDIN_FILENO)
-		{
 			close(shell->in_fd);
-			// dup2(shell->stdin, STDIN_FILENO);
-		}
 		shell->in_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUT && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (shell->out_fd != STDOUT_FILENO)
-		{
 			close(shell->out_fd);
-			// dup2(shell->stdout, STDOUT_FILENO);
-		}
 		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == ROUTA && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (shell->out_fd != STDOUT_FILENO)
-		{
 			close(shell->out_fd);
-			// dup2(shell->stdout, STDOUT_FILENO);
-		}
 		shell->out_fd = rcmd->fd;
 	}
 	else if (rcmd->mode == RHERE)
-	{
-		rcmd->fd = open("/tmp/file1", O_RDONLY | O_CREAT | O_TRUNC, 0644);
-		shell->in_fd = rcmd->fd;
 		ft_here_doc(rcmd, shell);
-	}
 }
 
 void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
