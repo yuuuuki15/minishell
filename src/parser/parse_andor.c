@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:32:27 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:16:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_type(char *str, t_tok *tok)
 }
 
 // check for dangling tokens
-int	static	hanging_token(char *str, int type)
+static int	hanging_token(char *str, int type)
 {
 	char	*temp;
 	int		ret;

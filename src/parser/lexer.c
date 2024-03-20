@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:34:05 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:16:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_cmd	*lexer_helper(char *str, t_shell *shell)
 }
 
 // check for starting with pipe or and
-int static	bad_pipe_and(char *str)
+static int	bad_pipe_and(char *str)
 {
 	char	*temp;
 
