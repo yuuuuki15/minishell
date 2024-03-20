@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 12:19:18 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:13:21 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@ static void	print_invalid_identifier(char *arg)
 {
 	ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER, STDERR_FILENO);
 	ft_putendl_fd(arg, STDERR_FILENO);
-}
-
-/**
- * Handles the case where the argument does not contain an equal sign.
- * If the argument is a valid identifier and does not exist in the environment,
- * it is added with an empty value.
- * @param arg The argument to be processed.
- * @return Returns 0 on success, 1 on failure.
- */
-static int	handle_no_equal(char *arg, t_shell *shell)
-{
-	if (ft_is_valid_identifier(arg))
-	{
-		if (ft_get_env(arg, shell) != NULL)
-			return (0);
-		return (ft_add_env(ft_strdup(arg), ft_strdup(""), shell));
-	}
-	print_invalid_identifier(arg);
-	return (1);
 }
 
 /**
@@ -85,7 +66,7 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 
 	equal_pos = ft_strchr(arg, '=') - arg;
 	if (equal_pos < 0)
-		return (handle_no_equal(arg, shell));
+		return (0);
 	else
 		return (handle_with_equal(arg, equal_pos, shell));
 }
