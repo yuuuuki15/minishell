@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 15:36:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:16:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	bad_pipe_and(char *str, t_shell *shell)
 		ft_putendl_fd("unexpected token", STDERR_FILENO);
 		shell->exit_status = 2;
 		free (temp);
-		shell->exit_status = 2;
 		return (1);
 	}
 	free (temp);
