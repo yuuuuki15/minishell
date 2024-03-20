@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 15:50:46 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:56:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 # include "../libft/libft.h"
 # include "message.h"
 # include <unistd.h>
-# include <errno.h>
 # include <signal.h>
 # include <sys/wait.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -58,8 +55,6 @@
 
 // configuration
 # define PATH_MAX 1000
-
-//extern char	**environ;
 
 typedef struct s_tok
 {

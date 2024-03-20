@@ -6,11 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 18:58:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:48:44 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_sig;
 
 static int	ft_minishell_initializer(char **env, t_shell *shell)
 {
@@ -25,6 +27,7 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->exit_status = 0;
 	shell->exit_prog = 0;
 	shell->head_cmd = NULL;
+	g_sig = 0;
 	if (shell->stdin == -1 || shell->stdout == -1)
 		return (1);
 	if (ft_init_env(env, shell) == 1)

@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/20 15:50:38 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/20 16:55:47 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,4 +84,4 @@ fclean: clean
 
 re: clean all
 
-.PHONY: all re clean fclean
+.PHONY: all re clean fclean bonus

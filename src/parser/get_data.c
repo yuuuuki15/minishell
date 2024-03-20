@@ -6,11 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 15:59:37 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:52:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 void	clean_exit(t_shell *shell)
 {
@@ -43,6 +45,9 @@ int	get_data(t_shell *shell)
 		shell->user_input = NULL;
 	}
 	shell->user_input = readline(PROMPT);
+	if (g_sig != 0)
+		shell->exit_status = g_sig;
+	g_sig = 0;
 	if (!shell->user_input)
 	{
 		shell->head_cmd = NULL;

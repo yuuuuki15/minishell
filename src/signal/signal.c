@@ -6,11 +6,13 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/12 17:36:30 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:55:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 // resets the prompt for readline
 // clears line, puts you on a nel line and redisplays prompt
@@ -21,6 +23,7 @@ static void	reset_prompt(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig = 130;
 }
 
 /**
