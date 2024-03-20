@@ -68,11 +68,7 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	if (cmd == NULL)
 		return (1);
 	else if (cmd->type == EXEC)
-	{
 		ret = check_cmd(cmd);
-		if (ret == 1)
-			return (ret);
-	}
 	else if (cmd->type == BACK)
 	{
 		bcmd = (t_backcmd *)cmd;
@@ -81,10 +77,6 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	else if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
 		ret = check_list2(cmd, shell);
 	else if (cmd->type == REDIR)
-	{
 		ret = check_redir(cmd, shell);
-		if (ret == 1)
-			return (ret);
-	}
 	return (ret);
 }
