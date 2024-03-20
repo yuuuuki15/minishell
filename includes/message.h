@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:04:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 10:00:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:50:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ minishell: argument not supported"
 minishell: exit: numeric argument required"
 # define ERR_EXIT_TOO_MANY_ARGUMENTS "\
 minishell: exit: too many arguments"
+# define ERR_EXPORT_NOT_VALID_IDENTIFIER "\
+minishell: export: not a valid identifier: "
+# define ERR_BACKGROUND_NOT_SUPPORTED "\
+Background jobs not supported.  Running command in foreground."
+
 #endif

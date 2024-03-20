@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 13:34:11 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:45:34 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
  */
 static void	print_invalid_identifier(char *arg)
 {
-	ft_putstr_fd("export: '", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER , STDERR_FILENO);
+	ft_putendl_fd(arg, STDERR_FILENO);
 }
 
 /**
