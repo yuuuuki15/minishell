@@ -58,7 +58,6 @@ int	main(int ac, char **av, char **env)
 		if (get_data(&shell))
 		{
 			cmd = lexer(shell.user_input, &shell);
-			print_tree(cmd);
 			if (cmd != NULL)
 			{
 				shell.head_cmd = cmd;

@@ -54,10 +54,7 @@ static int	check_redir(t_cmd *cmd, t_shell *shell)
 	}
 	free (temp);
 	if (check_tree(rcmd->cmd, shell) == 1 && rcmd->mode != RHERE)
-	{
-		ft_printf("returning\n");
 		return (1);
-	}
 	return (0);
 }
 

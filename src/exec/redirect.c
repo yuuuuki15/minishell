@@ -25,7 +25,7 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	char	*line;
 	int		fd;
 
-	fd = open("/tmp/file1", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(".file1.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		ft_putendl_fd("minishell: error occured while opening file",
@@ -53,8 +53,7 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	int	pid;
 	int	status;
 
-	ft_printf("in here_doc\n");
-	rcmd->fd = open("/tmp/file1", O_RDONLY | O_CREAT | O_TRUNC, 0644);
+	rcmd->fd = open(".file1.tmp", O_RDONLY | O_CREAT | O_TRUNC, 0644);
 	if (shell->in_fd != STDIN_FILENO)
 		close(shell->in_fd);
 	shell->in_fd = rcmd->fd;
@@ -74,7 +73,6 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
-	ft_printf("in redir helper\n");
 	if (rcmd->mode == RIN && rcmd->file != NULL)
 	{
 		rcmd->fd = open(rcmd->file, O_RDONLY);
@@ -105,12 +103,8 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	// if (check_tree(rcmd->cmd, shell) != 0)
-	// 	return ;
-	ft_printf("before check file\n");
 	if (check_file(rcmd->file, shell) == 1)
 		return ;
-	ft_printf("going to helper\n");
 	ft_redir_helper(rcmd, shell);
 	if (shell->exit_status != 0)
 		return ;
