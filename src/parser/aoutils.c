@@ -21,13 +21,18 @@ static int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
 	while (str[i] != '\0' && !(str[i] == '|'
 			&& q_check[i] == 0 && p_check[i] == 0))
 		i++;
-	if (i < (int)ft_strlen(str) && str[i + 1] == '|')
+	while (i < (int)ft_strlen(str))
 	{
-		tok->s_loc = i + 1;
-		tok->tok = IFOR;
-		tok->size = 2;
-		tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
-		return (i + 1);
+		if (i < (int)ft_strlen(str) && str[i] == '|' && str[i + 1] == '|')
+		{
+			tok->s_loc = i + 1;
+			tok->tok = IFOR;
+			tok->size = 2;
+			tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
+			return (i + 1);
+		}
+		else
+			i++;
 	}
 	return (-1);
 }
