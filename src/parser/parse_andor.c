@@ -31,7 +31,7 @@ int	get_type(char *str, t_tok *tok)
 	s_right = after_token(str, tok);
 	temp = ft_strtrim(s_right, " ");
 	if (tok->tok == AND && ft_strlen(temp) > 0)
-		type = IFTHEN;
+		type = IFOR;
 	else
 		type = tok->tok;
 	free (s_right);
