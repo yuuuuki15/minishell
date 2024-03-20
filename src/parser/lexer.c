@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:16:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:25:52 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ static t_cmd	*lexer_helper(char *str, t_shell *shell)
 }
 
 // check for starting with pipe or and
-static int	bad_pipe_and(char *str)
+static int	bad_pipe_and(char *str, t_shell *shell)
 {
 	char	*temp;
 
 	temp = ft_strtrim(str, " ");
 	if (temp[0] == '|' || temp[0] == '&')
 	{
-		ft_printf("unexpected token at \'%c\'\n", temp[0]);
+		ft_putendl_fd("unexpected token", STDERR_FILENO);
 		free (temp);
+		shell->exit_status = 2;
 		return (1);
 	}
 	free (temp);
@@ -67,7 +68,7 @@ t_cmd	*lexer(char *str, t_shell *shell)
 		return (NULL);
 	if (balance_pandq(str) == 0)
 		return (NULL);
-	if (bad_pipe_and(str) != 0)
+	if (bad_pipe_and(str, shell) != 0)
 		return (NULL);
 	if (has_first_level(str, &tok) == 1)
 		cmd = parse_ifthen(str, &tok, shell);

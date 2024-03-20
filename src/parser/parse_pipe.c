@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:20:25 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:30:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:28:35 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell)
 				parse_pipe(s_right, tok, shell), PIPE);
 	else if (ft_strlen(temp) == 0)
 	{
-		ft_printf("Hanging pipe not supported\n");
+		shell->exit_status = 2;
+		ft_putendl_fd("Hanging pipe not supported", STDERR_FILENO);
 		ret = NULL;
 	}
 	else
