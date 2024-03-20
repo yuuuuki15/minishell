@@ -44,6 +44,27 @@ int	ft_istok(char c)
 	return (-1);
 }
 
+// checks if char is a token, not including quotes but including parentheses
+int	ft_isfulltok(char *str, int i)
+{
+	char	c1;
+	char	c2;
+
+	c1 = str[i];
+	c2 = '\0';
+	if (str[i + 1] != '\0')
+		c2 = str[i + 1];
+	if (c1 == '<' && c2 == '<')
+		return (RHERE);
+	if (c1 == '>' && c2 == '>')
+		return (ROUTA);
+	if (c1 == '|' && c2 == '|')
+		return (IFOR);
+	if (c1 == '&' && c2 == '&')
+		return (IFTHEN);
+	return (-1);
+}
+
 // characters allowed in a variable name
 int	ft_isallowed(char c)
 {
