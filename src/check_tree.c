@@ -26,22 +26,36 @@ static int	check_cmd(t_cmd *cmd)
 }
 
 // check content of a list
-static void	check_list2(t_cmd *cmd, t_shell *shell)
+static int	check_list2(t_cmd *cmd, t_shell *shell)
 {
 	t_listcmd	*lcmd;
 
 	lcmd = (t_listcmd *)cmd;
-	check_tree(lcmd->left, shell);
-	check_tree(lcmd->right, shell);
+	if (check_tree(lcmd->left, shell) == 1)
+		return (1);
+	if (check_tree(lcmd->right, shell) == 1)
+		return (1);
+	return (0);
 }
 
 // check content of a redirect
-static void	check_redir(t_cmd *cmd, t_shell *shell)
+static int	check_redir(t_cmd *cmd, t_shell *shell)
 {
 	t_redircmd	*rcmd;
+	char		*temp;
 
 	rcmd = (t_redircmd *)cmd;
-	check_tree(rcmd->cmd, shell);
+	temp = ft_strtrim(rcmd->file, " ");
+	if (ft_strcmp(temp, "") == 0)
+	{
+		ft_putendl_fd("bad token", STDERR_FILENO);
+		free (temp);
+		return (1);
+	}
+	free (temp);
+	if (check_tree(rcmd->cmd, shell) == 1)
+		return (1);
+	return (0);
 }
 
 // print out structure of tree following parsing
@@ -51,20 +65,26 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	int			ret;
 
 	ret = 0;
-	if (cmd->type == EXEC)
+	if (cmd == NULL)
+		return (1);
+	else if (cmd->type == EXEC)
 	{
 		ret = check_cmd(cmd);
 		if (ret == 1)
 			return (ret);
 	}
-	if (cmd->type == BACK)
+	else if (cmd->type == BACK)
 	{
 		bcmd = (t_backcmd *)cmd;
-		check_tree(bcmd->cmd, shell);
+		ret = check_tree(bcmd->cmd, shell);
 	}
-	if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
-		check_list2(cmd, shell);
-	if (cmd->type == REDIR)
-		check_redir(cmd, shell);
-	return (0);
+	else if (cmd->type == PIPE || cmd->type == IFTHEN || cmd->type == IFOR)
+		ret = check_list2(cmd, shell);
+	else if (cmd->type == REDIR)
+	{
+		ret = check_redir(cmd, shell);
+		if (ret == 1)
+			return (ret);
+	}
+	return (ret);
 }

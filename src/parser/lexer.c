@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:25:52 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:36:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,45 @@ static int	bad_pipe_and(char *str, t_shell *shell)
 	if (temp[0] == '|' || temp[0] == '&')
 	{
 		ft_putendl_fd("unexpected token", STDERR_FILENO);
+		shell->exit_status = 2;
 		free (temp);
 		shell->exit_status = 2;
 		return (1);
 	}
 	free (temp);
+	return (0);
+}
+
+static int	repeating_tok(char *str, t_shell *shell)
+{
+	int	i;
+	int	j;
+	int	*q_check;
+
+	q_check = parse_quotes(str);
+	i = 0;
+	while (str[i] != '\0')
+	{
+		j = 0;
+		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1) && q_check[i] == 0)
+		{
+			j = 1;
+			if (ft_isfulltok(str, i) != -1)
+				j++;
+			while (str[i + j] != '\0' && ft_isspace(str[i + j]) == 1
+					&& q_check[i + j] == 0)
+				j++;
+			if (i + j < (int)ft_strlen(str) && q_check[i + j] == 0 && (str[i + j] == '|' || str[i + j] == '&'))
+			{
+				ft_putendl_fd("unexpected token", STDERR_FILENO);
+				shell->exit_status = 2;
+				free (q_check);
+				return (1);
+			}
+		}
+		i++;
+	}
+	free (q_check);
 	return (0);
 }
 
@@ -69,6 +103,8 @@ t_cmd	*lexer(char *str, t_shell *shell)
 	if (balance_pandq(str) == 0)
 		return (NULL);
 	if (bad_pipe_and(str, shell) != 0)
+		return (NULL);
+	if (repeating_tok(str, shell) == 1)
 		return (NULL);
 	if (has_first_level(str, &tok) == 1)
 		cmd = parse_ifthen(str, &tok, shell);

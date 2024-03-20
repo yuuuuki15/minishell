@@ -173,6 +173,7 @@ int		*parse_para(char *str);
 int		check_tree(t_cmd *cmd, t_shell *shell);
 int		balance_pandq(char *str);
 t_cmd	*parse_paren(char *str, t_shell *shell);
+int		ft_isfulltok(char *str, int i);
 
 // variables
 char	*expand_var(char *str, t_shell *shell);
