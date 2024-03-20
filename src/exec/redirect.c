@@ -44,6 +44,7 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	}
 	close(fd);
 	close(rcmd->fd);
+	unlink(".file1.tmp");
 	clean_exit(shell);
 	exit(0);
 }
