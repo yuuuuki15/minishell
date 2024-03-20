@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:16:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:13:33 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,12 @@ static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
 static int	repeating_tok(char *str, t_shell *shell)
 {
 	int	i;
-	int	j;
 	int	*q_check;
 
 	q_check = parse_quotes(str);
 	i = 0;
 	while (str[i] != '\0')
 	{
-		j = 0;
 		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1)
 			&& q_check[i] == 0)
 		{
