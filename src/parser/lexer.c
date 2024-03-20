@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/14 16:07:59 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:34:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // expansion of lexer for line count
 // deals with single commands, quotes, parentheses, and redirects
-t_cmd	*lexer_helper(char *str, t_shell *shell)
+static t_cmd	*lexer_helper(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
 	t_tok		tok;

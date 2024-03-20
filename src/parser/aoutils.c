@@ -3,41 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   aoutils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:15:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:15:57 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:36:00 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	has_first_level(char *str, t_tok *tok)
+// locates || if not in quotes and not in ()
+static int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
 {
-	t_tok	tok2;
-	int		*p_check;
-	int		ret;
-	int		*q_check;
+	int	i;
 
-	q_check = parse_quotes(str);
-	p_check = parse_para(str);
-	ret = 0;
-	if (is_ifthen(str, tok, q_check, p_check) != -1)
+	i = 0;
+	while (str[i] != '\0' && !(str[i] == '|'
+			&& q_check[i] == 0 && p_check[i] == 0))
+		i++;
+	if (i < (int)ft_strlen(str) && str[i + 1] == '|')
 	{
-		if (is_ifor(str, &tok2, q_check, p_check) != -1
-			&& tok->s_loc > tok2.s_loc)
-			is_ifor(str, tok, q_check, p_check);
-		ret = 1;
+		tok->s_loc = i + 1;
+		tok->tok = IFOR;
+		tok->size = 2;
+		tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
+		return (i + 1);
 	}
-	if (is_ifor(str, tok, q_check, p_check) != -1)
-		ret = 1;
-	free (p_check);
-	free (q_check);
-	return (ret);
+	return (-1);
 }
 
 // locates && and & if not in quotes and not in ()
-int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
+static int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
 {
 	int	i;
 
@@ -64,22 +60,26 @@ int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
 	return (-1);
 }
 
-// locates || if not in quotes and not in ()
-int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
+int	has_first_level(char *str, t_tok *tok)
 {
-	int	i;
+	t_tok	tok2;
+	int		*p_check;
+	int		ret;
+	int		*q_check;
 
-	i = 0;
-	while (str[i] != '\0' && !(str[i] == '|'
-			&& q_check[i] == 0 && p_check[i] == 0))
-		i++;
-	if (i < (int)ft_strlen(str) && str[i + 1] == '|')
+	q_check = parse_quotes(str);
+	p_check = parse_para(str);
+	ret = 0;
+	if (is_ifthen(str, tok, q_check, p_check) != -1)
 	{
-		tok->s_loc = i + 1;
-		tok->tok = IFOR;
-		tok->size = 2;
-		tok->len = (int)ft_strlen(str) - (tok->s_loc + tok->size - 1);
-		return (i + 1);
+		if (is_ifor(str, &tok2, q_check, p_check) != -1
+			&& tok->s_loc > tok2.s_loc)
+			is_ifor(str, tok, q_check, p_check);
+		ret = 1;
 	}
-	return (-1);
+	if (is_ifor(str, tok, q_check, p_check) != -1)
+		ret = 1;
+	free (p_check);
+	free (q_check);
+	return (ret);
 }

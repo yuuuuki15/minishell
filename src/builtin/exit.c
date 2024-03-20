@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 19:21:00 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 11:22:34 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:38:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // set exit tag if one argument, raise error if non-numeric
-void	exit_one_arg(t_execcmd *cmd, t_shell *shell)
+static void	exit_one_arg(t_execcmd *cmd, t_shell *shell)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:20:25 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/10 17:43:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:30:55 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_pipe(char *str, t_tok *tok)
 }
 
 // trims string so it only contains stuff after the pipe, to the right
-char	*after_pipe(char *str, t_tok *tok)
+static char	*after_pipe(char *str, t_tok *tok)
 {
 	char	*next_cmd;
 

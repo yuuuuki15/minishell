@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:54:04 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:32:27 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // trims string so it only contains stuff after the ifand, to the right
-char	*after_token(char *str, t_tok *tok)
+static char	*after_token(char *str, t_tok *tok)
 {
 	char	*next_cmd;
 
@@ -22,7 +22,7 @@ char	*after_token(char *str, t_tok *tok)
 }
 
 // gets the type, important for & versus &&
-int	get_type(char *str, t_tok *tok)
+static int	get_type(char *str, t_tok *tok)
 {
 	char	*temp;
 	char	*s_right;

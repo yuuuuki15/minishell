@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 11:16:52 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:37:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,15 +161,12 @@ char	**p_spliter(char *s);
 int		is_pipe(char *str, t_tok *tok);
 t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell);
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell);
-void	get_file_name(t_tok *tok, int i, int size, char *str);
 void	get_redir_token(t_tok *tok, int i, char *str);
 void	get_var(t_tok *tok, char *str);
 int		find_var(char *str);
 
 // bonus parsing
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell);
-int		is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check);
-int		is_ifor(char *str, t_tok *tok, int *q_check, int *p_check);
 int		has_first_level(char *str, t_tok *tok);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
@@ -203,7 +200,6 @@ int		ft_pwd(t_execcmd *cmd, t_shell *shell);
 int		ft_exit(t_execcmd *cmd, t_shell *shell);
 
 // exec
-void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell);
 void	run_exec(t_cmd *cmd, char **env, t_shell *shell);
 void	manage_redir(t_cmd *cmd, char **env, t_shell *shell);
 void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell);

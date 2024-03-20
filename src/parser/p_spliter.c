@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   p_spliter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:53:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/06 10:40:47 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:33:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // counts number of words in string based on spaces but not spaces in quotes
-size_t	p_num_words(char *s)
+static size_t	p_num_words(char *s)
 {
 	size_t	words;
 	int		i;
@@ -39,7 +39,7 @@ size_t	p_num_words(char *s)
 }
 
 // allocates memory to make a copy of a string
-char	*p_ft_strndup(char *s, size_t n)
+static char	*p_ft_strndup(char *s, size_t n)
 {
 	char	*cpy;
 	size_t	i;
@@ -58,7 +58,7 @@ char	*p_ft_strndup(char *s, size_t n)
 }
 
 // determines the length of a word
-size_t	p_word_length(char *s, int *q_check, int i)
+static size_t	p_word_length(char *s, int *q_check, int i)
 {
 	size_t	len;
 
@@ -70,7 +70,7 @@ size_t	p_word_length(char *s, int *q_check, int i)
 }
 
 // allocates the interior strings of the array
-int	p_allocate(char **a, char *s, size_t words)
+static int	p_allocate(char **a, char *s, size_t words)
 {
 	size_t	k;
 	size_t	i;

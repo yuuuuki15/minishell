@@ -6,14 +6,14 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:07:26 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/13 17:50:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:24:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // extracts file name from string
-void	get_file_name(t_tok *tok, int i, int size, char *str)
+static void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
 	int		*q_check;
@@ -42,7 +42,7 @@ void	get_file_name(t_tok *tok, int i, int size, char *str)
 }
 
 // return redirect error if too many redirect tokens
-void	redir_err(t_tok *tok, int i, int size, char *str)
+static void	redir_err(t_tok *tok, int i, int size, char *str)
 {
 	if (ft_istok(str[i + 1]) == -1)
 		get_file_name(tok, i, size, str);

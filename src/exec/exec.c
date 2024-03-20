@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 09:27:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:37:26 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * checks path using env info from shell then
  * executes command. Print error message when error occurs.
 */
-void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
+static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 {
 	char	*pathname;
 	int		res;

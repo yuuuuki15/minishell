@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_para.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:46:42 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/11 17:15:42 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:31:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // sets values to 2 if para, 1 if inside ()
-void	set_para_values(int *in_para, char *str, int *in_quotes)
+static void	set_para_values(int *in_para, char *str, int *in_quotes)
 {
 	int	openp;
 	int	i;
@@ -59,7 +59,7 @@ int	*parse_para(char *str)
 }
 
 // trim off first set of parentheses
-char	*trim_para(char *str)
+static char	*trim_para(char *str)
 {
 	int	i;
 	int	j;
@@ -89,7 +89,7 @@ char	*trim_para(char *str)
 }
 
 // count number of lowest level parentheses
-int	count_p(char *str)
+static int	count_p(char *str)
 {
 	int	i;
 	int	cc;
