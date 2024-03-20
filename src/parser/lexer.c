@@ -56,6 +56,31 @@ static int	bad_pipe_and(char *str, t_shell *shell)
 	return (0);
 }
 
+static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
+{
+	int	j;
+
+	j = 0;
+	if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1)
+		&& q_check[i] == 0)
+	{
+		j = 1;
+		if (ft_isfulltok(str, i) != -1)
+			j++;
+		while (str[i + j] != '\0' && ft_isspace(str[i + j]) == 1
+			&& q_check[i + j] == 0)
+			j++;
+		if (i + j < (int)ft_strlen(str) && q_check[i + j] == 0
+			&& (str[i + j] == '|' || str[i + j] == '&'))
+		{
+			ft_putendl_fd("unexpected token", STDERR_FILENO);
+			shell->exit_status = 2;
+			return (1);
+		}
+	}
+	return (0);
+}
+
 static int	repeating_tok(char *str, t_shell *shell)
 {
 	int	i;
@@ -67,18 +92,11 @@ static int	repeating_tok(char *str, t_shell *shell)
 	while (str[i] != '\0')
 	{
 		j = 0;
-		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1) && q_check[i] == 0)
+		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1)
+			&& q_check[i] == 0)
 		{
-			j = 1;
-			if (ft_isfulltok(str, i) != -1)
-				j++;
-			while (str[i + j] != '\0' && ft_isspace(str[i + j]) == 1
-					&& q_check[i + j] == 0)
-				j++;
-			if (i + j < (int)ft_strlen(str) && q_check[i + j] == 0 && (str[i + j] == '|' || str[i + j] == '&'))
+			if (next_tok(i, str, q_check, shell) == 1)
 			{
-				ft_putendl_fd("unexpected token", STDERR_FILENO);
-				shell->exit_status = 2;
 				free (q_check);
 				return (1);
 			}

@@ -210,6 +210,7 @@ int		fork_child(t_shell *shell);
 char	*ft_get_path(char *cmd, t_shell *shell);
 void	reset_descriptors(t_shell *shell);
 void	dup_descriptors(t_shell *shell);
+int		check_file(char *file, t_shell *shell);
 
 // signals
 void	set_signals(void);

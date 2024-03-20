@@ -98,23 +98,6 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 		ft_here_doc(rcmd, shell);
 }
 
-// check content of a redirect
-int	check_file(char *file, t_shell *shell)
-{
-	char		*temp;
-
-	temp = ft_strtrim(file, " ");
-	if (ft_strcmp(temp, "") == 0)
-	{
-		ft_putendl_fd("unaccepted token", STDERR_FILENO);
-		shell->exit_status = 2;
-		free (temp);
-		return (1);
-	}
-	free (temp);
-	return (0);
-}
-
 void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_redircmd	*rcmd;
