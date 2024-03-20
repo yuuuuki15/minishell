@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **env)
 				if (check_tree(cmd, &shell) == 0)
 					run_exec(cmd, env, &shell);
 			}
-			clean_tree(cmd);
+			clean_tree(shell.head_cmd);
 			if (shell.is_inside_pipe == 1)
 				exit(0);
 		}
