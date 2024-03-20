@@ -6,17 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 13:32:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:56:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param char **env
- *
- * This function takes an array of environment variables and initializes them
- * to the variable t_env inside global variable shell.
+ * Initializes environment variables from an array to the global shell variable.
+ * @param env char**: Array of environment variables.
+ * @param shell t_shell*: Pointer to the shell structure.
+ * @return int: 0 on success, 1 on error.
+ * @error If env is NULL or adding an environment variable fails, returns 1.
 */
 int	ft_init_env(char **env, t_shell *shell)
 {
@@ -41,11 +42,10 @@ int	ft_init_env(char **env, t_shell *shell)
 }
 
 /**
- * @param char* name
- * @return t_env env
- *
- * Take a key string and return environment pointer.
- * return NULL if there's no environment.
+ * Retrieves an environment variable by its key.
+ * @param name char*: The key of the environment variable to find.
+ * @param shell t_shell*: Pointer to the shell structure.
+ * @return t_env*: Pointer to the environment variable, or NULL if not found.
 */
 t_env	*ft_get_env(char *name, t_shell *shell)
 {
@@ -62,11 +62,11 @@ t_env	*ft_get_env(char *name, t_shell *shell)
 }
 
 /**
- * @param char* key
- * @param char* value
- *
- * This function will take key and value and update the environment
- * with the sam key name env.
+ * Updates the value of an existing environment variable.
+ * @param key char*: The key of the environment variable to update.
+ * @param value char*: The new value for the environment variable.
+ * @param shell t_shell*: Pointer to the shell structure.
+ * @return int: 0 on success.
 */
 static int	ft_update_env(char *key, char *value, t_shell *shell)
 {
@@ -84,6 +84,14 @@ static int	ft_update_env(char *key, char *value, t_shell *shell)
 	return (0);
 }
 
+/**
+ * Creates a new environment variable and adds it to the environment list.
+ * @param key char*: The key of the new environment variable.
+ * @param value char*: The value of the new environment variable.
+ * @param shell t_shell*: Pointer to the shell structure.
+ * @return int: 0 on success, 1 on error.
+ * @error If memory allocation for the new environment variable fails, returns 1.
+*/
 static int	ft_create_env(char *key, char *value, t_shell *shell)
 {
 	t_env	*new;
@@ -108,13 +116,12 @@ static int	ft_create_env(char *key, char *value, t_shell *shell)
 }
 
 /**
- * @param char* key
- * @param char* value
- * @return int
- *
- * take key and value, then register to environment.
- * return 0 on success. return 1 on error.
- * Attention: parameters, key and value should be dynamically allocated string.
+ * Adds or updates an environment variable in the shell's environment.
+ * @param key char*: The key of the environment variable.
+ * @param value char*: The value of the environment variable.
+ * @param shell t_shell*: Pointer to the shell structure.
+ * @return int: 0 on success, 1 on error.
+ * @error If the key is invalid or memory allocation fails, returns 1.
 */
 int	ft_add_env(char *key, char *value, t_shell *shell)
 {

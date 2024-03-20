@@ -6,18 +6,16 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:25:12 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/02/29 14:38:29 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:58:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param char** array
- *
- * This function takes an array of string that has been allocated by
- * alloc function, and frees all the strings and an array.
-*/
+ * Frees all strings in an array and the array itself.
+ * @param array char**: The array of strings to be freed.
+ */
 void	ft_free_tab(char **array)
 {
 	int	i;
@@ -31,12 +29,10 @@ void	ft_free_tab(char **array)
 }
 
 /**
- * @param char* str
- * @return char* key
- *
- * This function allocates memory for the string up to the first
- * equal sign found as a key and returns it.
-*/
+ * Allocates and returns a key from a string up to the first equal sign.
+ * @param str char*: The string to extract the key from.
+ * @return char*: The allocated key string or NULL on allocation failure.
+ */
 char	*ft_get_key(char *str)
 {
 	char	*ret;
@@ -48,12 +44,10 @@ char	*ft_get_key(char *str)
 }
 
 /**
- * @param char* str
- * @return char* value
- *
- * This function returns the value of the first string found after the
- * equal sign.
-*/
+ * Returns the value after the first equal sign in a string.
+ * @param str char*: The string to extract the value from.
+ * @return char*: The allocated value string or NULL on allocation failure.
+ */
 char	*ft_get_value(char *str)
 {
 	char	*ret;
@@ -68,7 +62,11 @@ char	*ft_get_value(char *str)
 	return (ret);
 }
 
-// set array to zero
+/**
+ * Sets all elements of an integer array to zero.
+ * @param in_quotes int*: The array to be zeroed.
+ * @param len int: The length of the array.
+ */
 void	zero_array(int *in_quotes, int len)
 {
 	int	i;

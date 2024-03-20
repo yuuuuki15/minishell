@@ -6,13 +6,19 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:07:26 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:24:01 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:48:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// extracts file name from string
+/**
+ * Extracts the file name from a string for redirection.
+ * @param tok t_tok*: The token to update with file name information.
+ * @param i int: The current index in the string.
+ * @param size int: The size of the redirection token.
+ * @param str char*: The string to extract the file name from.
+ */
 static void	get_file_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
@@ -41,7 +47,13 @@ static void	get_file_name(t_tok *tok, int i, int size, char *str)
 	free (q_check);
 }
 
-// return redirect error if too many redirect tokens
+/**
+ * Handles redirection errors by checking for multiple redirect tokens.
+ * @param tok t_tok*: The token to update with error or file name information.
+ * @param i int: The current index in the string.
+ * @param size int: The size of the redirection token.
+ * @param str char*: The string to check for redirection errors.
+ */
 static void	redir_err(t_tok *tok, int i, int size, char *str)
 {
 	if (ft_istok(str[i + 1]) == -1)
@@ -53,7 +65,12 @@ static void	redir_err(t_tok *tok, int i, int size, char *str)
 	}
 }
 
-// get information for redirection tokens
+/**
+ * Identifies and processes redirection tokens in a string.
+ * @param tok t_tok*: The token to update with redirection information.
+ * @param i int: The current index in the string.
+ * @param str char*: The string to parse for redirection tokens.
+ */
 void	get_redir_token(t_tok *tok, int i, char *str)
 {
 	int	size;

@@ -6,19 +6,20 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 14:26:12 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:25:34 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param char *str
- * @param int *n_flg
- * @param int *i
- *
- * this function will check flags for builtin command "echo".
-*/
+ * Checks for the presence of '-n' flag in the echo command.
+ * @param str char*: The string to check for '-n' flag.
+ * @param n_flg int*: Pointer to flag indicating presence of '-n'.
+ * @param i int*: Pointer to index in argv array.
+ * @return int: Returns 0 if '-n' flag is present, 1 otherwise.
+ * Error cases: None.
+ */
 static int	ft_check_flag_echo(char *str, int *n_flg, int *i)
 {
 	int	j;
@@ -38,10 +39,11 @@ static int	ft_check_flag_echo(char *str, int *n_flg, int *i)
 }
 
 /**
- * @param cmd The command structure containing arguments passed to echo.
- * @return Always returns 0 to indicate success.
- *
- * Executes the echo command with or without the newline.
+ * Executes the echo command, printing arguments to standard output.
+ * @param cmd t_execcmd*: The command structure containing arguments.
+ * @return int: Always returns 0 to indicate success.
+ * Error cases: None.
+ * Executes the echo command with or without the newline based on '-n' flag.
  */
 int	ft_echo(t_execcmd *cmd)
 {

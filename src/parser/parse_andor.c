@@ -6,13 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:44:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:27:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:46:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// trims string so it only contains stuff after the ifand, to the right
+/**
+ * Extracts the substring after a specific token.
+ * @param str char*: The input string.
+ * @param tok t_tok*: The token indicating where to start the substring.
+ * @return char*: The substring after the token.
+ */
 static char	*after_token(char *str, t_tok *tok)
 {
 	char	*next_cmd;
@@ -21,7 +26,12 @@ static char	*after_token(char *str, t_tok *tok)
 	return (next_cmd);
 }
 
-// gets the type, important for & versus &&
+/**
+ * Determines the type of operation based on the token and following string.
+ * @param str char*: The input string.
+ * @param tok t_tok*: The current token.
+ * @return int: The type of operation, IFOR or the token's type.
+ */
 static int	get_type(char *str, t_tok *tok)
 {
 	char	*temp;
@@ -39,7 +49,13 @@ static int	get_type(char *str, t_tok *tok)
 	return (type);
 }
 
-// check for dangling tokens
+/**
+ * Checks if a token is left hanging without a command.
+ * @param str char*: The input string.
+ * @param type int: The type of the current token.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if the token is hanging, 0 otherwise.
+ */
 static int	hanging_token(char *str, int type, t_shell *shell)
 {
 	char	*temp;
@@ -60,7 +76,14 @@ static int	hanging_token(char *str, int type, t_shell *shell)
 	return (ret);
 }
 
-// splits commands into list structure if && or || is between two commands
+/**
+ * Parses a string into a command structure based on if-then logic.
+ * @param str char*: The input string.
+ * @param tok t_tok*: The current token.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The parsed command structure.
+ * @error Returns NULL if an error occurs during parsing.
+ */
 t_cmd	*parse_ifthen(char *str, t_tok *tok, t_shell *shell)
 {
 	t_cmd		*ret;

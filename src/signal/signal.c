@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 16:55:20 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:55:21 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 extern int	g_sig;
 
-// resets the prompt for readline
-// clears line, puts you on a nel line and redisplays prompt
+/**
+ * Resets the prompt for readline, clears line, puts you on a new line, and
+ * redisplays prompt.
+ * @param sig int: The signal number.
+ */
 static void	reset_prompt(int sig)
 {
 	(void)sig;
@@ -27,10 +30,8 @@ static void	reset_prompt(int sig)
 }
 
 /**
- * @param sig The signal number.
- *
- * Handles the SIGINT signal by printing a newline and the prompt.
- * Linux: Ctrl + C
+ * Handles the SIGINT signal by printing a newline.
+ * @param sig int: The signal number. Only acts on SIGINT.
  */
 static void	ft_sig_c(int sig)
 {
@@ -40,6 +41,10 @@ static void	ft_sig_c(int sig)
 	}
 }
 
+/**
+ * Handles the SIGQUIT signal by printing "Quit (core dumped)" to STDERR.
+ * @param sig int: The signal number. Only acts on SIGQUIT.
+ */
 static void	ft_sig_backslash(int sig)
 {
 	if (sig == SIGQUIT)
@@ -49,7 +54,10 @@ static void	ft_sig_backslash(int sig)
 }
 
 /**
- * Sets up signal handlers for SIGINT, SIGQUIT, and SIGKILL.
+ * Sets up signal handlers for SIGINT and SIGQUIT based on the given option.
+ * @param option int: Determines the set of signal handlers to use.
+ *                   1 for reset_prompt and ignore SIGQUIT,
+ *                   2 for custom SIGINT and SIGQUIT handlers.
  */
 void	ft_signal_manager(int option)
 {

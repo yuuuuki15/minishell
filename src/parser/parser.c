@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:18:00 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:50:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// check if there is a var before quotes
+/**
+ * Checks for a variable or quotes at the start of a string.
+ * @param str char*: The string to check.
+ * @return int: 1 if a variable is found, 2 if quotes are found, 0 otherwise.
+ */
 static int	var_quote_check(char *str)
 {
 	int	i;
@@ -29,7 +33,12 @@ static int	var_quote_check(char *str)
 	return (0);
 }
 
-// stores all commands in command structures in a tree
+/**
+ * Parses and stores commands in command structures within a tree.
+ * @param cmd t_execcmd*: The command structure to store parsed commands.
+ * @param str char*: The string containing the command to parse.
+ * @param shell t_shell*: The shell environment.
+ */
 static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 {
 	char		*substr;
@@ -49,7 +58,11 @@ static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 	}
 }
 
-// expand var and remove quotes in file name
+/**
+ * Expands variables and removes quotes in file names.
+ * @param tok t_tok*: The token containing the file name.
+ * @param shell t_shell*: The shell environment.
+ */
 static void	expand_file_name(t_tok *tok, t_shell *shell)
 {
 	char	*sub;
@@ -59,7 +72,13 @@ static void	expand_file_name(t_tok *tok, t_shell *shell)
 	tok->str = remove_quotes(sub);
 }
 
-// stores all commands in command structures in a tree
+/**
+ * Parses a command string and stores it in command structures within a tree.
+ * @param str char*: The command string to parse.
+ * @param tok t_tok*: The current token.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The root of the command tree.
+ */
 t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 {
 	t_cmd		*ret;
@@ -85,7 +104,11 @@ t_cmd	*parsecmd(char *str, t_tok *tok, t_shell *shell)
 	return (ret);
 }
 
-// identifies and returns the first token in a string that is not in quotes
+/**
+ * Identifies and returns the first token in a string not in quotes.
+ * @param tok t_tok*: The token structure to update with token information.
+ * @param str char*: The string to search for tokens.
+ */
 void	get_token(t_tok *tok, char *str)
 {
 	int		i;

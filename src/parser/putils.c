@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:16:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:51:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// checks if string is all spaces
+/**
+ * Checks if a string consists only of spaces.
+ * @param line char*: The string to check.
+ * @return int: 1 if the string is all spaces, 0 otherwise.
+ */
 int	ft_strisspace(char *line)
 {
 	int	i;
@@ -26,7 +30,14 @@ int	ft_strisspace(char *line)
 		return (1);
 }
 
-// deletes a sub string from a string specifying start and end
+/**
+ * Deletes a substring from a string by specifying start and end indices.
+ * @param s char const*: The original string.
+ * @param start unsigned int: The start index of the substring to delete.
+ * @param end unsigned int: The end index of the substring to delete.
+ * @return char*: The modified string without the specified substring.
+ * @error Returns " " if s is NULL or indices are out of bounds.
+ */
 char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 {
 	char			*sub;
@@ -55,7 +66,11 @@ char	*ft_delstr(char const *s, unsigned int start, unsigned int end)
 	return (sub);
 }
 
-// checks if quotes are all balanced, if not will return 0
+/**
+ * Checks if quotes in a string are balanced.
+ * @param str char*: The string to check.
+ * @return int: 1 if quotes are balanced, 0 otherwise.
+ */
 static int	balance_quotes(char *str)
 {
 	int	*in_quotes;
@@ -77,7 +92,12 @@ static int	balance_quotes(char *str)
 	return (0);
 }
 
-// checks if parenthesis are all balanced, if not will return 0
+/**
+ * Checks if parentheses in a string are balanced.
+ * @param str char*: The string to check.
+ * @param in_quotes int*: Array indicating if a character is within quotes.
+ * @return int: The number of balanced parentheses pairs, -1 if unbalanced.
+ */
 static int	balance_para(char *str, int *in_quotes)
 {
 	int	op;
@@ -102,7 +122,12 @@ static int	balance_para(char *str, int *in_quotes)
 	return (op);
 }
 
-// check balance of () and quotes
+/**
+ * Checks the balance of parentheses and quotes in a string.
+ * @param str char*: The string to check.
+ * @return int: 1 if both parentheses and quotes are balanced, 0 otherwise.
+ * @error Prints an error message if unbalanced.
+ */
 int	balance_pandq(char *str)
 {
 	int	ret;

@@ -6,13 +6,16 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 18:12:42 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:56:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// clean content of a pipe
+/**
+ * Cleans the content of a pipe command.
+ * @param cmd t_cmd*: The command structure to clean.
+ */
 static void	clean_list(t_cmd *cmd)
 {
 	t_listcmd	*lcmd;
@@ -23,7 +26,10 @@ static void	clean_list(t_cmd *cmd)
 	free (lcmd);
 }
 
-// clean content of a redirect
+/**
+ * Cleans the content of a redirect command.
+ * @param cmd t_cmd*: The command structure to clean.
+ */
 static void	clean_redir(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
@@ -36,7 +42,10 @@ static void	clean_redir(t_cmd *cmd)
 	free (rcmd);
 }
 
-// clean content of an exec
+/**
+ * Cleans the content of an exec command.
+ * @param cmd t_cmd*: The command structure to clean.
+ */
 static void	clean_exec(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
@@ -63,7 +72,10 @@ static void	clean_exec(t_cmd *cmd)
 	free (ecmd);
 }
 
-// clean content of a back
+/**
+ * Cleans the content of a back command.
+ * @param cmd t_cmd*: The command structure to clean.
+ */
 static void	clean_back(t_cmd *cmd)
 {
 	t_backcmd	*bcmd;
@@ -73,7 +85,10 @@ static void	clean_back(t_cmd *cmd)
 	free (bcmd);
 }
 
-// clean tree
+/**
+ * Cleans the command tree recursively.
+ * @param cmd t_cmd*: The root command structure to start cleaning from.
+ */
 void	clean_tree(t_cmd *cmd)
 {
 	if (cmd == NULL)

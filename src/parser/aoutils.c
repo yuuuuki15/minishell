@@ -6,13 +6,20 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:15:44 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:36:00 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:41:26 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// locates || if not in quotes and not in ()
+/**
+ * Locates the first occurrence of || not within quotes or parentheses.
+ * @param str char*: The input string to search.
+ * @param tok t_tok*: Token structure to update with location and type.
+ * @param q_check int*: Array indicating if a character is within quotes.
+ * @param p_check int*: Array indicating if a character is within parentheses.
+ * @return int: The index of the first || occurrence, or -1 if not found.
+ */
 static int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
 {
 	int	i;
@@ -37,7 +44,14 @@ static int	is_ifor(char *str, t_tok *tok, int *q_check, int *p_check)
 	return (-1);
 }
 
-// locates && and & if not in quotes and not in ()
+/**
+ * Locates the first occurrence of && or & not within quotes or parentheses.
+ * @param str char*: The input string to search.
+ * @param tok t_tok*: Token structure to update with location and type.
+ * @param q_check int*: Array indicating if a character is within quotes.
+ * @param p_check int*: Array indicating if a character is within parentheses.
+ * @return int: The index of the first && or & occurrence, or -1 if not found.
+ */
 static int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
 {
 	int	i;
@@ -65,6 +79,13 @@ static int	is_ifthen(char *str, t_tok *tok, int *q_check, int *p_check)
 	return (-1);
 }
 
+/**
+ * Determines if a string contains first-level logical operators.
+ * @param str char*: The input string to search.
+ * @param tok t_tok*: Token structure to update with found operator info.
+ * @return int: 1 if a first-level operator is found, 0 otherwise.
+ * @note This function updates tok only if a first-level operator is found.
+ */
 int	has_first_level(char *str, t_tok *tok)
 {
 	t_tok	tok2;

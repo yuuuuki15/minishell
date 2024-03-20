@@ -6,12 +6,16 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 18:49:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:40:03 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Handles the SIGINT signal during heredoc input.
+ * @param sig int: The signal number.
+ */
 static void	ft_sig_here(int sig)
 {
 	if (sig == SIGINT)
@@ -20,6 +24,11 @@ static void	ft_sig_here(int sig)
 	}
 }
 
+/**
+ * Executes the heredoc redirection.
+ * @param rcmd t_redircmd*: The redirection command.
+ * @param shell t_shell*: The shell instance.
+ */
 static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
 	char	*line;
@@ -49,6 +58,11 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	exit(0);
 }
 
+/**
+ * Manages heredoc redirection by creating a temporary file.
+ * @param rcmd t_redircmd*: The redirection command.
+ * @param shell t_shell*: The shell instance.
+ */
 static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 {
 	int	status;
@@ -70,6 +84,11 @@ static void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 		shell->exit_status = WEXITSTATUS(status);
 }
 
+/**
+ * Assists in managing different types of redirections.
+ * @param rcmd t_redircmd*: The redirection command.
+ * @param shell t_shell*: The shell instance.
+ */
 static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 {
 	if (rcmd->mode == RIN && rcmd->file != NULL)
@@ -97,6 +116,12 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 		ft_here_doc(rcmd, shell);
 }
 
+/**
+ * Manages redirection for a given command.
+ * @param cmd t_cmd*: The command to manage redirection for.
+ * @param env char**: The environment variables.
+ * @param shell t_shell*: The shell instance.
+ */
 void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_redircmd	*rcmd;
@@ -105,8 +130,6 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	if (check_file(rcmd->file, shell) == 1)
 		return ;
 	ft_redir_helper(rcmd, shell);
-	// if (shell->exit_status != 0)
-	// 	return ;
 	if (rcmd->fd < 0)
 	{
 		shell->exit_status = 1;

@@ -6,15 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 15:59:16 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 23:00:43 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * Creates a child process using fork and checks for errors.
- * @return The PID of the child process, or exits if fork fails.
+ * Creates a child process and checks for errors.
+ * @param shell t_shell*: The shell instance.
+ * @return int: The PID of the child process, or exits if fork fails.
+ * @error Exits with 1 if fork fails.
  */
 int	fork_child(t_shell *shell)
 {
@@ -30,9 +32,10 @@ int	fork_child(t_shell *shell)
 
 /**
  * Validates the command path against the environment PATH variable.
- * @param env_path The split PATH environment variable.
- * @param cmd The command to validate.
- * @return The full path to the command if found and executable, otherwise NULL.
+ * @param env_path char**: The split PATH environment variable.
+ * @param cmd char*: The command to validate.
+ * @return char*: The full path to the command
+ * if found and executable, otherwise NULL.
  */
 static char	*validate_path(char **env_path, char *cmd)
 {
@@ -55,8 +58,10 @@ static char	*validate_path(char **env_path, char *cmd)
 
 /**
  * Retrieves the full path of a command from the PATH environment variable.
- * @param cmd The command to find the path for.
- * @return The full path to the command if found, otherwise exits.
+ * @param cmd char*: The command to find the path for.
+ * @param shell t_shell*: The shell instance.
+ * @return char*: The full path to the command if found, otherwise exits.
+ * @error Exits with 126 if cmd is a directory or not executable.
  */
 char	*ft_get_path(char *cmd, t_shell *shell)
 {
@@ -86,7 +91,8 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 }
 
 /**
- * Resets the file descriptors for standard input and output to their defaults.
+ * Resets the file descriptors for standard input and output to defaults.
+ * @param shell t_shell*: The shell instance.
  */
 void	reset_descriptors(t_shell *shell)
 {
@@ -109,8 +115,8 @@ void	reset_descriptors(t_shell *shell)
 }
 
 /**
- * Duplicates the file descriptors for input and output
- * if they have been redirected.
+ * Duplicates the file descriptors for input and output if redirected.
+ * @param shell t_shell*: The shell instance.
  */
 void	dup_descriptors(t_shell *shell)
 {

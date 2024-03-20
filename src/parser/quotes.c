@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:14:50 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:52:47 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// removes quotes from arguments after expanding variables not in single quotes
+/**
+ * Removes quotes from arguments after expanding variables not in single quotes.
+ * @param tab char**: Array of strings to clean quotes from.
+ * @param shell t_shell*: Shell structure for variable expansion context.
+ */
 void	clean_quotes(char **tab, t_shell *shell)
 {
 	int		i;
@@ -42,7 +46,11 @@ void	clean_quotes(char **tab, t_shell *shell)
 	}
 }
 
-// trims paired quotes from string
+/**
+ * Trims paired quotes from a string.
+ * @param str char*: The string to remove quotes from.
+ * @return char*: The modified string without paired quotes.
+ */
 char	*remove_quotes(char *str)
 {
 	int	*in_quotes;
@@ -70,7 +78,11 @@ char	*remove_quotes(char *str)
 	return (str);
 }
 
-// sets values to 3 if quote, 2 in inside "", 1 if inside ''
+/**
+ * Sets values to indicate quote types within a string.
+ * @param in_quotes int*: Array to store quote type indicators.
+ * @param str char*: The string to analyze for quotes.
+ */
 static void	set_quote_values(int *in_quotes, char *str)
 {
 	int	i;
@@ -99,7 +111,12 @@ static void	set_quote_values(int *in_quotes, char *str)
 	}
 }
 
-// makes an integer array that denotes if in quotes and quote type
+/**
+ * Creates an integer array indicating quote types within a string.
+ * @param str char*: The string to analyze for quotes.
+ * @return int*: Array indicating quote types, NULL on error.
+ * @error Returns NULL if str is NULL or memory allocation fails.
+ */
 int	*parse_quotes(char *str)
 {
 	int	*in_quotes;

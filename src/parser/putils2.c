@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:06:15 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:15:52 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:52:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// checks if char is space character
+/**
+ * Checks if a character is a space character.
+ * @param c char: The character to check.
+ * @return int: 1 if the character is a space, 0 otherwise.
+ */
 int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n')
@@ -22,7 +26,11 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-// checks if token is a redirect
+/**
+ * Checks if a token represents a redirection.
+ * @param tok int: The token to check.
+ * @return int: 1 if the token is a redirection, 0 otherwise.
+ */
 int	ft_tofile(int tok)
 {
 	if (tok == RIN || tok == ROUT || tok == ROUTA || tok == RHERE)
@@ -30,7 +38,11 @@ int	ft_tofile(int tok)
 	return (0);
 }
 
-// checks if char is a token, not including quotes but including parentheses
+/**
+ * Checks if a character is a token, excluding quotes but including parentheses.
+ * @param c char: The character to check.
+ * @return int: Token type if the character is a token, -1 otherwise.
+ */
 int	ft_istok(char c)
 {
 	if (c == '<')
@@ -44,7 +56,13 @@ int	ft_istok(char c)
 	return (-1);
 }
 
-// checks if char is a token, not including quotes but including parentheses
+/**
+ * Checks if a character sequence is a full token, excluding quotes but
+ * including parentheses.
+ * @param str char*: The string containing the character sequence.
+ * @param i int: The index of the first character in the sequence.
+ * @return int: Token type if the sequence is a full token, -1 otherwise.
+ */
 int	ft_isfulltok(char *str, int i)
 {
 	char	c1;
@@ -65,7 +83,11 @@ int	ft_isfulltok(char *str, int i)
 	return (-1);
 }
 
-// characters allowed in a variable name
+/**
+ * Checks if a character is allowed in a variable name.
+ * @param c char: The character to check.
+ * @return int: 1 if the character is allowed, 0 otherwise.
+ */
 int	ft_isallowed(char c)
 {
 	if (ft_isalnum(c) == 1)

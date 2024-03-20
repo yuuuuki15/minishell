@@ -6,19 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:11 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:57:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param char* str
- * @return int result
- *
- * This function checks if the given string is a valid identifier.
- * The first character must not be a digit, and it must consist only
- * of alphabets or underscores.
+ * Checks if a string is a valid identifier.
+ * @param str char*: The string to check.
+ * @return int: 1 if valid, 0 otherwise.
+ * Error: Returns 0 if str is NULL, empty, starts with a digit, or contains
+ * characters other than alphabets and underscores.
 */
 int	ft_is_valid_identifier(char *str)
 {
@@ -34,7 +33,9 @@ int	ft_is_valid_identifier(char *str)
 }
 
 /**
- * This function displays all environment variables
+ * Displays all environment variables.
+ * @param shell t_shell*: The shell containing the environment variables.
+ * No return value.
 */
 void	ft_show_env(t_shell *shell)
 {
@@ -52,7 +53,9 @@ void	ft_show_env(t_shell *shell)
 }
 
 /**
- * clean all environment variable with free method.
+ * Cleans all environment variables.
+ * @param shell t_shell*: The shell containing the environment variables.
+ * No return value.
 */
 void	ft_clean_env(t_shell *shell)
 {
@@ -75,8 +78,11 @@ void	ft_clean_env(t_shell *shell)
 }
 
 /**
- * @param t_shel *shell
- * Function to set the environment variable named PWD when it does not exist
+ * Sets the PWD environment variable if it does not exist.
+ * @param shell t_shell*: The shell to modify.
+ * @return int: 0 on success, 1 on failure.
+ * Error: Returns 1 if getting the current working directory fails or adding
+ * the PWD variable fails.
 */
 int	ft_set_pwd(t_shell *shell)
 {

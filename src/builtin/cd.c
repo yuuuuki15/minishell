@@ -5,19 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/27 14:34:14 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 09:11:02 by ykawakit         ###   ########.fr       */
+/*   Created: 2024/03/20 22:24:44 by ykawakit          #+#    #+#             */
+/*   Updated: 2024/03/20 22:24:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param old_pwd The previous working directory.
- * @param pwd The current working directory.
- * @return Always returns 0.
- *
- * Updates the environment variables for the current and old working directories.
+ * Updates environment variables for current and old working directories.
+ * @param old_pwd char*: Previous working directory.
+ * @param pwd char*: Current working directory.
+ * @param shell t_shell*: Shell instance.
+ * @return int: Always returns 0.
  */
 static int	ft_update_environment(char *old_pwd, char *pwd, t_shell *shell)
 {
@@ -27,11 +27,12 @@ static int	ft_update_environment(char *old_pwd, char *pwd, t_shell *shell)
 }
 
 /**
- * @param path The path to change to.
- * @return Returns 0 on success, 1 on failure.
- *
- * Changes the current working directory and updates the relevant environment
- * variables.
+ * Changes current working directory and updates environment variables.
+ * @param path char*: Path to change to.
+ * @param shell t_shell*: Shell instance.
+ * @return int: 0 on success, 1 on failure.
+ * Error cases: Fails if current working directory cannot be retrieved,
+ * if changing to new directory fails, or if updating environment fails.
  */
 static int	ft_change_directory(char *path, t_shell *shell)
 {
@@ -54,9 +55,9 @@ static int	ft_change_directory(char *path, t_shell *shell)
 }
 
 /**
- * @return Returns 0 on success, 1 if the HOME environment variable is not set.
- *
- * Handles the case where the user wants to change to the home directory.
+ * Handles changing to the home directory.
+ * @param shell t_shell*: Shell instance.
+ * @return int: 0 on success, 1 if HOME environment variable is not set.
  */
 static int	ft_handle_home_directory(t_shell *shell)
 {
@@ -72,11 +73,9 @@ static int	ft_handle_home_directory(t_shell *shell)
 }
 
 /**
- * @return Returns 0 on success, 1 if the OLDPWD environment variable is
- * not set.
- *
- * Handles the case where the user wants to change to the previous
- * working directory.
+ * Handles changing to the previous working directory.
+ * @param shell t_shell*: Shell instance.
+ * @return int: 0 on success, 1 if OLDPWD environment variable is not set.
  */
 static int	ft_handle_oldpwd(t_shell *shell)
 {
@@ -92,10 +91,12 @@ static int	ft_handle_oldpwd(t_shell *shell)
 }
 
 /**
- * @param cmd The command structure containing arguments passed to cd.
- * @return Returns 0 on success, 1 on failure.
- *
- * The main function for the cd command. Changes the current working directory.
+ * Main function for cd command. Changes current working directory.
+ * @param cmd t_execcmd*: Command structure with arguments passed to cd.
+ * @param shell t_shell*: Shell instance.
+ * @return int: 0 on success, 1 on failure.
+ * Error cases: Fails if too many arguments are provided, if HOME or OLDPWD
+ * environment variables are not set, or if changing directory fails.
  */
 int	ft_cd(t_execcmd *cmd, t_shell *shell)
 {

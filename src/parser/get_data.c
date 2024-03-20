@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   get_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:00:53 by mevonuk           #+#    #+#             */
 /*   Updated: 2024/03/20 16:52:23 by ykawakit         ###   ########.fr       */
@@ -14,6 +14,10 @@
 
 extern int	g_sig;
 
+/**
+ * Cleans up resources before exiting the shell.
+ * @param shell t_shell*: The shell instance.
+ */
 void	clean_exit(t_shell *shell)
 {
 	close(shell->stdin);
@@ -26,16 +30,24 @@ void	clean_exit(t_shell *shell)
 		clean_tree(shell->head_cmd);
 }
 
-// exiting shell, free global variable
+/**
+ * Exits the shell and frees global variables.
+ * @param shell t_shell*: The shell instance.
+ */
 void	exit_shell(t_shell *shell)
 {
 	clean_exit(shell);
 	exit(shell->exit_prog);
 }
 
-// use readline to display prompt and read in user input
-// treat "exit" and ctrl-D but only when alone on line
-// add non-blank lines to history
+/**
+ * Displays a prompt and reads user input using readline.
+ * Treats "exit" and ctrl-D but only when alone on a line.
+ * Adds non-blank lines to history.
+ * @param shell t_shell*: The shell instance.
+ * @return int: 1 if input is not empty or only whitespace, 0 otherwise.
+ * @error Returns 0 if an error occurs or if input is empty or only whitespace.
+ */
 int	get_data(t_shell *shell)
 {
 	ft_signal_manager(1);

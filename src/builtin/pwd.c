@@ -6,23 +6,26 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:27:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/19 08:55:21 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:30:45 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param cmd The command structure containing the env command.
- * @return exit status
+ * Prints the current working directory.
  *
- * print PWD from environment
+ * @param cmd t_execcmd*: The command structure containing the pwd command.
+ * @param shell t_shell*: The shell instance to access environment variables.
+ * @return int: Returns 0 on success, 1 on error.
+ *
+ * Error cases: Returns 1 if an unsupported option is provided or if the PWD
+ * environment variable is not set.
  */
 int	ft_pwd(t_execcmd *cmd, t_shell *shell)
 {
 	t_env	*env;
 
-	(void)cmd;
 	env = ft_get_env("PWD", shell);
 	if (cmd->argv[1] != NULL && cmd->argv[1][0] == '-')
 	{

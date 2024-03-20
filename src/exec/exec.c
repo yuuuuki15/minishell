@@ -6,18 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 11:37:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:38:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param t_execcmd *cmd
- *
- * This function takes executive command provided by parser,
- * checks path using env info from shell then
- * executes command. Print error message when error occurs.
+ * Executes a command using the provided path and environment.
+ * @param cmd t_execcmd*: The command to execute.
+ * @param env char**: Environment variables.
+ * @param shell t_shell*: Shell instance for error handling.
+ * Error: Prints error message and exits with 127 if command execution fails.
 */
 static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 {
@@ -37,6 +37,11 @@ static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	exit(127);
 }
 
+/**
+ * Handles execution of built-in commands.
+ * @param ecmd t_execcmd*: The command to execute.
+ * @param shell t_shell*: Shell instance for error handling.
+*/
 static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 {
 	dup_descriptors(shell);
@@ -44,7 +49,12 @@ static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 	reset_descriptors(shell);
 }
 
-// manage the executable part of the tree by forking
+/**
+ * Manages execution by forking for non-built-in commands.
+ * @param cmd t_cmd*: The command to manage.
+ * @param env char**: Environment variables.
+ * @param shell t_shell*: Shell instance for error handling.
+*/
 static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_execcmd	*ecmd;
@@ -73,7 +83,12 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 	}
 }
 
-// directs the execution of the command tree
+/**
+ * Directs the execution based on the type of command.
+ * @param cmd t_cmd*: The command to execute.
+ * @param env char**: Environment variables.
+ * @param shell t_shell*: Shell instance for error handling.
+*/
 void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 {
 	ft_signal_manager(2);

@@ -6,13 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 09:17:03 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:13:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 23:00:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// return number of $ in str that are not in sigle quotes
+/**
+ * Counts the number of variables in a string,
+ * excluding those within single quotes.
+ * @param str char*: The string to search for variables.
+ * @return int: The number of variables found.
+ */
 int	find_var(char *str)
 {
 	int	i;
@@ -33,7 +38,14 @@ int	find_var(char *str)
 	return (nd);
 }
 
-// extracts var name from string noting location and length
+/**
+ * Extracts the name of a variable from a string
+ * and updates the token with its details.
+ * @param tok t_tok*: The token to update with variable name details.
+ * @param i int: The start index of the variable in the string.
+ * @param size int: The initial size to consider for the variable name.
+ * @param str char*: The string from which to extract the variable name.
+ */
 static void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
@@ -60,7 +72,12 @@ static void	get_var_name(t_tok *tok, int i, int size, char *str)
 	free (sub);
 }
 
-// extracts the name of the variable and stores it in tok
+/**
+ * Extracts the name of the variable
+ * from a string and stores it in a token.
+ * @param tok t_tok*: The token to store the variable name.
+ * @param str char*: The string containing the variable.
+ */
 void	get_var(t_tok *tok, char *str)
 {
 	int	i;

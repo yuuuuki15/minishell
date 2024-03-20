@@ -6,14 +6,20 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:13:33 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:43:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// expansion of lexer for line count
-// deals with single commands, quotes, parentheses, and redirects
+/**
+ * Expands lexer for line count, handling single commands, quotes, parentheses,
+ * and redirects.
+ * @param str char*: The input string to be lexed.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The command structure after parsing.
+ * @error Returns NULL if an error occurs during parsing.
+ */
 static t_cmd	*lexer_helper(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;
@@ -38,7 +44,12 @@ static t_cmd	*lexer_helper(char *str, t_shell *shell)
 	return (cmd);
 }
 
-// check for starting with pipe or and
+/**
+ * Checks for starting with pipe or and, indicating syntax error.
+ * @param str char*: The input string to check.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if an error is found, 0 otherwise.
+ */
 static int	bad_pipe_and(char *str, t_shell *shell)
 {
 	char	*temp;
@@ -55,6 +66,14 @@ static int	bad_pipe_and(char *str, t_shell *shell)
 	return (0);
 }
 
+/**
+ * Finds the next token in the string, considering quotes.
+ * @param i int: The current index in the string.
+ * @param str char*: The input string.
+ * @param q_check int*: Array indicating if a character is within quotes.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if an unexpected token is found, 0 otherwise.
+ */
 static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
 {
 	int	j;
@@ -80,6 +99,12 @@ static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
 	return (0);
 }
 
+/**
+ * Checks for repeating tokens that are not allowed.
+ * @param str char*: The input string to check.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if repeating tokens are found, 0 otherwise.
+ */
 static int	repeating_tok(char *str, t_shell *shell)
 {
 	int	i;
@@ -104,10 +129,14 @@ static int	repeating_tok(char *str, t_shell *shell)
 	return (0);
 }
 
-// checks if input is NULL
-// checks if parenthesis and quotes are balanced
-// parses command into simple "tree" based on tokens
-// returns tree
+/**
+ * Main lexer function. Checks if input is NULL, if parenthesis and quotes are
+ * balanced, parses command into a simple "tree" based on tokens.
+ * @param str char*: The input string to be lexed.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The command structure after parsing.
+ * @error Returns NULL if an error occurs or if checks fail.
+ */
 t_cmd	*lexer(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;

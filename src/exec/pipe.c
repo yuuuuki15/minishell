@@ -6,18 +6,29 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:15:23 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:39:22 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Cleans up resources before exiting due to pipe failure.
+ * @param shell The current shell instance.
+ */
 static void	ft_pipe_cleaner(t_shell *shell)
 {
 	clean_exit(shell);
 	exit(1);
 }
 
+/**
+ * Executes the child process part of a pipe.
+ * @param pcmd The command to execute.
+ * @param env The environment variables.
+ * @param fd File descriptors for the pipe.
+ * @param shell The current shell instance.
+ */
 static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 {
 	close(fd[0]);
@@ -26,6 +37,13 @@ static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	run_exec(pcmd->left, env, shell);
 }
 
+/**
+ * Executes the parent process part of a pipe.
+ * @param pcmd The command to execute.
+ * @param env The environment variables.
+ * @param fd File descriptors for the pipe.
+ * @param shell The current shell instance.
+ */
 static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 {
 	close(fd[1]);
@@ -36,6 +54,12 @@ static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	run_exec(pcmd->right, env, shell);
 }
 
+/**
+ * Manages the creation and execution of a pipe.
+ * @param cmd The command structure containing the pipe.
+ * @param env The environment variables.
+ * @param shell The current shell instance.
+ */
 void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_listcmd	*pcmd;

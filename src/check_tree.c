@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:12:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:54:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// check for empty command
+/**
+ * Checks if the command is empty.
+ * @param cmd t_cmd*: The command to check.
+ * @return int: 1 if the command is empty, 0 otherwise.
+ */
 static int	check_cmd(t_cmd *cmd)
 {
 	t_execcmd	*out;
@@ -25,7 +29,12 @@ static int	check_cmd(t_cmd *cmd)
 	return (ret);
 }
 
-// check content of a list
+/**
+ * Checks the content of a list command.
+ * @param cmd t_cmd*: The list command to check.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if there is an error in the list, 0 otherwise.
+ */
 static int	check_list2(t_cmd *cmd, t_shell *shell)
 {
 	t_listcmd	*lcmd;
@@ -38,7 +47,12 @@ static int	check_list2(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-// check content of a redirect
+/**
+ * Checks the content of a redirect command.
+ * @param cmd t_cmd*: The redirect command to check.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if there is an error in the redirect, 0 otherwise.
+ */
 static int	check_redir(t_cmd *cmd, t_shell *shell)
 {
 	t_redircmd	*rcmd;
@@ -58,7 +72,12 @@ static int	check_redir(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-// print out structure of tree following parsing
+/**
+ * Prints the structure of the tree following parsing.
+ * @param cmd t_cmd*: The command tree to check.
+ * @param shell t_shell*: The shell environment.
+ * @return int: 1 if there is an error in the tree, 0 otherwise.
+ */
 int	check_tree(t_cmd *cmd, t_shell *shell)
 {
 	t_backcmd	*bcmd;

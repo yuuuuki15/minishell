@@ -6,17 +6,16 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/13 19:06:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:30:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @param cmd The command structure to be executed.
- * @return 1 if the command is a built-in command, 0 otherwise.
- *
  * Checks if the command is a built-in command.
+ * @param cmd t_execcmd*: The command structure to be executed.
+ * @return int: 1 if the command is a built-in command, 0 otherwise.
  */
 int	ft_is_builtin(t_execcmd *cmd)
 {
@@ -33,10 +32,12 @@ int	ft_is_builtin(t_execcmd *cmd)
 }
 
 /**
- * @param cmd The command structure to be executed.
- * @return The result of the built-in command execution.
- *
  * Manages the execution of built-in commands.
+ * @param cmd t_execcmd*: The command structure to be executed.
+ * @param shell t_shell*: The shell instance.
+ * @return int: The result of the built-in command execution.
+ * Error cases: Returns specific error codes based on the command execution
+ * failure.
  */
 int	ft_builtin_manager(t_execcmd *cmd, t_shell *shell)
 {

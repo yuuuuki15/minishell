@@ -6,13 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:20:25 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 12:28:35 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:47:38 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// locates a pipe if it is not in quotes
+/**
+ * Checks if a pipe '|' is present outside of quotes and parentheses.
+ * @param str char*: The input string to search.
+ * @param tok t_tok*: Token structure to update with pipe location.
+ * @return int: 1 if a pipe is found, 0 otherwise.
+ */
 int	is_pipe(char *str, t_tok *tok)
 {
 	int	i;
@@ -37,7 +42,12 @@ int	is_pipe(char *str, t_tok *tok)
 	return (0);
 }
 
-// trims string so it only contains stuff after the pipe, to the right
+/**
+ * Extracts the substring after a pipe '|' character.
+ * @param str char*: The input string to extract from.
+ * @param tok t_tok*: The token indicating the pipe's location.
+ * @return char*: The substring after the pipe.
+ */
 static char	*after_pipe(char *str, t_tok *tok)
 {
 	char	*next_cmd;
@@ -46,7 +56,13 @@ static char	*after_pipe(char *str, t_tok *tok)
 	return (next_cmd);
 }
 
-// splits commands into pipe structure
+/**
+ * Splits commands by pipe '|' and constructs a command structure.
+ * @param str char*: The input string to split.
+ * @param tok t_tok*: The token indicating the pipe's location.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The head of the command structure list.
+ */
 t_cmd	*parse_pipe(char *str, t_tok *tok, t_shell *shell)
 {
 	t_cmd		*ret;

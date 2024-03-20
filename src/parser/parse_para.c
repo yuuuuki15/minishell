@@ -6,13 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:46:42 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:31:54 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:46:57 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// sets values to 2 if para, 1 if inside ()
+/**
+ * Sets values in an array to indicate the level of parentheses nesting.
+ * @param in_para int*: Array to store parentheses levels.
+ * @param str char*: Input string to parse.
+ * @param in_quotes int*: Array indicating if a character is within quotes.
+ */
 static void	set_para_values(int *in_para, char *str, int *in_quotes)
 {
 	int	openp;
@@ -40,7 +45,12 @@ static void	set_para_values(int *in_para, char *str, int *in_quotes)
 	}
 }
 
-// makes an integer array that denotes if in quotes and quote type
+/**
+ * Creates an integer array indicating the level of parentheses nesting.
+ * @param str char*: The string to parse.
+ * @return int*: Array indicating the level of parentheses nesting.
+ * @error Returns NULL if memory allocation fails.
+ */
 int	*parse_para(char *str)
 {
 	int	*in_para;
@@ -58,7 +68,11 @@ int	*parse_para(char *str)
 	return (in_para);
 }
 
-// trim off first set of parentheses
+/**
+ * Trims the first set of parentheses from a string.
+ * @param str char*: The string to trim parentheses from.
+ * @return char*: The modified string with the first set of parentheses removed.
+ */
 static char	*trim_para(char *str)
 {
 	int	i;
@@ -88,7 +102,11 @@ static char	*trim_para(char *str)
 	return (str);
 }
 
-// count number of lowest level parentheses
+/**
+ * Counts the number of lowest level parentheses in a string.
+ * @param str char*: The string to count parentheses in.
+ * @return int: The count of lowest level parentheses.
+ */
 static int	count_p(char *str)
 {
 	int	i;
@@ -108,7 +126,13 @@ static int	count_p(char *str)
 	return (cc);
 }
 
-// removes parentheses or flags error if there is more stuff in the line
+/**
+ * Parses parentheses in a string and either removes them or flags an error.
+ * @param str char*: The string to parse.
+ * @param shell t_shell*: The shell environment.
+ * @return t_cmd*: The command structure after parsing.
+ * @error Returns NULL if there is a syntax error.
+ */
 t_cmd	*parse_paren(char *str, t_shell *shell)
 {
 	t_cmd		*cmd;

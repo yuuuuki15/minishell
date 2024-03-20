@@ -6,13 +6,19 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:27:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:14:20 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:53:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// removes variable then pastes in expansion
+/**
+ * Combines strings around a variable expansion.
+ * @param str char*: The original string.
+ * @param tok t_tok*: Token containing variable location and length.
+ * @param exp char*: The expansion of the variable.
+ * @return char*: The new string with the variable expanded.
+ */
 static char	*frankenstein(char *str, t_tok *tok, char *exp)
 {
 	char	*frank;
@@ -32,7 +38,12 @@ static char	*frankenstein(char *str, t_tok *tok, char *exp)
 	return (frank);
 }
 
-// expand variable
+/**
+ * Retrieves the expansion for a given variable.
+ * @param tok t_tok*: Token containing the variable name.
+ * @param shell t_shell*: Shell environment for variable lookup.
+ * @return char*: The expansion of the variable or a space if not found.
+ */
 static char	*get_expansion(t_tok *tok, t_shell *shell)
 {
 	char	*expansion;
@@ -49,7 +60,12 @@ static char	*get_expansion(t_tok *tok, t_shell *shell)
 	return (expansion);
 }
 
-// locate $var then expand it, recursively if necessary
+/**
+ * Expands variables in a string recursively.
+ * @param str char*: The string to expand variables in.
+ * @param shell t_shell*: Shell environment for variable lookup.
+ * @return char*: The string with all variables expanded.
+ */
 char	*expand_var(char *str, t_shell *shell)
 {
 	t_tok	tok;

@@ -6,13 +6,18 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 19:21:00 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 11:44:17 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:28:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// set exit tag if one argument, raise error if non-numeric
+/**
+ * Sets the exit status of the shell if one argument is provided. If the
+ * argument is non-numeric, it raises an error and exits the shell.
+ * @param cmd t_execcmd*: The command structure containing the arguments.
+ * @param shell t_shell*: The shell instance to set the exit status for.
+ */
 static void	exit_one_arg(t_execcmd *cmd, t_shell *shell)
 {
 	int	i;
@@ -32,8 +37,13 @@ static void	exit_one_arg(t_execcmd *cmd, t_shell *shell)
 	shell->exit_prog = ft_atoi(cmd->argv[1]);
 }
 
-// exit program
-// if too many arguments raise error
+/**
+ * Exits the program. If more than one argument is provided, it raises an error.
+ * @param cmd t_execcmd*: The command structure containing the arguments.
+ * @param shell t_shell*: The shell instance to exit from.
+ * @return int: Returns 1 if too many arguments are provided, otherwise 0.
+ * Error cases: Returns 1 if more than one argument is provided.
+ */
 int	ft_exit(t_execcmd *cmd, t_shell *shell)
 {
 	int	j;

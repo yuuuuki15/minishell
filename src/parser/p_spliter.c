@@ -6,13 +6,17 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:53:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 11:33:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:45:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// counts number of words in string based on spaces but not spaces in quotes
+/**
+ * Counts the number of words in a string, ignoring spaces within quotes.
+ * @param s char*: The input string to count words in.
+ * @return size_t: The number of words found in the string.
+ */
 static size_t	p_num_words(char *s)
 {
 	size_t	words;
@@ -38,7 +42,13 @@ static size_t	p_num_words(char *s)
 	return (words);
 }
 
-// allocates memory to make a copy of a string
+/**
+ * Allocates memory and duplicates a substring from the input string.
+ * @param s char*: The input string to duplicate from.
+ * @param n size_t: The number of characters to duplicate.
+ * @return char*: A pointer to the duplicated string.
+ * @error Returns NULL if memory allocation fails.
+ */
 static char	*p_ft_strndup(char *s, size_t n)
 {
 	char	*cpy;
@@ -57,7 +67,13 @@ static char	*p_ft_strndup(char *s, size_t n)
 	return (cpy);
 }
 
-// determines the length of a word
+/**
+ * Determines the length of a word in a string, considering quotes.
+ * @param s char*: The input string containing the word.
+ * @param q_check int*: Array indicating if a character is within quotes.
+ * @param i int: The starting index of the word in the string.
+ * @return size_t: The length of the word.
+ */
 static size_t	p_word_length(char *s, int *q_check, int i)
 {
 	size_t	len;
@@ -69,7 +85,14 @@ static size_t	p_word_length(char *s, int *q_check, int i)
 	return (len);
 }
 
-// allocates the interior strings of the array
+/**
+ * Allocates memory for each word in the array.
+ * @param a char**: The array to allocate memory for each word.
+ * @param s char*: The input string to split into words.
+ * @param words size_t: The number of words to allocate memory for.
+ * @return int: -1 on success, or the index of the word that failed to allocate.
+ * @error Returns the index of the word that failed to allocate if any.
+ */
 static int	p_allocate(char **a, char *s, size_t words)
 {
 	size_t	k;
@@ -97,7 +120,13 @@ static int	p_allocate(char **a, char *s, size_t words)
 	return (-1);
 }
 
-// splits a string into an array of words based on spaces and quoted text
+/**
+ * Splits a string into an array of words, considering spaces and quotes.
+ * @param s char*: The input string to split.
+ * @return char**: An array of strings, each being a word from the input.
+ * @error Returns NULL if the input string is NULL, memory allocation fails,
+ *        or word allocation fails.
+ */
 char	**p_spliter(char *s)
 {
 	char	**array;
