@@ -50,20 +50,18 @@ void	clean_quotes(char **tab, t_shell *shell)
  * @param str char*: The string to remove quotes from.
  * @return char*: The modified string without paired quotes.
  */
-char	*remove_quotes(char *str)
+char	*remove_quotes(char *str, int *in_quotes, int i_start)
 {
-	int	*in_quotes;
 	int	i;
 	int	j;
 
 	if (str == NULL)
 		return (NULL);
-	in_quotes = parse_quotes(str);
 	i = 0;
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (in_quotes[i] == 3)
+		if (in_quotes[i + i_start] == 3)
 			i++;
 		else
 		{
@@ -73,7 +71,6 @@ char	*remove_quotes(char *str)
 		}
 	}
 	str[j] = '\0';
-	free (in_quotes);
 	return (str);
 }
 

@@ -177,7 +177,7 @@ char	*expand_var(char *str, t_shell *shell);
 
 // quotes
 int		*parse_quotes(char *str);
-char	*remove_quotes(char *str);
+char	*remove_quotes(char *str, int *in_quotes, int start);
 void	clean_quotes(char **tab, t_shell *shell);
 
 // cmd tree
