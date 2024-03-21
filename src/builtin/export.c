@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:29:26 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:09:45 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,14 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 
 	equal_pos = ft_strchr(arg, '=') - arg;
 	if (equal_pos < 0)
+	{
+		if (ft_is_valid_identifier(arg) == 0)
+		{
+			print_invalid_identifier(arg);
+			return (1);
+		}
 		return (0);
+	}
 	else
 		return (handle_with_equal(arg, equal_pos, shell));
 }
