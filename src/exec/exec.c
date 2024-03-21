@@ -27,7 +27,13 @@ static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	res = 0;
 	pathname = ft_get_path(cmd->argv[0], shell);
 	if (pathname != NULL)
+	{
+		if (shell->stdin != -1)
+			close(shell->stdin);
+		if (shell->stdout != -1)
+			close(shell->stdout);
 		res = execve(pathname, cmd->argv, env);
+	}
 	if (res < 0 || pathname != NULL)
 		free(pathname);
 	ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
