@@ -28,10 +28,12 @@ static char	*frankenstein(char *str, t_tok *tok, char *exp)
 
 	s1 = ft_strdup(str);
 	s1[tok->s_loc] = '\0';
+	s1 = remove_quotes(s1);
 	s2 = ft_strjoin(s1, exp);
 	free (s1);
 	len = (int)ft_strlen(str) - tok->cut;
 	s1 = ft_substr(str, tok->cut, len);
+	s1 = remove_quotes(s1);
 	frank = ft_strjoin(s2, s1);
 	free (s1);
 	free (s2);
@@ -90,5 +92,7 @@ char	*expand_var(char *str, t_shell *shell)
 		}
 		return (frank);
 	}
+	else
+		str = remove_quotes(str);
 	return (ft_strdup(str));
 }
