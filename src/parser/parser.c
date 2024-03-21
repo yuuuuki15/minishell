@@ -68,6 +68,7 @@ static void	expand_file_name(t_tok *tok, t_shell *shell)
 
 	sub = expand_var(tok->str, shell);
 	free (tok->str);
+	tok->str = sub;
 }
 
 /**
