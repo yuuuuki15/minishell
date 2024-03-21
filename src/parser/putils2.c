@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:06:15 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/21 12:02:09 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:26:22 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ int	ft_istok(char c)
 		return (PIP);
 	if (c == '&')
 		return (AND);
-	if (c == '(')
-		return (OP);
-	if (c == ')')
-		return (CP);
 	return (-1);
 }
 
