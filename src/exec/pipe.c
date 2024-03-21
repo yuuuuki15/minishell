@@ -48,7 +48,7 @@ static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 {
 	close(fd[1]);
-	if (shell->in_fd != STDIN_FILENO)
+	if (shell->in_fd != STDIN_FILENO && shell->in_fd != -1)
 		close(shell->in_fd);
 	shell->is_inside_pipe = 1;
 	shell->in_fd = fd[0];

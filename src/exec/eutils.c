@@ -98,7 +98,7 @@ void	reset_descriptors(t_shell *shell)
 {
 	if (shell->in_fd != STDIN_FILENO)
 	{
-		if (shell->in_fd >= 0 && !shell->is_inside_pipe)
+		if (shell->in_fd >= 0 && !shell->is_inside_pipe && shell->in_fd != -1)
 			close(shell->in_fd);
 		close(STDIN_FILENO);
 		dup2(shell->stdin, STDIN_FILENO);
@@ -106,7 +106,7 @@ void	reset_descriptors(t_shell *shell)
 	}
 	if (shell->out_fd != STDOUT_FILENO)
 	{
-		if (shell->out_fd >= 0 && !shell->is_inside_pipe)
+		if (shell->out_fd >= 0 && !shell->is_inside_pipe && shell->out_fd != -1)
 			close(shell->out_fd);
 		close(STDOUT_FILENO);
 		dup2(shell->stdout, STDOUT_FILENO);
