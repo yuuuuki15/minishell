@@ -48,8 +48,9 @@ static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 	if (first_var_check(str) == 1)
 	{
 		substr = expand_var(str, shell);
-		if (ft_strcmp(substr, "") != 0)
-			cmd->argv = p_spliter(substr);
+		cmd->argv = p_spliter(substr);
+		if (ft_strcmp(substr, " ") != 0)
+			cmd->argv[0] = NULL;
 		if (substr)
 			free (substr);
 	}

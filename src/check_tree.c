@@ -23,9 +23,14 @@ static int	check_cmd(t_cmd *cmd)
 	int			ret;
 
 	ret = 0;
-	out = (t_execcmd *)cmd;
-	if (out->argv[0] == NULL || ft_strcmp(out->argv[0], " ") == 0)
+	if (cmd == NULL)
 		ret = 1;
+	else
+	{
+		out = (t_execcmd *)cmd;
+		if (out->argv[0] == NULL || ft_strcmp(out->argv[0], " ") == 0)
+			ret = 1;
+	}
 	return (ret);
 }
 

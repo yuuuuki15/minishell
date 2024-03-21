@@ -95,7 +95,10 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 	if (cmd->type == REDIR)
 		manage_redir(cmd, env, shell);
 	if (cmd->type == EXEC)
-		manage_exec(cmd, env, shell);
+	{
+		if (check_tree(cmd, shell) == 0)
+			manage_exec(cmd, env, shell);
+	}
 	if (cmd->type == BACK)
 		manage_back(cmd, env, shell);
 	if (cmd->type == PIPE)
