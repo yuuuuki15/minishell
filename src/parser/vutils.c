@@ -46,7 +46,7 @@ int	find_var(char *str)
  * @param size int: The initial size to consider for the variable name.
  * @param str char*: The string from which to extract the variable name.
  */
-static void	get_var_name(t_tok *tok, int i, int size, char *str)
+void	get_var_name(t_tok *tok, int i, int size, char *str)
 {
 	char	*sub;
 
