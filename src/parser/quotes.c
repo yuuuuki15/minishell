@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:18:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:52:47 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:40:58 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,32 @@
  * @param tab char**: Array of strings to clean quotes from.
  * @param shell t_shell*: Shell structure for variable expansion context.
  */
-void	clean_quotes(char **tab, t_shell *shell)
+void	clean_quotes(t_execcmd *cmd, t_shell *shell)
 {
 	int		i;
 	char	*exp;
 
-	if (tab == NULL)
+	if (cmd->argv == NULL)
 		return ;
 	i = 0;
-	while (tab[i] != NULL)
+	while (cmd->argv[i] != NULL)
 	{
-		if (i > 0 && tab[i][0] == '(')
+		if (i > 0 && cmd->argv[i][0] == '(')
 		{
 			ft_putendl_fd("unexpected token", STDERR_FILENO);
-			free (tab[i]);
-			tab[0] = ft_strdup(" ");
+			cmd->type = 0;
 		}
 		i++;
 	}
-	i = 0;
-	while (tab[i] != NULL)
+	if (cmd->type != 0)
 	{
-		exp = expand_var(tab[i], shell);
-		free (tab[i]);
-		tab[i] = exp;
-		i++;
+		i = -1;
+		while (cmd->argv[++i] != NULL)
+		{
+			exp = expand_var(cmd->argv[i], shell);
+			free (cmd->argv[i]);
+			cmd->argv[i] = exp;
+		}
 	}
 }
 

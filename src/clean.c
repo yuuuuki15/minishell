@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:56:01 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:39:06 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	clean_tree(t_cmd *cmd)
 {
 	if (cmd == NULL)
 		return ;
-	else if (cmd->type == EXEC)
+	else if (cmd->type == EXEC || cmd->type == 0)
 		clean_exec(cmd);
 	else if (cmd->type == BACK)
 		clean_back(cmd);

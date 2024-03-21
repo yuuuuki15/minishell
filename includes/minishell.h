@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 16:56:20 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:36:36 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ char	*expand_var(char *str, t_shell *shell);
 // quotes
 int		*parse_quotes(char *str);
 char	*remove_quotes(char *str, int *in_quotes, int start);
-void	clean_quotes(char **tab, t_shell *shell);
+void	clean_quotes(t_execcmd *cmd, t_shell *shell);
 
 // cmd tree
 t_cmd	*make_execcmd(void);

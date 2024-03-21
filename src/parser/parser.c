@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:34:01 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:50:31 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:36:02 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 	else
 	{
 		cmd->argv = p_spliter(str);
-		clean_quotes(cmd->argv, shell);
+		clean_quotes(cmd, shell);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:55:48 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:54:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:36:02 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	check_tree(t_cmd *cmd, t_shell *shell)
 	ret = 0;
 	if (cmd == NULL)
 		return (1);
+	else if (cmd->type == 0)
+		ret = 1;
 	else if (cmd->type == EXEC)
 		ret = check_cmd(cmd);
 	else if (cmd->type == BACK)

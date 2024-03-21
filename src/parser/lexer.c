@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/21 12:24:58 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:41:33 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
 			j++;
 		if (i + j < (int)ft_strlen(str) && q_check[i + j] == 0
 			&& ((str[i + j] == '|' || str[i + j] == '&'
-			|| str[i + j] == ')')))
+					|| str[i + j] == ')')))
 		{
 			ft_putendl_fd("unexpected token", STDERR_FILENO);
 			shell->exit_status = 2;
@@ -115,7 +115,8 @@ static int	repeating_tok(char *str, t_shell *shell)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1 || str[i] == '(')
+		if ((ft_isfulltok(str, i) != -1 || ft_istok(str[i]) != -1
+				|| str[i] == '(')
 			&& q_check[i] == 0)
 		{
 			if (next_tok(i, str, q_check, shell) == 1)
