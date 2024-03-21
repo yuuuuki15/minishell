@@ -60,7 +60,7 @@ static void	redir_err(t_tok *tok, int i, int size, char *str)
 		get_file_name(tok, i, size, str);
 	else
 	{
-		ft_printf("syntax error near unexpected token \'%c\'\n", str[i + 1]);
+		ft_putendl_fd("unexpected token", STDERR_FILENO);
 		tok->tok = FERR;
 	}
 }

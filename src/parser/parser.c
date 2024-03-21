@@ -126,7 +126,7 @@ void	get_token(t_tok *tok, char *str)
 		tok->tok = ft_istok(str[i]);
 	else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<')
 	{
-		ft_printf("here string not supported\n");
+		ft_putendl_fd("here string not supported", STDERR_FILENO);
 		tok->tok = FERR;
 	}
 	else

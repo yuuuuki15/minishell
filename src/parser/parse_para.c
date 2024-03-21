@@ -151,7 +151,7 @@ t_cmd	*parse_paren(char *str, t_shell *shell)
 		i++;
 		while (ft_isspace(str[i]) == 1)
 			i++;
-		ft_printf("syntax error near unexpected token \'%c\'\n", str[i]);
+		ft_putendl_fd("unexpected token", STDERR_FILENO);
 		return (NULL);
 	}
 	return (cmd);

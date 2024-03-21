@@ -140,7 +140,7 @@ int	balance_pandq(char *str)
 	if (balance_para(str, in_quotes) == -1)
 		ret = 0;
 	if (ret == 0)
-		ft_printf("Parsing error! Check your quotes and/or parentheses!\n");
+		ft_putendl_fd("Unbalanced quotes and/or parentheses!", STDERR_FILENO);
 	free (in_quotes);
 	return (ret);
 }

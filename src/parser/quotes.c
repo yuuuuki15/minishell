@@ -29,7 +29,7 @@ void	clean_quotes(char **tab, t_shell *shell)
 	{
 		if (i > 0 && tab[i][0] == '(')
 		{
-			ft_printf("syntax error near unexpected token \'(\'\n");
+			ft_putendl_fd("unexpected token", STDERR_FILENO);
 			free (tab[i]);
 			tab[0] = ft_strdup(" ");
 		}
