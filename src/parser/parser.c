@@ -17,12 +17,14 @@
  * @param str char*: The string to check.
  * @return int: 1 if a variable is found, 2 if quotes are found, 0 otherwise.
  */
-static int	var_quote_check(char *str)
+static int	first_var_check(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i] != '\0' && ft_isspace(str[i]) == 1)
+		i++;
+	while (str[i] != '\0' && ft_isspace(str[i]) == 0)
 	{
 		if (str[i] == '$')
 			return (1);
@@ -43,7 +45,7 @@ static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 {
 	char		*substr;
 
-	if (var_quote_check(str) == 1)
+	if (first_var_check(str) == 1)
 	{
 		substr = expand_var(str, shell);
 		cmd->argv = p_spliter(substr);
