@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:43:37 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:06:56 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ static int	next_tok(int i, char *str, int *q_check, t_shell *shell)
 			&& q_check[i + j] == 0)
 			j++;
 		if (i + j < (int)ft_strlen(str) && q_check[i + j] == 0
-			&& (str[i + j] == '|' || str[i + j] == '&'))
+			&& (str[i + j] == '|' || str[i + j] == '&'
+			|| str[i + j] == '(' || str[i + j] == ')'))
 		{
 			ft_putendl_fd("unexpected token", STDERR_FILENO);
 			shell->exit_status = 2;
