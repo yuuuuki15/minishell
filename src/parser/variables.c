@@ -19,7 +19,7 @@
  * @param exp char*: The expansion of the variable.
  * @return char*: The new string with the variable expanded.
  */
-static char	*frankenstein(char *str, t_tok *tok, char *exp)
+static char	*frankenstein(char *str, t_tok *tok, char *exp, t_shell *shell)
 {
 	char	*frank;
 	char	*s1;
@@ -33,7 +33,15 @@ static char	*frankenstein(char *str, t_tok *tok, char *exp)
 	free (s1);
 	len = (int)ft_strlen(str) - tok->cut;
 	s1 = ft_substr(str, tok->cut, len);
-	s1 = remove_quotes(s1);
+	if (find_var(s1) != 0)
+	{
+		frank = ft_strdup(s1);
+		free (s1);
+		s1 = expand_var(frank, shell);
+		free (frank);
+	}
+	else
+		s1 = remove_quotes(s1);
 	frank = ft_strjoin(s2, s1);
 	free (s1);
 	free (s2);
@@ -73,23 +81,15 @@ char	*expand_var(char *str, t_shell *shell)
 	t_tok	tok;
 	char	*expansion;
 	char	*frank;
-	char	*subfrank;
 
 	if (find_var(str) != 0)
 	{
 		get_var(&tok, str);
 		expansion = get_expansion(&tok, shell);
-		frank = frankenstein(str, &tok, expansion);
+		frank = frankenstein(str, &tok, expansion, shell);
 		free(expansion);
 		if (tok.str)
 			free (tok.str);
-		if (find_var(frank) != 0)
-		{
-			subfrank = ft_strdup(frank);
-			free (frank);
-			frank = expand_var(subfrank, shell);
-			free (subfrank);
-		}
 		return (frank);
 	}
 	else
