@@ -47,7 +47,6 @@ static void	parsexe(t_execcmd *cmd, char *str, t_shell *shell)
 	{
 		substr = expand_var(str, shell);
 		cmd->argv = p_spliter(substr);
-		clean_quotes(cmd->argv, shell);
 		if (substr)
 			free (substr);
 	}
@@ -69,7 +68,6 @@ static void	expand_file_name(t_tok *tok, t_shell *shell)
 
 	sub = expand_var(tok->str, shell);
 	free (tok->str);
-	tok->str = remove_quotes(sub);
 }
 
 /**
