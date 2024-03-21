@@ -26,7 +26,8 @@ void	manage_back(t_cmd *cmd, char **env, t_shell *shell)
 
 	bcmd = (t_backcmd *)cmd;
 	ft_putendl_fd(ERR_BACKGROUND_NOT_SUPPORTED, STDERR_FILENO);
-	run_exec(bcmd->cmd, env, shell);
+	if (check_tree(bcmd->cmd, shell) == 0)
+		run_exec(bcmd->cmd, env, shell);
 }
 
 /**

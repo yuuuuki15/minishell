@@ -34,7 +34,8 @@ static void	p_child(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 	close(fd[0]);
 	shell->is_inside_pipe = 1;
 	shell->out_fd = fd[1];
-	run_exec(pcmd->left, env, shell);
+	if (check_tree(pcmd->left, shell) == 0)
+		run_exec(pcmd->left, env, shell);
 }
 
 /**
@@ -51,7 +52,8 @@ static void	p_parent(t_listcmd *pcmd, char **env, int fd[2], t_shell *shell)
 		close(shell->in_fd);
 	shell->is_inside_pipe = 1;
 	shell->in_fd = fd[0];
-	run_exec(pcmd->right, env, shell);
+	if (check_tree(pcmd->right, shell) == 0)
+		run_exec(pcmd->right, env, shell);
 }
 
 /**

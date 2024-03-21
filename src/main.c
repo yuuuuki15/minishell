@@ -83,8 +83,7 @@ int	main(int ac, char **av, char **env)
 			if (cmd != NULL)
 			{
 				shell.head_cmd = cmd;
-				if (check_tree(cmd, &shell) == 0)
-					run_exec(cmd, env, &shell);
+				run_exec(cmd, env, &shell);
 			}
 			clean_tree(cmd);
 			if (shell.is_inside_pipe == 1)
