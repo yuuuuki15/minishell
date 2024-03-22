@@ -6,21 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/22 14:10:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:05:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * Prints an error message for invalid identifiers.
- * @param arg char*: The argument that was found to be an invalid identifier.
- */
-static void	print_invalid_identifier(char *arg)
-{
-	ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER, STDERR_FILENO);
-	ft_putendl_fd(arg, STDERR_FILENO);
-}
 
 /**
  * Handles the case where the argument contains an equal sign. Splits the
@@ -40,7 +30,8 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 	key = ft_substr(arg, 0, equal_pos);
 	if (ft_is_valid_identifier(key) == 0)
 	{
-		print_invalid_identifier(key);
+		ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER, STDERR_FILENO);
+		ft_putendl_fd(arg, STDERR_FILENO);
 		free(key);
 		return (1);
 	}
@@ -74,7 +65,8 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 	{
 		if (ft_is_valid_identifier(arg) == 0)
 		{
-			print_invalid_identifier(arg);
+			ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER, STDERR_FILENO);
+			ft_putendl_fd(arg, STDERR_FILENO);
 			return (1);
 		}
 		return (0);
@@ -83,19 +75,59 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 		return (handle_with_equal(arg, equal_pos, shell));
 }
 
+static t_env	**sort_env_list(t_env **env_list, int count)
+{
+	int		i;
+	int		swapped;
+	t_env	*temp;
+
+	if (count <= 1)
+		return env_list;
+	swapped = 0;
+	i = 0;
+	while (i < count - 1)
+	{
+		if (strcmp(env_list[i]->key, env_list[i + 1]->key) > 0)
+		{
+			temp = env_list[i];
+			env_list[i] = env_list[i + 1];
+			env_list[i + 1] = temp;
+			swapped = 1;
+		}
+		i++;
+	}
+	if (swapped)
+		return sort_env_list(env_list, count - 1);
+	return env_list;
+}
+
 static void	ft_show_export(t_shell *shell)
 {
 	t_env	*curr;
+	t_env	**sorted_env;
+	int		count;
+	int		i;
 
-	if (shell->env == NULL)
-		return ;
+	i = 0;
 	curr = shell->env;
-	while (curr != NULL)
+	count = 0;
+	while (curr)
 	{
-		ft_printf("%s=", curr->key);
-		ft_printf("%s\n", curr->value);
+		count++;
 		curr = curr->next;
 	}
+	if (!(sorted_env = (t_env **)malloc(sizeof(t_env *) * count)))
+		ft_error(ERR_MALLOC);
+	curr = shell->env;
+	for (int i = 0; curr; i++, curr = curr->next)
+		sorted_env[i] = curr;
+	sorted_env = sort_env_list(sorted_env, count);
+	while (i < count)
+	{
+		ft_printf("export %s=%s\n", sorted_env[i]->key, sorted_env[i]->value);
+		i++;
+	}
+	free(sorted_env);
 }
 
 /**
