@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/21 09:09:45 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:10:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,21 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 		return (handle_with_equal(arg, equal_pos, shell));
 }
 
+static void	ft_show_export(t_shell *shell)
+{
+	t_env	*curr;
+
+	if (shell->env == NULL)
+		return ;
+	curr = shell->env;
+	while (curr != NULL)
+	{
+		ft_printf("%s=", curr->key);
+		ft_printf("%s\n", curr->value);
+		curr = curr->next;
+	}
+}
+
 /**
  * Handles the export command execution. Displays the current environment
  * variables if no arguments are provided. Attempts to add or update environment
@@ -102,7 +117,7 @@ int	ft_export(t_execcmd *cmd, t_shell *shell)
 	status = 0;
 	if (cmd->argv[1] == NULL)
 	{
-		ft_show_env(shell);
+		ft_show_export(shell);
 		return (0);
 	}
 	while (cmd->argv[++i])
