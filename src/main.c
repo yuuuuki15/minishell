@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:58:25 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:02:17 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ int	main(int ac, char **av, char **env)
 		reset_minishell(&shell);
 	while (1)
 	{
+		if (isatty(STDIN_FILENO))
+			ft_printf("in -> tty\n");
+		else
+			ft_printf("in -> not tty\n");
+		if (isatty(STDOUT_FILENO))
+			ft_printf("out -> tty\n");
+		else
+			ft_printf("out -> not tty\n");
 		if (get_data(&shell))
 		{
 			cmd = lexer(shell.user_input, &shell);
