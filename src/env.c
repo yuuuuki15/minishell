@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:56:47 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:34:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ static int	ft_create_env(char *key, char *value, t_shell *shell)
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
+	new->exported = 1;
 	curr = shell->env;
 	if (curr == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/22 15:05:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:50:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 			ft_putendl_fd(arg, STDERR_FILENO);
 			return (1);
 		}
-		return (0);
+		return (ft_add_env_not_exported(ft_get_key(arg), shell));
 	}
 	else
 		return (handle_with_equal(arg, equal_pos, shell));
@@ -87,7 +87,7 @@ static t_env	**sort_env_list(t_env **env_list, int count)
 	i = 0;
 	while (i < count - 1)
 	{
-		if (strcmp(env_list[i]->key, env_list[i + 1]->key) > 0)
+		if (ft_strcmp(env_list[i]->key, env_list[i + 1]->key) > 0)
 		{
 			temp = env_list[i];
 			env_list[i] = env_list[i + 1];

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:39:26 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:57:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:50:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,31 @@ void	ft_unset_env(char *key, t_shell *shell)
 		}
 		curr = curr->next;
 	}
+}
+int	ft_add_env_not_exported(char *key, t_shell *shell)
+{
+	t_env	*new;
+	t_env	*curr;
+
+	if (ft_is_valid_identifier(key) == 0)
+		return (1);
+	if (ft_get_env(key, shell) != NULL)
+		return (0);
+	new = malloc(sizeof(t_env));
+	if (new == NULL)
+		return (1);
+	new->key = key;
+	new->value = ft_strdup("");
+	new->next = NULL;
+	new->exported = 0;
+	curr = shell->env;
+	if (curr == NULL)
+	{
+		shell->env = new;
+		return (0);
+	}
+	while (curr->next != NULL)
+		curr = curr->next;
+	curr->next = new;
+	return (0);
 }

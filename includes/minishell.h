@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/21 12:36:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:40:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	int				exported;
 }					t_env;
 
 typedef struct s_shell
@@ -136,6 +137,7 @@ void	ft_unset_env(char *key, t_shell *shell);
 int		ft_is_valid_identifier(char *str);
 void	exit_shell(t_shell *shell);
 int		ft_set_pwd(t_shell *shell);
+int		ft_add_env_not_exported(char *key, t_shell *shell);
 
 // utils
 void	ft_free_tab(char **array);
