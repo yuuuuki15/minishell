@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-extern int	g_sig;
-
 /**
  * Cleans up resources before exiting the shell.
  * @param shell t_shell*: The shell instance.

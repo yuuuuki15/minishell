@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 10:57:18 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:48:29 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 
 // configuration
 # define PATH_MAX 1000
+
+extern int	g_sig;
 
 typedef struct s_tok
 {

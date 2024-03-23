@@ -6,13 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:35:34 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:55:21 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:48:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_sig;
 
 /**
  * Resets the prompt for readline, clears line, puts you on a new line, and
