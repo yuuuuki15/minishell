@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*get_next_var(char *str, t_shell *shell)
+char	*get_next_var(char *str, t_shell *shell)
 {
 	char	*temp;
 
@@ -61,7 +61,7 @@ static char	*frankenstein(char *str, t_tok *tok, char *exp, t_shell *shell)
  * @param shell t_shell*: Shell environment for variable lookup.
  * @return char*: The expansion of the variable or a space if not found.
  */
-static char	*get_expansion(t_tok *tok, t_shell *shell)
+char	*get_expansion(t_tok *tok, t_shell *shell)
 {
 	char	*expansion;
 
