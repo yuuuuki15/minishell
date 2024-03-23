@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 08:34:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 09:41:40 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_init_env(char **env, t_shell *shell)
 			ft_clean_env(shell);
 			return (1);
 		}
+		increment_shlvl(shell);
 	}
 	return (0);
 }

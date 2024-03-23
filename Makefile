@@ -6,7 +6,7 @@
 #    By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 09:24:28 by mevonuk           #+#    #+#              #
-#    Updated: 2024/03/20 16:55:47 by ykawakit         ###   ########.fr        #
+#    Updated: 2024/03/23 09:36:32 by ykawakit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ BONUS		=	$(addprefix parser/, parse_andor.c parse_para.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c \
 				pwd.c exit.c)
 SRC			=	main.c clean.c check_tree.c \
-				utils.c env.c env2.c env3.c error.c\
+				utils.c env.c env2.c env3.c env4.c error.c\
 				$(PARSER) \
 				$(SIGNAL) \
 				$(EXEC) \
