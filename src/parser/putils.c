@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:23:09 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:51:08 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:58:07 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ static int	balance_para(char *str, int *in_quotes)
  * @return int: 1 if both parentheses and quotes are balanced, 0 otherwise.
  * @error Prints an error message if unbalanced.
  */
-int	balance_pandq(char *str)
+int	balance_pandq(char *str, t_shell *shell)
 {
 	int	ret;
 	int	*in_quotes;
@@ -140,7 +140,10 @@ int	balance_pandq(char *str)
 	if (balance_para(str, in_quotes) == -1)
 		ret = 0;
 	if (ret == 0)
+	{
 		ft_putendl_fd("Unbalanced quotes and/or parentheses!", STDERR_FILENO);
+		shell->exit_status = 1;
+	}
 	free (in_quotes);
 	return (ret);
 }

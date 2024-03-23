@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 09:41:27 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:57:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int		has_first_level(char *str, t_tok *tok);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
 int		check_tree(t_cmd *cmd, t_shell *shell);
-int		balance_pandq(char *str);
+int		balance_pandq(char *str, t_shell *shell);
 t_cmd	*parse_paren(char *str, t_shell *shell);
 int		ft_isfulltok(char *str, int i);
 
