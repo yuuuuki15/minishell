@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 08:50:07 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 09:26:37 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 {
 	char	*key;
 	char	*value;
+	int		plus_equal_flag;
 
-	key = ft_substr(arg, 0, equal_pos);
+	plus_equal_flag = 0;
+	// key = ft_substr(arg, 0, equal_pos);
+	key = ft_get_key_with_flag(arg, &plus_equal_flag);
 	if (ft_is_valid_identifier(key) == 0)
 	{
 		ft_putstr_fd(ERR_EXPORT_NOT_VALID_IDENTIFIER, STDERR_FILENO);
@@ -36,6 +39,8 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 		return (1);
 	}
 	value = ft_strdup(arg + equal_pos + 1);
+	if (plus_equal_flag)
+		ft_plus_equal_export(key, &value, shell);
 	if (!key || !value)
 	{
 		free(key);
@@ -71,8 +76,7 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 		}
 		return (ft_add_env_not_exported(ft_get_key(arg), shell));
 	}
-	else
-		return (handle_with_equal(arg, equal_pos, shell));
+	return (handle_with_equal(arg, equal_pos, shell));
 }
 
 static t_env	**sort_env_list(t_env **env_list, int count)
