@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:40:03 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 17:06:44 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	ft_sig_here(int sig)
 {
 	if (sig == SIGINT)
 	{
-		exit(130);
+		unlink(".file1.tmp");
+		g_sig = 130;
 	}
 }
 
@@ -130,10 +131,16 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 			STDERR_FILENO);
 		exit(1);
 	}
+	signal(SIGINT, &ft_sig_here);
 	while (1)
 	{
-		signal(SIGINT, &ft_sig_here);
 		line = readline("heredoc> ");
+		if (g_sig == 130)
+		{
+			close(fd);
+			clean_exit(shell);
+			exit(130);
+		}
 		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
 			break ;
 		line = process_line(line, shell);

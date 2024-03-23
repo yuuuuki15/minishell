@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-extern int	g_sig;
-
 /**
  * Cleans up resources before exiting the shell.
  * @param shell t_shell*: The shell instance.
@@ -46,10 +44,13 @@ int	ft_get_input(t_shell *shell)
 
 	if (!isatty(STDIN_FILENO))
 	{
+		shell->user_input = NULL;
 		tmp = ft_get_next_line(STDIN_FILENO);
-		shell->user_input = ft_substr(tmp, 0, (ft_strlen(tmp) - 1));
 		if (tmp)
+		{
+			shell->user_input = ft_substr(tmp, 0, (ft_strlen(tmp) - 1));
 			free(tmp);
+		}
 		if (shell->user_input == NULL)
 			return (1);
 		return (0);
@@ -77,9 +78,11 @@ int	get_data(t_shell *shell)
 		free (shell->user_input);
 		shell->user_input = NULL;
 	}
-	if (ft_get_input(shell))
-		clean_exit(shell);
-	// shell->user_input = readline(PROMPT);
+	if (ft_get_input(shell) == 1)
+	{
+		shell->head_cmd = NULL;
+		exit_shell(shell);
+	}
 	if (g_sig != 0)
 		shell->exit_status = g_sig;
 	g_sig = 0;

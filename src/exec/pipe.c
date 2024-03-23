@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:14:00 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:39:22 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:18:04 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 {
 	t_listcmd	*pcmd;
 	int			fd[2];
+	int			pipe_pid;
 
 	pcmd = (t_listcmd *)cmd;
 	if (pipe(fd) < 0)
@@ -79,9 +80,10 @@ void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell)
 	}
 	else
 	{
-		waitpid(shell->pid, NULL, 0);
+		pipe_pid = shell->pid;
 		p_parent(pcmd, env, fd, shell);
 		close(fd[0]);
+		waitpid(pipe_pid, NULL, 0);
 		clean_exit(shell);
 		exit(shell->exit_status);
 	}
