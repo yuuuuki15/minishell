@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:07:43 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/21 12:41:33 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:58:08 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_cmd	*lexer(char *str, t_shell *shell)
 
 	if (str == NULL)
 		return (NULL);
-	if (balance_pandq(str) == 0)
+	if (balance_pandq(str, shell) == 0)
 		return (NULL);
 	if (bad_pipe_and(str, shell) != 0)
 		return (NULL);

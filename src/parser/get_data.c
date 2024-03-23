@@ -40,6 +40,27 @@ void	exit_shell(t_shell *shell)
 	exit(shell->exit_prog);
 }
 
+int	ft_get_input(t_shell *shell)
+{
+	char	*tmp;
+
+	if (!isatty(STDIN_FILENO))
+	{
+		tmp = ft_get_next_line(STDIN_FILENO);
+		shell->user_input = ft_substr(tmp, 0, (ft_strlen(tmp) - 1));
+		if (tmp)
+			free(tmp);
+		if (shell->user_input == NULL)
+			return (1);
+		return (0);
+	}
+	else
+	{
+		shell->user_input = readline(PROMPT);
+		return (0);
+	}
+}
+
 /**
  * Displays a prompt and reads user input using readline.
  * Treats "exit" and ctrl-D but only when alone on a line.
@@ -56,7 +77,9 @@ int	get_data(t_shell *shell)
 		free (shell->user_input);
 		shell->user_input = NULL;
 	}
-	shell->user_input = readline(PROMPT);
+	if (ft_get_input(shell))
+		clean_exit(shell);
+	// shell->user_input = readline(PROMPT);
 	if (g_sig != 0)
 		shell->exit_status = g_sig;
 	g_sig = 0;

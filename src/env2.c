@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:57:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:34:44 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ void	ft_show_env(t_shell *shell)
 	curr = shell->env;
 	while (curr != NULL)
 	{
-		ft_printf("%s=", curr->key);
-		ft_printf("%s\n", curr->value);
+		if (curr->exported)
+		{
+			ft_printf("%s=", curr->key);
+			ft_printf("%s\n", curr->value);
+		}
 		curr = curr->next;
 	}
 }

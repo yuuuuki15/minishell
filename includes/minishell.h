@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/21 12:36:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:57:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	int				exported;
 }					t_env;
 
 typedef struct s_shell
@@ -136,6 +137,10 @@ void	ft_unset_env(char *key, t_shell *shell);
 int		ft_is_valid_identifier(char *str);
 void	exit_shell(t_shell *shell);
 int		ft_set_pwd(t_shell *shell);
+int		ft_add_env_not_exported(char *key, t_shell *shell);
+char	*ft_get_key_with_flag(char *str, int *plus_equal_flag);
+void	ft_plus_equal_export(char *key, char **value, t_shell *shell);
+void	increment_shlvl(t_shell *shell);
 
 // utils
 void	ft_free_tab(char **array);
@@ -168,7 +173,7 @@ int		has_first_level(char *str, t_tok *tok);
 void	zero_array(int *in_quotes, int len);
 int		*parse_para(char *str);
 int		check_tree(t_cmd *cmd, t_shell *shell);
-int		balance_pandq(char *str);
+int		balance_pandq(char *str, t_shell *shell);
 t_cmd	*parse_paren(char *str, t_shell *shell);
 int		ft_isfulltok(char *str, int i);
 
