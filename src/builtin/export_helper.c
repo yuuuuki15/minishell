@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:58:29 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 14:44:40 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:49:41 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_env	**duplicate_env(int count, t_shell *shell)
 }
 
 // prints env var to screen in export format, alphabetical order
-void	ft_show_export(t_shell *shell)
+void	ft_show_export(t_shell *shell, int fd)
 {
 	t_env	*curr;
 	t_env	**sorted_env;
@@ -82,8 +82,11 @@ void	ft_show_export(t_shell *shell)
 	sorted_env = sort_env_list(sorted_env, count);
 	while (i < count)
 	{
-		ft_printf("export %s=\"%s\"\n",
-			sorted_env[i]->key, sorted_env[i]->value);
+		ft_putstr_fd("export ", fd);
+		ft_putstr_fd(sorted_env[i]->key, fd);
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(sorted_env[i]->value, fd);
+		ft_putstr_fd("\"\n", fd);
 		i++;
 	}
 	free(sorted_env);

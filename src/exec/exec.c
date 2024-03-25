@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 15:57:19 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:50:31 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 	env_array = NULL;
 	if (pathname != NULL)
 	{
-		if (shell->stdin != -1)
-			close(shell->stdin);
-		if (shell->stdout != -1)
-			close(shell->stdout);
 		env_array = env_to_char_array(shell);
 		res = execve(pathname, cmd->argv, env_array);
 	}
@@ -55,9 +51,7 @@ static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 */
 static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 {
-	dup_descriptors(shell);
 	shell->exit_status = ft_builtin_manager(ecmd, shell);
-	reset_descriptors(shell);
 }
 
 /**
@@ -77,10 +71,12 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 		handle_builtin(ecmd, shell);
 		return ;
 	}
-	dup_descriptors(shell);
 	shell->pid = fork_child(shell);
 	if (shell->pid == 0)
+	{
+		dup_descriptors(shell);
 		ft_exec(ecmd, env, shell);
+	}
 	else
 	{
 		waitpid(shell->pid, &status, 0);
@@ -90,7 +86,6 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 			shell->exit_status = 131;
 		else
 			shell->exit_status = WEXITSTATUS(status);
-		reset_descriptors(shell);
 	}
 }
 

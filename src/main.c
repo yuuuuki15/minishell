@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 16:18:27 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:20:00 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,11 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
 	shell->pid = 0;
 	shell->in_fd = STDIN_FILENO;
 	shell->out_fd = STDOUT_FILENO;
-	shell->stdin = dup(STDIN_FILENO);
-	shell->stdout = dup(STDOUT_FILENO);
 	shell->env = NULL;
 	shell->exit_status = 0;
 	shell->exit_prog = 0;
 	shell->head_cmd = NULL;
 	g_sig = 0;
-	if (shell->stdin == -1 || shell->stdout == -1)
-		return (1);
 	if (ft_init_env(env, shell) == 1)
 		return (1);
 	return (0);
@@ -50,8 +46,6 @@ static int	ft_minishell_initializer(char **env, t_shell *shell)
  */
 void	reset_minishell(t_shell *shell)
 {
-	close(shell->stdin);
-	close(shell->stdout);
 	rl_clear_history();
 	ft_clean_env(shell);
 	ft_error(ERR_INITIALIZE_MINISHELL);

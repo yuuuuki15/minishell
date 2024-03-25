@@ -18,8 +18,6 @@
  */
 void	clean_exit(t_shell *shell)
 {
-	close(shell->stdin);
-	close(shell->stdout);
 	if (shell->user_input)
 		free (shell->user_input);
 	rl_clear_history();

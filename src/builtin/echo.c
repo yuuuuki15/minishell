@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:46:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:25:34 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:49:22 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_check_flag_echo(char *str, int *n_flg, int *i)
  * Error cases: None.
  * Executes the echo command with or without the newline based on '-n' flag.
  */
-int	ft_echo(t_execcmd *cmd)
+int	ft_echo(t_execcmd *cmd, int fd)
 {
 	int	n_flg;
 	int	i;
@@ -59,12 +59,12 @@ int	ft_echo(t_execcmd *cmd)
 	}
 	while (cmd->argv[i] != NULL)
 	{
-		ft_printf("%s", cmd->argv[i]);
+		ft_putstr_fd(cmd->argv[i], fd);
 		if (cmd->argv[i + 1] != NULL)
-			ft_printf(" ");
+			ft_putstr_fd(" ", fd);
 		i++;
 	}
 	if (!n_flg)
-		ft_printf("\n");
+		ft_putstr_fd("\n", fd);
 	return (0);
 }

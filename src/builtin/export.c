@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:34:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 09:26:37 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:48:16 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
  * successfully, 1 if any argument fails to be added or updated.
  * Error cases: Returns 1 if any argument fails to be added or updated.
  */
-int	ft_export(t_execcmd *cmd, t_shell *shell)
+int	ft_export(t_execcmd *cmd, t_shell *shell, int fd)
 {
 	int	i;
 	int	status;
@@ -97,7 +97,7 @@ int	ft_export(t_execcmd *cmd, t_shell *shell)
 	status = 0;
 	if (cmd->argv[1] == NULL)
 	{
-		ft_show_export(shell);
+		ft_show_export(shell, fd);
 		return (0);
 	}
 	while (cmd->argv[++i])
