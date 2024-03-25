@@ -18,8 +18,6 @@
  */
 void	clean_exit(t_shell *shell)
 {
-	close(shell->stdin);
-	close(shell->stdout);
 	if (shell->user_input)
 		free (shell->user_input);
 	rl_clear_history();
@@ -35,7 +33,7 @@ void	clean_exit(t_shell *shell)
 void	exit_shell(t_shell *shell)
 {
 	clean_exit(shell);
-	exit(shell->exit_prog);
+	exit(shell->exit_status);
 }
 
 int	ft_get_input(t_shell *shell)
@@ -78,14 +76,14 @@ int	get_data(t_shell *shell)
 		free (shell->user_input);
 		shell->user_input = NULL;
 	}
+	if (g_sig != 0)
+		shell->exit_status = g_sig;
+	g_sig = 0;
 	if (ft_get_input(shell) == 1)
 	{
 		shell->head_cmd = NULL;
 		exit_shell(shell);
 	}
-	if (g_sig != 0)
-		shell->exit_status = g_sig;
-	g_sig = 0;
 	if (!shell->user_input)
 	{
 		shell->head_cmd = NULL;

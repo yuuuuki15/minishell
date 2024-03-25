@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 22:24:44 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:24:51 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:25:21 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
  */
 static int	ft_update_environment(char *old_pwd, char *pwd, t_shell *shell)
 {
-	ft_add_env("OLDPWD", ft_strdup(old_pwd), shell);
-	ft_add_env("PWD", ft_strdup(pwd), shell);
+	ft_add_env(ft_strdup("OLDPWD"), ft_strdup(old_pwd), shell);
+	ft_add_env(ft_strdup("PWD"), ft_strdup(pwd), shell);
 	return (0);
 }
 

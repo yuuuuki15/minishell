@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:36:26 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:30:20 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:48:17 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,24 @@ int	ft_is_builtin(t_execcmd *cmd)
 int	ft_builtin_manager(t_execcmd *cmd, t_shell *shell)
 {
 	int	result;
+	int	fd;
 
+	fd = STDOUT_FILENO;
+	if (shell->out_fd != STDOUT_FILENO)
+		fd = shell->out_fd;
 	result = 0;
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
-		result = ft_echo(cmd);
+		result = ft_echo(cmd, fd);
 	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
 		result = ft_cd(cmd, shell);
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		result = ft_export(cmd, shell);
+		result = ft_export(cmd, shell, fd);
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
 		result = ft_unset(cmd, shell);
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-		result = ft_env(cmd, shell);
+		result = ft_env(cmd, shell, fd);
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		result = ft_pwd(cmd, shell);
+		result = ft_pwd(cmd, shell, fd);
 	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		result = ft_exit(cmd, shell);
 	return (result);

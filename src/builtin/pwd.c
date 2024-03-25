@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:27:13 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:30:45 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:48:18 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * Error cases: Returns 1 if an unsupported option is provided or if the PWD
  * environment variable is not set.
  */
-int	ft_pwd(t_execcmd *cmd, t_shell *shell)
+int	ft_pwd(t_execcmd *cmd, t_shell *shell, int fd)
 {
 	t_env	*env;
 
@@ -37,6 +37,6 @@ int	ft_pwd(t_execcmd *cmd, t_shell *shell)
 		ft_putendl_fd(ERR_NO_PWD, STDERR_FILENO);
 		return (1);
 	}
-	ft_putendl_fd(env->value, STDOUT_FILENO);
+	ft_putendl_fd(env->value, fd);
 	return (0);
 }

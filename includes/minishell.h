@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 16:48:29 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:05:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,9 @@ typedef struct s_shell
 	int		fd[2];
 	int		in_fd;
 	int		out_fd;
-	int		stdin;
-	int		stdout;
 	int		pid;
 	int		exit_status;
 	int		is_inside_pipe;
-	int		exit_prog;
 	t_cmd	*head_cmd;
 	t_env	*env;
 }			t_shell;
@@ -143,11 +140,13 @@ int		ft_add_env_not_exported(char *key, t_shell *shell);
 char	*ft_get_key_with_flag(char *str, int *plus_equal_flag);
 void	ft_plus_equal_export(char *key, char **value, t_shell *shell);
 void	increment_shlvl(t_shell *shell);
+char	**env_to_char_array(t_shell *shell);
 
 // utils
 void	ft_free_tab(char **array);
 char	*ft_get_key(char *str);
 char	*ft_get_value(char *str);
+void	ft_reset_fd(t_shell *shell);
 
 // parsing utiles
 int		ft_strisspace(char *line);
@@ -200,21 +199,21 @@ t_cmd	*make_redircmd(t_cmd *subcmd, char *file, int mode);
 // builltin
 int		ft_is_builtin(t_execcmd *cmd);
 int		ft_builtin_manager(t_execcmd *cmd, t_shell *shell);
-int		ft_echo(t_execcmd *cmd);
+int		ft_echo(t_execcmd *cmd, int fd);
 int		ft_cd(t_execcmd *cmd, t_shell *shell);
-int		ft_env(t_execcmd *cmd, t_shell *shell);
-int		ft_export(t_execcmd *cmd, t_shell *shell);
+int		ft_env(t_execcmd *cmd, t_shell *shell, int fd);
+int		ft_export(t_execcmd *cmd, t_shell *shell, int fd);
 int		ft_unset(t_execcmd *cmd, t_shell *shell);
-int		ft_pwd(t_execcmd *cmd, t_shell *shell);
+int		ft_pwd(t_execcmd *cmd, t_shell *shell, int fd);
 int		ft_exit(t_execcmd *cmd, t_shell *shell);
-void	ft_show_export(t_shell *shell);
+void	ft_show_export(t_shell *shell, int fd);
 
 // exec
-void	run_exec(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_redir(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_back(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_andor(t_cmd *cmd, char **env, t_shell *shell);
+void	run_exec(t_cmd *cmd, t_shell *shell);
+void	manage_redir(t_cmd *cmd, t_shell *shell);
+void	manage_pipe(t_cmd *cmd, t_shell *shell);
+void	manage_back(t_cmd *cmd, t_shell *shell);
+void	manage_andor(t_cmd *cmd, t_shell *shell);
 int		fork_child(t_shell *shell);
 char	*ft_get_path(char *cmd, t_shell *shell);
 void	reset_descriptors(t_shell *shell);
