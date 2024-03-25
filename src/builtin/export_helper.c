@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:58:29 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 22:47:05 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:50:00 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_show_export(t_shell *shell, int fd)
 	i = -1;
 	curr = shell->env;
 	count = 0;
-	while (curr && count++)
+	while (curr && ++count)
 		curr = curr->next;
 	sorted_env = duplicate_env(count, shell);
 	if (!sorted_env)
