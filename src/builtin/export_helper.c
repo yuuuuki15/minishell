@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:58:29 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 09:58:43 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:44:40 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	ft_show_export(t_shell *shell)
 	sorted_env = sort_env_list(sorted_env, count);
 	while (i < count)
 	{
-		ft_printf("export %s=\"%s\"\n", sorted_env[i]->key, sorted_env[i]->value);
+		ft_printf("export %s=\"%s\"\n",
+			sorted_env[i]->key, sorted_env[i]->value);
 		i++;
 	}
 	free(sorted_env);

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:38:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:40:49 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,25 @@
 static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
 {
 	char	*pathname;
+	char	**env_array;
 	int		res;
 
+	(void)env;
 	res = 0;
 	pathname = ft_get_path(cmd->argv[0], shell);
+	env_array = NULL;
 	if (pathname != NULL)
 	{
 		if (shell->stdin != -1)
 			close(shell->stdin);
 		if (shell->stdout != -1)
 			close(shell->stdout);
-		res = execve(pathname, cmd->argv, env);
+		env_array = env_to_char_array(shell);
+		res = execve(pathname, cmd->argv, env_array);
 	}
 	if (res < 0 || pathname != NULL)
 		free(pathname);
+	ft_free_tab(env_array);
 	ft_putstr_fd(ERR_COMMAND_NOT_FOUND, STDERR_FILENO);
 	if (cmd->argv != NULL && cmd->argv[0] != NULL)
 		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
