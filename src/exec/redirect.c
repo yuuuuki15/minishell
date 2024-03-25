@@ -25,6 +25,20 @@ static void	ft_sig_here(int sig)
 	}
 }
 
+// static int	ft_open_file(void)
+// {
+// 	int	fd;
+
+// 	fd = open(".file1.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd < 0)
+// 	{
+// 		ft_putendl_fd("minishell: error occured while opening file",
+// 			STDERR_FILENO);
+// 		exit(1);
+// 	}
+// 	return (fd);
+// }
+
 /**
  * Executes the heredoc redirection.
  * @param rcmd t_redircmd*: The redirection command.
@@ -39,9 +53,10 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	if (fd < 0)
 	{
 		ft_putendl_fd("minishell: error occured while opening file",
-			STDERR_FILENO);
-		exit(1);
-	}
+	 		STDERR_FILENO);
+	 	exit(1);
+	 }
+	//fd = ft_open_file();
 	signal(SIGINT, &ft_sig_here);
 	while (1)
 	{

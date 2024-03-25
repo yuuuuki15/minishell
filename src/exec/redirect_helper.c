@@ -96,7 +96,6 @@ char	*process_line(char *str, t_shell *shell)
 	char	*temp;
 
 	temp = expand_only_var(str, shell);
-	ft_printf("expanded: %s\n", temp);
 	free (str);
 	str = temp;
 	return (str);

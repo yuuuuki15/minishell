@@ -27,9 +27,8 @@ int	ft_init_env(char **env, t_shell *shell)
 	char	*key;
 	char	*value;
 
-	increment_shlvl(shell);
-	ft_set_pwd(shell);
-	ft_set_underscore(shell);
+	if (env == NULL)
+		ft_set_pwd(shell);
 	i = -1;
 	while (env[++i])
 	{
@@ -41,6 +40,8 @@ int	ft_init_env(char **env, t_shell *shell)
 			return (1);
 		}
 	}
+	increment_shlvl(shell);
+	ft_set_underscore(shell);
 	return (0);
 }
 
