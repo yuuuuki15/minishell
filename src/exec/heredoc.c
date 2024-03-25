@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mevonuk <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:29:33 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 09:34:26 by mevonuk          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:09:54 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ static void	ft_sig_here(int sig)
 {
 	if (sig == SIGINT)
 	{
+		// write(1, "\n", 1);
 		unlink(".file1.tmp");
 		g_sig = 130;
+		exit(1);
 	}
 }
 

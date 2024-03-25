@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/23 17:06:44 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:00:43 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	}
 	else
 	{
-		if (rcmd->cmd != NULL)
+		if (rcmd->cmd != NULL && shell->exit_status == 0)
 			run_exec(rcmd->cmd, env, shell);
 		else
 			reset_descriptors(shell);

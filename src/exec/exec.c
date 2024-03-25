@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 14:40:49 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:57:19 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 	ft_signal_manager(2);
 	if (cmd->type == REDIR)
 		manage_redir(cmd, env, shell);
-	if (cmd->type == EXEC)
+	else if (cmd->type == EXEC)
 	{
 		if (check_tree(cmd, shell) == 0)
 			manage_exec(cmd, env, shell);
 	}
-	if (cmd->type == BACK)
+	else if (cmd->type == BACK)
 		manage_back(cmd, env, shell);
-	if (cmd->type == PIPE)
+	else if (cmd->type == PIPE)
 	{
 		if (fork_child(shell) == 0)
 			manage_pipe(cmd, env, shell);
@@ -122,6 +122,6 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 			shell->exit_status = WEXITSTATUS(shell->exit_status);
 		}
 	}
-	if (cmd->type == IFTHEN || cmd->type == IFOR)
+	else if (cmd->type == IFTHEN || cmd->type == IFOR)
 		manage_andor(cmd, env, shell);
 }
