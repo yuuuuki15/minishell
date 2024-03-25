@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 19:21:00 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:28:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:04:20 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static void	exit_one_arg(t_execcmd *cmd, t_shell *shell)
 		if (!ft_isdigit(cmd->argv[1][i]))
 		{
 			ft_putendl_fd(ERR_EXIT_NUMERIC_REQUIRED, STDERR_FILENO);
-			shell->exit_prog = 2;
+			shell->exit_status = 2;
 			exit_shell(shell);
 		}
 	}
-	shell->exit_prog = ft_atoi(cmd->argv[1]);
+	shell->exit_status = ft_atoi(cmd->argv[1]);
 }
 
 /**

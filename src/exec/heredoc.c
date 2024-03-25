@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:29:33 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 20:50:48 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:09:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ static void	ft_sig_here(int sig)
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		close(g_fd);
-		rl_done = 1;
-		g_sig = 130;
-		exit(1);
+		exit(130);
 	}
 }
 
@@ -54,11 +52,6 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	while (1)
 	{
 		line = readline("heredoc> ");
-		if (g_sig == 130)
-		{
-			clean_heredoc(shell);
-			exit(130);
-		}
 		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
 			break;
 		line = process_line(line, shell);
