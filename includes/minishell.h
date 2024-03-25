@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 21:04:27 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:36:39 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ char	**env_to_char_array(t_shell *shell);
 void	ft_free_tab(char **array);
 char	*ft_get_key(char *str);
 char	*ft_get_value(char *str);
+void	ft_reset_fd(t_shell *shell);
 
 // parsing utiles
 int		ft_strisspace(char *line);

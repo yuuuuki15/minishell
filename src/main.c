@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:37:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 21:04:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:36:49 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	main(int ac, char **av, char **env)
 			if (cmd != NULL)
 			{
 				shell.head_cmd = cmd;
+				ft_reset_fd(&shell);
 				run_exec(cmd, env, &shell);
 			}
 			clean_tree(cmd);

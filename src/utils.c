@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:25:12 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/20 22:58:57 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:34:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,10 @@ void	zero_array(int *in_quotes, int len)
 		in_quotes[i] = 0;
 		i++;
 	}
+}
+
+void	ft_reset_fd(t_shell *shell)
+{
+	shell->in_fd = STDIN_FILENO;
+	shell->out_fd = STDOUT_FILENO;
 }
