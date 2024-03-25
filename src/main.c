@@ -57,6 +57,19 @@ void	reset_minishell(t_shell *shell)
 	ft_error(ERR_INITIALIZE_MINISHELL);
 }
 
+// check if there are input arguments
+static int	input_error(int ac, char **av)
+{
+	if (ac > 1)
+	{
+		ft_putendl_fd("Error: minishell does not take arguments",
+			STDERR_FILENO);
+		return (1);
+	}
+	(void)av;
+	return (0);
+}
+
 /**
  * The main loop of the minishell program.
  * @param ac int: The count of arguments.
@@ -71,8 +84,8 @@ int	main(int ac, char **av, char **env)
 	t_shell	shell;
 	t_cmd	*cmd;
 
-	(void)ac;
-	(void)av;
+	if (input_error(ac, av) == 1)
+		exit (1);
 	if (ft_minishell_initializer(env, &shell) == 1)
 		reset_minishell(&shell);
 	while (1)
