@@ -93,10 +93,8 @@ int	get_data(t_shell *shell)
 	}
 	if (ft_strlen(shell->user_input) > 0)
 		add_history(shell->user_input);
-	if (ft_strcmp(shell->user_input, "") == 0
-		|| ft_strisspace(shell->user_input))
-		return (0);
-	else
+	if (ft_strcmp(shell->user_input, "") != 0
+		&& !ft_strisspace(shell->user_input))
 		return (1);
 	return (0);
 }

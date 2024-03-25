@@ -31,13 +31,13 @@ SRC_PATH	=	src/
 PARSER		=	$(addprefix parser/, parser.c putils.c make_strc.c \
 				parse_redirect.c p_spliter.c get_data.c quotes.c putils2.c \
 				parse_pipe.c variables.c lexer.c vutils.c aoutils.c )
-SIGNAL		=	$(addprefix signal/, signal.c)
+SIGNAL		=	$(addprefix signal/, signal.c )
 EXEC		=	$(addprefix exec/, exec.c eutils.c pipe.c redirect.c \
-				background.c eutils2.c redirect_helper.c )
-DEBUG		=	$(addprefix debug/, print.c)
+				background.c eutils2.c redirect_helper.c heredoc.c )
+DEBUG		=	$(addprefix debug/, print.c )
 BONUS		=	$(addprefix parser/, parse_andor.c parse_para.c)
 BUILTIN		=	$(addprefix builtin/, manager.c cd.c echo.c env.c export.c unset.c \
-				pwd.c exit.c)
+				pwd.c exit.c export_helper.c )
 SRC			=	main.c clean.c check_tree.c \
 				utils.c env.c env2.c env3.c env4.c error.c\
 				$(PARSER) \

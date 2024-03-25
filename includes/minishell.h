@@ -184,7 +184,6 @@ char	*expand_var(char *str, t_shell *shell);
 char	*get_expansion(t_tok *tok, t_shell *shell);
 char	*get_next_var(char *str, t_shell *shell);
 void	get_var_name(t_tok *tok, int i, int size, char *str);
-//char	*expand_only_var(char *str, t_shell *shell);
 char	*process_line(char *str, t_shell *shell);
 
 // quotes
@@ -208,6 +207,7 @@ int		ft_export(t_execcmd *cmd, t_shell *shell);
 int		ft_unset(t_execcmd *cmd, t_shell *shell);
 int		ft_pwd(t_execcmd *cmd, t_shell *shell);
 int		ft_exit(t_execcmd *cmd, t_shell *shell);
+void	ft_show_export(t_shell *shell);
 
 // exec
 void	run_exec(t_cmd *cmd, char **env, t_shell *shell);
@@ -220,6 +220,7 @@ char	*ft_get_path(char *cmd, t_shell *shell);
 void	reset_descriptors(t_shell *shell);
 void	dup_descriptors(t_shell *shell);
 int		check_file(char *file, t_shell *shell);
+void	ft_here_doc(t_redircmd *rcmd, t_shell *shell);
 
 // signals
 void	set_signals(void);

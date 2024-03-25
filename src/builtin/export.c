@@ -29,7 +29,6 @@ static int	handle_with_equal(char *arg, int equal_pos, t_shell *shell)
 	int		plus_equal_flag;
 
 	plus_equal_flag = 0;
-	// key = ft_substr(arg, 0, equal_pos);
 	key = ft_get_key_with_flag(arg, &plus_equal_flag);
 	if (ft_is_valid_identifier(key) == 0)
 	{
@@ -77,61 +76,6 @@ static int	ft_add_or_update_env(char *arg, t_shell *shell)
 		return (ft_add_env_not_exported(ft_get_key(arg), shell));
 	}
 	return (handle_with_equal(arg, equal_pos, shell));
-}
-
-static t_env	**sort_env_list(t_env **env_list, int count)
-{
-	int		i;
-	int		swapped;
-	t_env	*temp;
-
-	if (count <= 1)
-		return (env_list);
-	swapped = 0;
-	i = 0;
-	while (i < count - 1)
-	{
-		if (ft_strcmp(env_list[i]->key, env_list[i + 1]->key) > 0)
-		{
-			temp = env_list[i];
-			env_list[i] = env_list[i + 1];
-			env_list[i + 1] = temp;
-			swapped = 1;
-		}
-		i++;
-	}
-	if (swapped)
-		return (sort_env_list(env_list, count - 1));
-	return (env_list);
-}
-
-static void	ft_show_export(t_shell *shell)
-{
-	t_env	*curr;
-	t_env	**sorted_env;
-	int		count;
-	int		i;
-
-	i = 0;
-	curr = shell->env;
-	count = 0;
-	while (curr)
-	{
-		count++;
-		curr = curr->next;
-	}
-	if (!(sorted_env = (t_env **)malloc(sizeof(t_env *) * count)))
-		ft_error(ERR_MALLOC);
-	curr = shell->env;
-	for (int i = 0; curr; i++, curr = curr->next)
-		sorted_env[i] = curr;
-	sorted_env = sort_env_list(sorted_env, count);
-	while (i < count)
-	{
-		ft_printf("export %s=%s\n", sorted_env[i]->key, sorted_env[i]->value);
-		i++;
-	}
-	free(sorted_env);
 }
 
 /**
