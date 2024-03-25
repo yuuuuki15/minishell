@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:58:29 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 20:49:41 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:47:05 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,22 @@ void	ft_show_export(t_shell *shell, int fd)
 	int		count;
 	int		i;
 
-	i = 0;
+	i = -1;
 	curr = shell->env;
 	count = 0;
-	while (curr)
-	{
-		count++;
+	while (curr && count++)
 		curr = curr->next;
-	}
 	sorted_env = duplicate_env(count, shell);
 	if (!sorted_env)
 		ft_error(ERR_MALLOC);
 	sorted_env = sort_env_list(sorted_env, count);
-	while (i < count)
+	while (++i < count)
 	{
 		ft_putstr_fd("export ", fd);
 		ft_putstr_fd(sorted_env[i]->key, fd);
 		ft_putstr_fd("=\"", fd);
 		ft_putstr_fd(sorted_env[i]->value, fd);
 		ft_putstr_fd("\"\n", fd);
-		i++;
 	}
 	free(sorted_env);
 }

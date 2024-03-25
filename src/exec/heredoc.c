@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:29:33 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 21:09:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 22:45:09 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	ft_sig_here(int sig)
 // cleans heredoc fds, temp file, and shell
 static void	clean_heredoc(t_shell *shell)
 {
-	// close(pipe_fds[0]);
 	close(shell->fd[1]);
 	clean_exit(shell);
 	exit(0);
@@ -53,15 +52,13 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 	{
 		line = readline("heredoc> ");
 		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
-			break;
+			break ;
 		line = process_line(line, shell);
 		ft_putendl_fd(line, shell->fd[1]);
 		if (line)
 			free(line);
 	}
-	// close(shell->fd[1]);
 	clean_heredoc(shell);
-	// exit(0);
 }
 
 /**
@@ -74,10 +71,7 @@ void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	int	status;
 
 	if (pipe(shell->fd) == -1)
-	{
-		ft_putendl_fd("minishell: error occurred while creating a pipe", STDERR_FILENO);
-		exit(1);
-	}
+		ft_error(ERR_PIPE);
 	if (fork_child(shell) == 0)
 	{
 		close(shell->fd[0]);
@@ -95,4 +89,3 @@ void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 			shell->exit_status = WEXITSTATUS(status);
 	}
 }
-
