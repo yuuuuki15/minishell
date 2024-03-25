@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:41:30 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 20:50:31 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:14:24 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 /**
  * Executes a command using the provided path and environment.
  * @param cmd t_execcmd*: The command to execute.
- * @param env char**: Environment variables.
  * @param shell t_shell*: Shell instance for error handling.
  * Error: Prints error message and exits with 127 if command execution fails.
 */
-static void	ft_exec(t_execcmd *cmd, char **env, t_shell *shell)
+static void	ft_exec(t_execcmd *cmd, t_shell *shell)
 {
 	char	*pathname;
 	char	**env_array;
 	int		res;
 
-	(void)env;
 	res = 0;
 	pathname = ft_get_path(cmd->argv[0], shell);
 	env_array = NULL;
+	env_array = env_to_char_array(shell);
 	if (pathname != NULL)
 	{
-		env_array = env_to_char_array(shell);
 		res = execve(pathname, cmd->argv, env_array);
 	}
 	if (res < 0 || pathname != NULL)
@@ -57,10 +55,9 @@ static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 /**
  * Manages execution by forking for non-built-in commands.
  * @param cmd t_cmd*: The command to manage.
- * @param env char**: Environment variables.
  * @param shell t_shell*: Shell instance for error handling.
 */
-static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
+static void	manage_exec(t_cmd *cmd, t_shell *shell)
 {
 	t_execcmd	*ecmd;
 	int			status;
@@ -75,7 +72,7 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 	if (shell->pid == 0)
 	{
 		dup_descriptors(shell);
-		ft_exec(ecmd, env, shell);
+		ft_exec(ecmd, shell);
 	}
 	else
 	{
@@ -92,25 +89,24 @@ static void	manage_exec(t_cmd *cmd, char **env, t_shell *shell)
 /**
  * Directs the execution based on the type of command.
  * @param cmd t_cmd*: The command to execute.
- * @param env char**: Environment variables.
  * @param shell t_shell*: Shell instance for error handling.
 */
-void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
+void	run_exec(t_cmd *cmd, t_shell *shell)
 {
 	ft_signal_manager(2);
 	if (cmd->type == REDIR)
-		manage_redir(cmd, env, shell);
+		manage_redir(cmd, shell);
 	else if (cmd->type == EXEC)
 	{
 		if (check_tree(cmd, shell) == 0)
-			manage_exec(cmd, env, shell);
+			manage_exec(cmd, shell);
 	}
 	else if (cmd->type == BACK)
-		manage_back(cmd, env, shell);
+		manage_back(cmd, shell);
 	else if (cmd->type == PIPE)
 	{
 		if (fork_child(shell) == 0)
-			manage_pipe(cmd, env, shell);
+			manage_pipe(cmd, shell);
 		else
 		{
 			waitpid(shell->pid, &(shell->exit_status), 0);
@@ -118,5 +114,5 @@ void	run_exec(t_cmd *cmd, char **env, t_shell *shell)
 		}
 	}
 	else if (cmd->type == IFTHEN || cmd->type == IFOR)
-		manage_andor(cmd, env, shell);
+		manage_andor(cmd, shell);
 }

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:17:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 20:50:55 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:08:56 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static void	ft_redir_helper(t_redircmd *rcmd, t_shell *shell)
 /**
  * Manages redirection for a given command.
  * @param cmd t_cmd*: The command to manage redirection for.
- * @param env char**: The environment variables.
  * @param shell t_shell*: The shell instance.
  */
-void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
+void	manage_redir(t_cmd *cmd, t_shell *shell)
 {
 	t_redircmd	*rcmd;
 
@@ -66,6 +65,6 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	else
 	{
 		if (rcmd->cmd != NULL && shell->exit_status == 0)
-			run_exec(rcmd->cmd, env, shell);
+			run_exec(rcmd->cmd, shell);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:40:07 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/25 22:36:39 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:05:51 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,11 +209,11 @@ int		ft_exit(t_execcmd *cmd, t_shell *shell);
 void	ft_show_export(t_shell *shell, int fd);
 
 // exec
-void	run_exec(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_redir(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_pipe(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_back(t_cmd *cmd, char **env, t_shell *shell);
-void	manage_andor(t_cmd *cmd, char **env, t_shell *shell);
+void	run_exec(t_cmd *cmd, t_shell *shell);
+void	manage_redir(t_cmd *cmd, t_shell *shell);
+void	manage_pipe(t_cmd *cmd, t_shell *shell);
+void	manage_back(t_cmd *cmd, t_shell *shell);
+void	manage_andor(t_cmd *cmd, t_shell *shell);
 int		fork_child(t_shell *shell);
 char	*ft_get_path(char *cmd, t_shell *shell);
 void	reset_descriptors(t_shell *shell);
