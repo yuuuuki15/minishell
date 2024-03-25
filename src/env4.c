@@ -29,7 +29,7 @@ void	increment_shlvl(t_shell *shell)
 				ft_error(ERR_MALLOC);
 			free(env_var->value);
 			env_var->value = new_value;
-			return;
+			return ;
 		}
 		env_var = env_var->next;
 	}

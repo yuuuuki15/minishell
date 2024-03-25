@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 int	ft_set_underscore(t_shell *shell);
+
 /**
  * Initializes environment variables from an array to the global shell variable.
  * @param env char**: Array of environment variables.

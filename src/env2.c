@@ -112,8 +112,9 @@ int	ft_set_pwd(t_shell *shell)
 }
 
 // I think underscore is the full path of the first argumentof the command.
-// for example, if you execute ./minishell, underscore will be full path of minishell
-// and if you run env -i ./minishell, you will have full path of minishell
+// for example, if you execute ./minishell, underscore will be full path 
+// of minishell and if you run env -i ./minishell, you will have full path 
+// of minishell
 int	ft_set_underscore(t_shell *shell)
 {
 	char	*key;

@@ -62,6 +62,7 @@ void	ft_unset_env(char *key, t_shell *shell)
 		curr = curr->next;
 	}
 }
+
 int	ft_add_env_not_exported(char *key, t_shell *shell)
 {
 	t_env	*new;

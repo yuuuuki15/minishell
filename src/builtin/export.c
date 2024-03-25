@@ -86,7 +86,7 @@ static t_env	**sort_env_list(t_env **env_list, int count)
 	t_env	*temp;
 
 	if (count <= 1)
-		return env_list;
+		return (env_list);
 	swapped = 0;
 	i = 0;
 	while (i < count - 1)
@@ -101,8 +101,8 @@ static t_env	**sort_env_list(t_env **env_list, int count)
 		i++;
 	}
 	if (swapped)
-		return sort_env_list(env_list, count - 1);
-	return env_list;
+		return (sort_env_list(env_list, count - 1));
+	return (env_list);
 }
 
 static void	ft_show_export(t_shell *shell)

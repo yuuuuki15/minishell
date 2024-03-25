@@ -184,7 +184,8 @@ char	*expand_var(char *str, t_shell *shell);
 char	*get_expansion(t_tok *tok, t_shell *shell);
 char	*get_next_var(char *str, t_shell *shell);
 void	get_var_name(t_tok *tok, int i, int size, char *str);
-char	*expand_only_var(char *str, t_shell *shell);
+//char	*expand_only_var(char *str, t_shell *shell);
+char	*process_line(char *str, t_shell *shell);
 
 // quotes
 int		*parse_quotes(char *str);
