@@ -65,7 +65,7 @@ void	manage_redir(t_cmd *cmd, char **env, t_shell *shell)
 	}
 	else
 	{
-		if (check_tree(rcmd->cmd, shell) == 0)
+		if (rcmd->cmd != NULL)
 			run_exec(rcmd->cmd, env, shell);
 		else
 			reset_descriptors(shell);

@@ -83,6 +83,8 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 		return (ft_strdup(cmd));
 	if (ft_get_env("PATH", shell))
 		env_path = ft_split(ft_get_env("PATH", shell)->value, ':');
+	else if (ft_get_env("PATH", shell) == NULL)
+		env_path = ft_split("/usr/bin/", ':');
 	if (env_path == NULL)
 		return (ft_strdup(" "));
 	full_path = validate_path(env_path, cmd);

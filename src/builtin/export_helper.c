@@ -82,7 +82,7 @@ void	ft_show_export(t_shell *shell)
 	sorted_env = sort_env_list(sorted_env, count);
 	while (i < count)
 	{
-		ft_printf("export %s=%s\n", sorted_env[i]->key, sorted_env[i]->value);
+		ft_printf("export %s=\"%s\"\n", sorted_env[i]->key, sorted_env[i]->value);
 		i++;
 	}
 	free(sorted_env);

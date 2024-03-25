@@ -27,8 +27,6 @@ int	ft_init_env(char **env, t_shell *shell)
 	char	*key;
 	char	*value;
 
-	if (env == NULL)
-		ft_set_pwd(shell);
 	i = -1;
 	while (env[++i])
 	{
@@ -42,6 +40,8 @@ int	ft_init_env(char **env, t_shell *shell)
 	}
 	increment_shlvl(shell);
 	ft_set_underscore(shell);
+	if (ft_get_env("PATH", shell) == NULL)
+		ft_set_pwd(shell);
 	return (0);
 }
 

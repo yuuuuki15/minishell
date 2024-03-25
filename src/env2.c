@@ -120,7 +120,6 @@ int	ft_set_underscore(t_shell *shell)
 	char	*key;
 	char	*value;
 
-	ft_printf("_ -> %s\n", getenv("_"));
 	if (ft_get_env("_", shell) == NULL)
 	{
 		if (getenv("_") != NULL)
