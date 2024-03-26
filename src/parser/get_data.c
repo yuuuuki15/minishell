@@ -33,6 +33,8 @@ void	clean_exit(t_shell *shell)
 void	exit_shell(t_shell *shell)
 {
 	clean_exit(shell);
+	if (g_sig != 0)
+		shell->exit_status = g_sig;
 	exit(shell->exit_status);
 }
 
@@ -55,7 +57,10 @@ int	ft_get_input(t_shell *shell)
 	}
 	else
 	{
-		shell->user_input = readline(PROMPT);
+		if (isatty(STDOUT_FILENO))
+			shell->user_input = readline(PROMPT);
+		else
+			shell->user_input = readline(NULL);
 		return (0);
 	}
 }
