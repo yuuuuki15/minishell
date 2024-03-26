@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 09:29:33 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 22:45:09 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:50:26 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 
 	if (pipe(shell->fd) == -1)
 		ft_error(ERR_PIPE);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (fork_child(shell) == 0)
 	{
 		close(shell->fd[0]);
