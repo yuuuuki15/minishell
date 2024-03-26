@@ -38,8 +38,6 @@ static void	clean_redir(t_cmd *cmd)
 	free (rcmd->file);
 	if (rcmd->fd != -1)
 		close(rcmd->fd);
-	if (rcmd->mode == RHERE)
-		unlink(".heredoc_tmp");
 	clean_tree(rcmd->cmd);
 	free (rcmd);
 }
