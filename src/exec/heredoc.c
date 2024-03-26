@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-int	g_fd;
-
 /**
  * Handles the SIGINT signal during heredoc input.
  * @param sig int: The signal number.
@@ -23,8 +21,6 @@ static void	ft_sig_here(int sig)
 	if (sig == SIGINT)
 	{
 		write(2, "\n", 1);
-		close(g_fd);
-		unlink(".heredoc_tmp");
 		g_sig = 130;
 	}
 }
@@ -38,18 +34,19 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
 	char	*line;
 
-	while (1 && g_sig != 130)
+	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &ft_sig_here);
 		line = readline("> ");
-		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
+		if (line == NULL || ft_strcmp(line, rcmd->file) == 0 || g_sig == 130)
 			break ;
 		line = process_line(line, shell);
-		ft_putendl_fd(line, g_fd);
+		ft_putendl_fd(line, rcmd->fd);
 		if (line)
 			free(line);
 	}
+	free(line);
 }
 
 /**
@@ -67,6 +64,6 @@ void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 	}
 	ft_here(rcmd, shell);
 	close(rcmd->fd);
-	g_fd = open(".heredoc_tmp", O_RDONLY);
-	shell->in_fd = g_fd;
+	rcmd->fd = open(".heredoc_tmp", O_RDONLY);
+	shell->in_fd = rcmd->fd;
 }
