@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 17:46:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/26 20:54:15 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,11 @@ static int	ft_update_env(char *key, char *value, t_shell *shell)
 			break ;
 		curr = curr->next;
 	}
+	free(key);
 	free(curr->value);
 	curr->value = value;
+	if (curr->exported == 0)
+		curr->exported = 1;
 	return (0);
 }
 
