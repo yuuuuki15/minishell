@@ -25,16 +25,7 @@ static void	ft_sig_here(int sig)
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		close(g_fd);
-		g_sig = 130;
 		exit(130);
-	}
-}
-
-static void	ft_sig_child(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
 	}
 }
 
@@ -55,17 +46,11 @@ static void	ft_here(t_redircmd *rcmd, t_shell *shell)
 {
 	char	*line;
 
+	signal(SIGINT, &ft_sig_here);
 	g_fd = shell->fd[1];
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, &ft_sig_here);
 		line = readline("heredoc> ");
-		if (g_sig == 130)
-		{
-			clean_exit(shell);
-			//exit(130);
-		}
 		if (line == NULL || ft_strcmp(line, rcmd->file) == 0)
 			break ;
 		line = process_line(line, shell);
@@ -85,8 +70,6 @@ void	ft_here_doc(t_redircmd *rcmd, t_shell *shell)
 {
 	int	status;
 
-	signal(SIGQUIT, &ft_sig_child);
-	signal(SIGINT, &ft_sig_child);
 	if (pipe(shell->fd) == -1)
 		ft_error(ERR_PIPE);
 	if (fork_child(shell) == 0)
