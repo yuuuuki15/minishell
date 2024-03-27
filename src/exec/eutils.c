@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 09:16:39 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/25 20:20:17 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:08:29 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 		return (ft_strdup(cmd));
 	if (ft_get_env("PATH", shell))
 		env_path = ft_split(ft_get_env("PATH", shell)->value, ':');
-	else if (ft_get_env("PATH", shell) == NULL)
+	else if (shell->env_i_flag == 1)
 		env_path = ft_split("/usr/bin/", ':');
 	if (env_path == NULL)
 		return (ft_strdup(" "));
@@ -91,30 +91,6 @@ char	*ft_get_path(char *cmd, t_shell *shell)
 	ft_free_tab(env_path);
 	return (full_path);
 }
-
-/**
- * Resets the file descriptors for standard input and output to defaults.
- * @param shell t_shell*: The shell instance.
- */
-// void	reset_descriptors(t_shell *shell)
-// {
-// 	if (shell->in_fd != STDIN_FILENO)
-// 	{
-// 		if (shell->in_fd >= 0 && !shell->is_inside_pipe && shell->in_fd != -1)
-// 			close(shell->in_fd);
-// 		close(STDIN_FILENO);
-// 		dup2(shell->stdin, STDIN_FILENO);
-// 		shell->in_fd = STDIN_FILENO;
-// 	}
-// 	if (shell->out_fd != STDOUT_FILENO)
-// 	{
-// 		if (shell->out_fd >= 0 && !shell->is_inside_pipe && shell->out_fd != -1)
-// 			close(shell->out_fd);
-// 		close(STDOUT_FILENO);
-// 		dup2(shell->stdout, STDOUT_FILENO);
-// 		shell->out_fd = STDOUT_FILENO;
-// 	}
-// }
 
 /**
  * Duplicates the file descriptors for input and output if redirected.

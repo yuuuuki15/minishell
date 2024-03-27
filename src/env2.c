@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:40:31 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/23 17:59:14 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:59:23 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,31 +106,6 @@ int	ft_set_pwd(t_shell *shell)
 		{
 			ft_clean_env(shell);
 			return (1);
-		}
-	}
-	return (0);
-}
-
-// I think underscore is the full path of the first argumentof the command.
-// for example, if you execute ./minishell, underscore will be full path 
-// of minishell and if you run env -i ./minishell, you will have full path 
-// of minishell
-int	ft_set_underscore(t_shell *shell)
-{
-	char	*key;
-	char	*value;
-
-	if (ft_get_env("_", shell) == NULL)
-	{
-		if (getenv("_") != NULL)
-		{
-			key = ft_strdup("_");
-			value = ft_strdup(getenv("_"));
-			if (ft_add_env(key, value, shell) == 1)
-			{
-				ft_clean_env(shell);
-				return (1);
-			}
 		}
 	}
 	return (0);

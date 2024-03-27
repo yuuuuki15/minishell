@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/26 20:54:15 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:15:36 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,25 @@ int	ft_init_env(char **env, t_shell *shell)
 	char	*value;
 
 	i = -1;
-	while (env[++i])
+	if (env != NULL)
 	{
-		key = ft_get_key(env[i]);
-		value = ft_get_value(env[i]);
-		if (ft_add_env(key, value, shell) == 1)
-		{
-			ft_clean_env(shell);
-			return (1);
+		while (env[++i])
+			{
+			key = ft_get_key(env[i]);
+			value = ft_get_value(env[i]);
+			if (ft_add_env(key, value, shell) == 1)
+			{
+				ft_clean_env(shell);
+				return (1);
+			}
 		}
 	}
 	increment_shlvl(shell);
-	ft_set_underscore(shell);
 	if (ft_get_env("PATH", shell) == NULL)
+	{
+		shell->env_i_flag = 1;
 		ft_set_pwd(shell);
+	}
 	return (0);
 }
 
@@ -107,6 +112,8 @@ static int	ft_create_env(char *key, char *value, t_shell *shell)
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
 		return (1);
+	if (shell->env_i_flag == 1 && ft_strcmp(key, "PATH") == 0)
+		shell->env_i_flag = 0;
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
