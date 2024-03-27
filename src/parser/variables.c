@@ -6,7 +6,7 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:27:07 by mevonuk           #+#    #+#             */
-/*   Updated: 2024/03/20 22:53:24 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/27 08:57:01 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ char	*get_expansion(t_tok *tok, t_shell *shell)
 	char	*expansion;
 
 	if (ft_strcmp(tok->str, "?") == 0)
-		expansion = ft_itoa(shell->exit_status);
+	{
+		if (g_sig == 130)
+			expansion = ft_strdup("130");
+		else
+			expansion = ft_itoa(shell->exit_status);
+	}
 	else
 	{
 		if (ft_get_env(tok->str, shell) == NULL)

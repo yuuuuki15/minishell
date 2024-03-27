@@ -82,8 +82,7 @@ int	get_data(t_shell *shell)
 		shell->user_input = NULL;
 	}
 	if (g_sig != 0)
-		shell->exit_status = g_sig;
-	g_sig = 0;
+		g_sig = 0;
 	if (ft_get_input(shell) == 1)
 	{
 		shell->head_cmd = NULL;
