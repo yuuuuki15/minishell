@@ -6,13 +6,11 @@
 /*   By: ykawakit <ykawakit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:38:21 by ykawakit          #+#    #+#             */
-/*   Updated: 2024/03/27 10:15:36 by ykawakit         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:42:50 by ykawakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_set_underscore(t_shell *shell);
 
 /**
  * Initializes environment variables from an array to the global shell variable.
@@ -31,7 +29,7 @@ int	ft_init_env(char **env, t_shell *shell)
 	if (env != NULL)
 	{
 		while (env[++i])
-			{
+		{
 			key = ft_get_key(env[i]);
 			value = ft_get_value(env[i]);
 			if (ft_add_env(key, value, shell) == 1)
